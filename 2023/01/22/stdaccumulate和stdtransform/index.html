@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="std::accumulate和std::transformaccumulatestd::accumulate 用于对容器[first,last)内的元素和初始值init进行累积运算。头文件#include  函数签名如下： 12template&lt; class InputIt, class T &gt;T accumulate( InputIt first, InputIt last, T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/stdaccumulate%E5%92%8Cstdtransform/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="std::accumulate和std::transformaccumulatestd::accumulate 用于对容器[first,last)内的元素和初始值init进行累积运算。头文件#include  函数签名如下： 12template&lt; class InputIt, class T &gt;T accumulate( InputIt first, InputIt last, T">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.957Z">
+<meta property="article:modified_time" content="2022-11-29T18:09:59.409Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-stdaccumulate和stdtransform" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/stdaccumulate%E5%92%8Cstdtransform/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.957Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="std-accumulate和std-transform"><a href="#std-accumulate和std-transform" class="headerlink" title="std::accumulate和std::transform"></a>std::accumulate和std::transform</h1><h2 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate"></a>accumulate</h2><p><code>std::accumulate</code> 用于对容器[first,last)内的元素和初始值init进行累积运算。头文件#include <numeric></p>
+<p>函数签名如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> InputIt, <span class="keyword">class</span> T &gt;</span></span><br><span class="line"><span class="function">T <span class="title">accumulate</span><span class="params">( InputIt first, InputIt last, T init )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>前2个参数指定容器的范围，第3个参数指定初始值。返回值为累加的结果，其返回类型就是其第三个实参的类型。</p>
+<p>默认的运算是第三个参数的加法运算，如果第三个参数是int，运算就是数值加法运算；如果第三个参数是string，运算就是字符串的拼接。</p>
+<p>可以自定义运算，自定义的运算作为第四个参数，函数签名如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> InputIt, <span class="keyword">class</span> T, <span class="keyword">class</span> BinaryOperation &gt;</span></span><br><span class="line"><span class="function">T <span class="title">accumulate</span><span class="params">( InputIt first, InputIt last, T init,</span></span></span><br><span class="line"><span class="params"><span class="function">              BinaryOperation op )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p><strong>累加</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;numeric&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; v&#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> sum = std::<span class="built_in">accumulate</span>(v.<span class="built_in">begin</span>(), v.<span class="built_in">end</span>(), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;sum: &quot;</span> &lt;&lt; sum &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>累乘</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;numeric&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; v&#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> product = std::<span class="built_in">accumulate</span>(v.<span class="built_in">begin</span>(), v.<span class="built_in">end</span>(), <span class="number">1</span>, std::<span class="built_in">multiplies</span>&lt;<span class="type">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;product: &quot;</span> &lt;&lt; product &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h2><p><strong>头文件：</strong><algorithm></p>
+<p>作用：std::transform在指定的范围内应用于给定的操作，并将结果存储在指定的另一个范围内</p>
+<p>操作有两种：一元和二元。</p>
+<p>一元是对容器给定范围内的每个元素做某种一元运算后放在另一个容器里。有4个参数，前2个指定要进行操作的容器的起止范围，第3个参数是结果存放容器的起始位置，第4个参数是一元运算。函数签名是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> InputIt, <span class="keyword">class</span> OutputIt, <span class="keyword">class</span> UnaryOperation &gt;</span></span><br><span class="line"><span class="function">OutputIt <span class="title">transform</span><span class="params">( InputIt first1, InputIt last1, OutputIt d_first,</span></span></span><br><span class="line"><span class="params"><span class="function">                    UnaryOperation unary_op )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>二元是对两个容器给定范围内的每个元素做二元运算后放在另一个容器里。涉及两个参与运算的容器。有5个参数，前2个指定参与转换的第1个容器的起止范围，第3个参数是转换的第2个容器的起始位置，第4个参数是结果存放容器的起始位置，第5个参数是二元运算。函数签名是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> InputIt1, <span class="keyword">class</span> InputIt2, <span class="keyword">class</span> OutputIt, <span class="keyword">class</span> BinaryOperation &gt;</span></span><br><span class="line"><span class="function">OutputIt <span class="title">transform</span><span class="params">( InputIt1 first1, InputIt1 last1, InputIt2 first2, </span></span></span><br><span class="line"><span class="params"><span class="function">                    OutputIt d_first, BinaryOperation binary_op )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><p><strong>对字符串进行大小写转换</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cctype&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::string str = <span class="string">&quot;Hello, World!&quot;</span>;</span><br><span class="line">    cout &lt;&lt; str &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// toupper</span></span><br><span class="line">    <span class="function">std::string <span class="title">strUpper</span><span class="params">(str.length(), <span class="string">&#x27; &#x27;</span>)</span></span>;</span><br><span class="line">    std::<span class="built_in">transform</span>(str.<span class="built_in">begin</span>(), str.<span class="built_in">end</span>(), strUpper.<span class="built_in">begin</span>(), std::toupper);</span><br><span class="line">    cout &lt;&lt; strUpper &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// tolower</span></span><br><span class="line">    std::<span class="built_in">transform</span>(str.<span class="built_in">begin</span>(), str.<span class="built_in">end</span>(), str.<span class="built_in">begin</span>(), std::tolower);</span><br><span class="line">    cout &lt;&lt; str &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hello, World!</span><br><span class="line">HELLO, WORLD!</span><br><span class="line">hello, world!</span><br></pre></td></tr></table></figure>
+
+<p><strong>两个数组元素分别相加</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iterator&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; v1 = &#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>&#125;;</span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; v2 = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">result</span><span class="params">(<span class="number">5</span>)</span></span>;</span><br><span class="line">    std::<span class="built_in">transform</span>(v1.<span class="built_in">begin</span>(), v1.<span class="built_in">end</span>(), v2.<span class="built_in">begin</span>(), result.<span class="built_in">begin</span>(), std::<span class="built_in">plus</span>&lt;<span class="type">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i : result) &#123;</span><br><span class="line">        std::cout &lt;&lt; i &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">11</span>      <span class="number">22</span>      <span class="number">33</span>      <span class="number">44</span>      <span class="number">55</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/stdaccumulate%E5%92%8Cstdtransform/" data-id="cld6uioj9000bacsf5z8e7pi0" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/stdref/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/socket%20api/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

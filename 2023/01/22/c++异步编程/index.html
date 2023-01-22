@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="c++异步编程std::futurestd::future期待一个返回，从一个异步调用的角度来说，future更像是函数的返回值，异步调用往往不知道何时返回，但是如果异步调用的过程需要同步，或者说后一个异步调用需要使用前一个异步调用的结果。这个时候就要用到future。 线程可以周期性的在这个future上等待一小段时间，检查future是否已经ready，如果没有，该线程可以先去做另一个任务，一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="c++异步编程std::futurestd::future期待一个返回，从一个异步调用的角度来说，future更像是函数的返回值，异步调用往往不知道何时返回，但是如果异步调用的过程需要同步，或者说后一个异步调用需要使用前一个异步调用的结果。这个时候就要用到future。 线程可以周期性的在这个future上等待一小段时间，检查future是否已经ready，如果没有，该线程可以先去做另一个任务，一">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.928Z">
+<meta property="article:modified_time" content="2022-11-29T17:52:13.317Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-c++异步编程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.928Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="c-异步编程"><a href="#c-异步编程" class="headerlink" title="c++异步编程"></a>c++异步编程</h1><h2 id="std-future"><a href="#std-future" class="headerlink" title="std::future"></a>std::future</h2><p>std::future期待一个返回，从一个异步调用的角度来说，<strong>future更像是函数的返回值</strong>，异步调用往往不知道何时返回，但是如果异步调用的过程需要同步，或者说后一个异步调用需要使用前一个异步调用的结果。这个时候就要用到future。</p>
+<p>线程可以周期性的在这个future上等待一小段时间，检查future是否已经ready，如果没有，该线程可以先去做另一个任务，一旦future就绪，<strong>该future就无法复位（无法再次使用这个future等待这个事件），所以future代表的是一次性事件</strong>。</p>
+<h3 id="future的类型"><a href="#future的类型" class="headerlink" title="future的类型"></a>future的类型</h3><p>在<code>&lt;future&gt;</code>库的头文件中声明了两种future，唯一future（std::future）和共享future（std::shared_future）这两个是参照std::unique_ptr和std::shared_ptr设立的，前者的实例是仅有的一个指向其关联事件的实例，而后者可以有多个实例指向同一个关联事件，当事件就绪时，所有指向同一事件的std::shared_future实例会变成就绪。</p>
+<h3 id="future的使用"><a href="#future的使用" class="headerlink" title="future的使用"></a>future的使用</h3><p>std::future是一个模板，例如<code>std::future&lt;int&gt;</code>，模板参数就是期待返回的类型，虽然future被用于线程间通信，但其本身却并不提供同步访问，必须通过互斥元或其他同步机制来保护访问。</p>
+<p>future使用的时机是当你不需要立刻得到一个结果的时候，你可以开启一个线程帮你去做一项任务，并期待这个任务的返回，但是std::thread并没有提供这样的机制，这就需要用到std::async和std::future（都在<code>&lt;future&gt;</code>头文件中声明）。</p>
+<p>std::async返回一个std::future对象，而不是给你一个确定的值。当你需要使用这个值的时候，对future使用get()，线程就会阻塞直到future就绪，然后返回该值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;future&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">find_result_to_add</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span> + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">do_other_things</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello World&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::future&lt;<span class="type">int</span>&gt; result = std::<span class="built_in">async</span>(find_result_to_add);</span><br><span class="line">	<span class="built_in">do_other_things</span>();</span><br><span class="line">	std::cout &lt;&lt; result.<span class="built_in">get</span>() &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="std-async"><a href="#std-async" class="headerlink" title="std::async"></a>std::async</h2><p><code>std::async</code>跟<code>std::thread</code>类似，区别在于thread无法获取函数的返回值，而async可以。</p>
+<p><code>std::async</code>会自动创建一个线程去调用线程函数，它返回一个<code>std::future</code>，这个future中存储了线程函数返回的结果，当我们需要线程函数的结果时，直接从future中获取，非常方便。</p>
+<p>跟thread类似，async允许你通过将额外的参数添加到调用中，来将附加参数传递给函数。如果传入的函数指针是某个类的成员函数，则还需要将类对象指针传入（直接传入，传入指针，或者是std::ref封装）。</p>
+<p>默认情况下，std::async是否启动一个新线程，或者在等待future时，任务是否同步运行都取决于你给的参数。这个参数为std::launch类型</p>
+<ul>
+<li>std::launch::defered表明该函数会被延迟调用，直到在future上调用get()或者wait()为止</li>
+<li>std::launch::async，表明函数会在自己创建的线程上运行</li>
+<li>std::launch::any &#x3D; std::launch::defered | std::launch::async</li>
+<li>std::launch::sync &#x3D; std::launch::defered</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">launch</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">async</span>,<span class="keyword">deferred</span>,<span class="keyword">sync</span>=<span class="keyword">deferred</span>,any=<span class="keyword">async</span>|<span class="keyword">deferred</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>PS：默认选项参数被设置为std::launch::any。如果函数被延迟运行可能永远都不会运行。</strong></p>
+<p>async的原理大概是这样的：std::async先将异步操作用std::packaged_task包装起来，然后将异步操作的结果放到std::promise中，外面再通过future.get&#x2F;wait来获取这个未来的结果。std::async类似封装了<code>thread</code>和<code>packged_task</code>的功能，使得我们使用起来更加方便简单。</p>
+<h2 id="std-packaged-task"><a href="#std-packaged-task" class="headerlink" title="std::packaged_task"></a>std::packaged_task</h2><p><code>std::packaged_task</code>和<code>std::function</code>类似，区别在于<code>std::packaged_task</code>可以用于异步调用，packaged_task.get_future()可以返回<code>std::future</code>，配合future使用可以异步获取函数的返回值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;future&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">do_other_things</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello World&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">std::packaged_task&lt;<span class="title">int</span><span class="params">(<span class="type">int</span>, <span class="type">int</span>)</span>&gt; <span class="title">task</span><span class="params">(add)</span></span>;</span><br><span class="line">	<span class="built_in">do_other_things</span>();</span><br><span class="line">	std::future&lt;<span class="type">int</span>&gt; result = task.<span class="built_in">get_future</span>();</span><br><span class="line">	<span class="built_in">task</span>(<span class="number">1</span>, <span class="number">1</span>); <span class="comment">//必须要让任务执行，否则在get()获取future的值时会一直阻塞</span></span><br><span class="line">	std::cout &lt;&lt; result.<span class="built_in">get</span>() &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="std-promise"><a href="#std-promise" class="headerlink" title="std::promise"></a>std::promise</h2><p><code>std::promise&lt;T&gt;</code>与<code>std::future&lt;T&gt;</code>配合使用，区别在于promise只写，而future只读。promise用于写入函数的返回值，而future则可以从promise处获取返回值。</p>
+<p>在创建promise的同时会获得一个future，然后将promise传递给其他线程，当前线程则持有future，future.get()会阻塞直到promise写入返回值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;future&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(std::promise&lt;std::string&gt;&amp; p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	p.<span class="built_in">set_value</span>(<span class="string">&quot;There is the result whitch you want.&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">do_some_other_things</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello World&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::promise&lt;std::string&gt; promise;</span><br><span class="line">	std::future&lt;std::string&gt; result = promise.<span class="built_in">get_future</span>();</span><br><span class="line">	<span class="function">std::thread <span class="title">t</span><span class="params">(print, std::ref(promise))</span></span>;</span><br><span class="line">	<span class="built_in">do_some_other_things</span>();</span><br><span class="line">	std::cout &lt;&lt; result.<span class="built_in">get</span>() &lt;&lt; std::endl; <span class="comment">//阻塞直到，p.set_value()执行完成</span></span><br><span class="line">	t.<span class="built_in">join</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" data-id="cld6uioj10002acsfeusw7vdy" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/CMake%20%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

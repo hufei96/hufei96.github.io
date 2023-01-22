@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Linux多线程服务端编程：使用muduo C++网络库线程安全的对象生命期管理class线程安全的三个条件 多个线程访问表现出正确的行为 无论操作系统如何调度，以及线程的执行顺序如何 调用端代码不需要额外的同步与协调动作  由此，STL大多数的class都不是线程安全的，需要外部加锁才能同时访问 线程安全的对象构造方法 不要在构造函数中注册任何回调 不要在构造函数把this指针传给跨线程的对象,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%EF%BC%9A%E4%BD%BF%E7%94%A8muduo%20C++%E7%BD%91%E7%BB%9C%E5%BA%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Linux多线程服务端编程：使用muduo C++网络库线程安全的对象生命期管理class线程安全的三个条件 多个线程访问表现出正确的行为 无论操作系统如何调度，以及线程的执行顺序如何 调用端代码不需要额外的同步与协调动作  由此，STL大多数的class都不是线程安全的，需要外部加锁才能同时访问 线程安全的对象构造方法 不要在构造函数中注册任何回调 不要在构造函数把this指针传给跨线程的对象,">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.944Z">
+<meta property="article:modified_time" content="2022-12-29T10:29:08.403Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Linux多线程服务端编程：使用muduo C++网络库" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%EF%BC%9A%E4%BD%BF%E7%94%A8muduo%20C++%E7%BD%91%E7%BB%9C%E5%BA%93/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.944Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux多线程服务端编程：使用muduo-C-网络库"><a href="#Linux多线程服务端编程：使用muduo-C-网络库" class="headerlink" title="Linux多线程服务端编程：使用muduo C++网络库"></a>Linux多线程服务端编程：使用muduo C++网络库</h1><h2 id="线程安全的对象生命期管理"><a href="#线程安全的对象生命期管理" class="headerlink" title="线程安全的对象生命期管理"></a>线程安全的对象生命期管理</h2><h3 id="class线程安全的三个条件"><a href="#class线程安全的三个条件" class="headerlink" title="class线程安全的三个条件"></a><strong>class线程安全的三个条件</strong></h3><ul>
+<li>多个线程访问表现出正确的行为</li>
+<li>无论操作系统如何调度，以及线程的执行顺序如何</li>
+<li>调用端代码不需要额外的同步与协调动作</li>
+</ul>
+<p>由此，STL大多数的class都不是线程安全的，需要外部加锁才能同时访问</p>
+<h3 id="线程安全的对象构造方法"><a href="#线程安全的对象构造方法" class="headerlink" title="线程安全的对象构造方法"></a><strong>线程安全的对象构造方法</strong></h3><ul>
+<li>不要在构造函数中注册任何回调</li>
+<li>不要在构造函数把this指针传给跨线程的对象,最后一行也不行</li>
+</ul>
+<p>原因:构造期间对象还没有完成初始化，this泄漏给了别的对象（自身创建的子对象除外），别的线程有可能访问这个半成品对象。即使构造函数的最后一行也不要泄露 this，因为 Foo 有可能是个基类，基类先于派生类构造，执行完 Foo::Foo() 的最后一行代码还会继续执行派生类的构造函数，这时派生类的对象还处于构造中，仍然不安全。  </p>
+<h3 id="线程安全的对象析构方法"><a href="#线程安全的对象析构方法" class="headerlink" title="线程安全的对象析构方法"></a><strong>线程安全的对象析构方法</strong></h3><p>析构函数中不宜使用锁：</p>
+<ul>
+<li>调用析构函数的时候，正常逻辑来说这个对象已经没有其他线程在使用了，用锁也没有效果；</li>
+<li>即使使用了锁，析构函数抢到了锁，其他线程还在等待这个锁，析构函数中锁被析构掉了，其他线程就是未定义行为。</li>
+</ul>
+<h3 id="使用指针时该如何判断指针是否还存活"><a href="#使用指针时该如何判断指针是否还存活" class="headerlink" title="使用指针时该如何判断指针是否还存活"></a><strong>使用指针时该如何判断指针是否还存活</strong></h3><p>我们无法保证执行一个对象的成员函数时这个对象没有被析构，即使在析构后将对象指针置nullptr也一样。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//线程A</span></span><br><span class="line">~<span class="built_in">P</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> xxx;</span><br><span class="line">    <span class="keyword">this</span> = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程B</span></span><br><span class="line"><span class="keyword">if</span>(p != <span class="literal">nullptr</span>) <span class="comment">//执行完这一步后去执行线程A</span></span><br><span class="line">&#123;</span><br><span class="line">    p-&gt;<span class="built_in">update</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上完全可以在线程B执行完判空语句进入循环后，转而执行线程A的析构函数，从而导致线程B对空指针操作。</p>
+<p>以观察者模式为例，observer对象注册自己到Observable，后者保存有前者的指针，一旦某个事件发生，Observable就通过observer指针调用其成员方法。多线程情况下，Observable无法得知当前调用的observer指针是否还有效，即使使用锁也不行。</p>
+<p>解决方法：使用智能指针。使用weak_ptr保存指针，可以清楚的知道指针是否存活：如果weak_ptr可以转化为shared_ptr，证明指针还有效，否则无效。不打算决定对象的生死，就使用weak_ptr管理对象指针；否则使用shared_ptr。</p>
+<p>即使能判断指针是否存活，即不会存在使用已经销毁或者正在销毁的指针了！但是不代表没有其他问题：<br>（1）锁争用造成的延时；<br>（2）死锁。</p>
+<p>如果同时读写一个class的两个对象，会存在死锁现象，比如swap（a,b)与swap(b,a)在两个线程中同时执行，会发生死锁。swap(a,b)先给a上锁，swap(b,a)先给b上锁，这两个函数并发执行时，可能会出现swap(a,b)拿到a锁swap(b,a)拿到b锁的死锁情况。(哲学家进餐问题)</p>
+<p>解决办法：使用相同的顺序加锁，如根据对象地址大小来决定顺序。</p>
+<h3 id="如何减少锁争用造成的延迟。"><a href="#如何减少锁争用造成的延迟。" class="headerlink" title="如何减少锁争用造成的延迟。"></a><strong>如何减少锁争用造成的延迟。</strong></h3><p>使用锁会降低程序的效率，使得并行的程序串行化，解决锁争用的方法是：尽量减少临界区的大小；<br>解决方法：local copy的方式，在临界区外创建副本。（<strong>适用于拷贝代价不大的对象</strong>）</p>
+<blockquote>
+<p>读操作，临界区内拷贝出来，临界区外使用副本读取；</p>
+</blockquote>
+<blockquote>
+<p>写操作，临界区外定义副本，完成要完成的操作，临界区内直接赋值或者swap；</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    shared_ptr&lt;Foo&gt; localPtr;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">        localPtr = globalPtr; <span class="comment">//将全局对象拷贝一份给本地副本</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">do</span>(localPtr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">write</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;Foo&gt; <span class="title">newPtr</span><span class="params">(<span class="keyword">new</span> Foo)</span></span>; <span class="comment">//在临界区外创建新对象</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">        globalPtr = newPtr; <span class="comment">//将新对象拷给全局对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">do</span>(newPtr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意到上面的read()和write()在临界区之外都没有再访问globalPtr，而是用了一个指向同一Foo对象的本地副本。这样可以避免在临界区内创建和析构，减少了临界区大小。 </p>
+<h3 id="shared-ptr的使用技巧与坑"><a href="#shared-ptr的使用技巧与坑" class="headerlink" title="shared_ptr的使用技巧与坑"></a>shared_ptr的使用技巧与坑</h3><p>坑：</p>
+<p>1.shared_ptr会延长对象的生命周期。</p>
+<p> 某些函数实参采用非引用类型shared_ptr类型，调用这个函数的时候就会发生shared_ptr的拷贝操作，使得对象指针的引用计数值变大。如果这个函数返回一个对象，这个对象也中也存在这个shared_ptr的指针，那么shared_ptr对象的声明周期就被延长了。</p>
+<p>例子：std::bind函数，基本作用是，为一个函数指针提供默认参数。其实参就会被拷贝一份出来。（模板参数，不论什么类型都会发生拷贝行为）</p>
+<p>2.shared_ptr的拷贝代价比指针要大。<br>毕竟还要保存引用计数等变量，修改引用计数等行为。（建议使用引用传递）</p>
+<p>3.不能同时使用两个shared_ptr，容易引起误会；<br> 类内（成员函数）使用shared_ptr<this>与类外使用shared_ptr同时使用时，会造成析构两次的问题。<br> 解释：类内部使用share_ptr<this>的需求可以使用：shared_from_this() 代替this;</p>
+<p>4.shared_ptr<T>的线程安全性，它的线程安全性级别和std::string是一样的。它的计数操作是原子操作，但是多线程对它的并发读写是不安全的，因为他有两个操作，一个是修改地址一个是修改计数。可以想一下，现在有一个智能指针x指向一片内存，先对它读，比如y&#x3D;x;，读一半（只修改了y的地址，但是计数还是1），此时再进行写操作，比如x&#x3D;z，全部执行完，那么x指向z的内存，x原来指的内存因为计数减一被释放，这时再进行y&#x3D;x读操作的另一半（计数加一），但是内存已经释放了。 </p>
+<p>所以多线程读写shared_ptr<T>需要保护临界区。 </p>
+<p>使用技巧：</p>
+<ol>
+<li><p>作为函数参数时，建议使用const reference传递;</p>
+</li>
+<li><p>在创建shared_ptr对象时，可以手动指定析构函数，这样可以保证可以跨dll来删除。</p>
+<p>解释：windows下的进程会有好几个堆，每个dll都会有一个堆，一个堆里申请的需要在这个堆释放，所以存在跨模块释放的问题；shared_ptr通过指定析构函数，使得释放时，可以释放对应堆的对象。</p>
+</li>
+<li><p>shared_ptr的析构如果可能发生在关键进程，可以用一个专门的线程来处理析构，使用BlockQueue<shared_ptr>来转移对象到析构线程；</p>
+</li>
+<li><p>ower持有指向child的shared_ptr，child持有指向ower的weak_ptr；<br> 解释：ower可以决定子对象的生死，child只负责使用，不可以控制父对象的生死</p>
+</li>
+</ol>
+<h3 id="对象池中需要注意的点"><a href="#对象池中需要注意的点" class="headerlink" title="对象池中需要注意的点"></a>对象池中需要注意的点</h3><p>场景：对象池A类中包含了很多B类对象。B类对象可以是暂存在A类中的，用于回调；也可能是被A类所使用。</p>
+<p><strong>需求：A类中的B类对象如果不使用了及时释放掉，以节省内存。不使用了的概念是没有线程在使用了</strong></p>
+<p>第一版：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Item</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  std::map&lt;std::string, shared_ptr&lt;Item&gt;&gt; data_;</span><br><span class="line">  <span class="keyword">mutable</span> std::mutex lock_;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function">shared_ptr&lt;Item&gt;  <span class="title">get</span><span class="params">(<span class="type">const</span> std::string&amp; key)</span></span>;    <span class="comment">//使用shared_ptr作为返回值，因为出去使用的对象认为不能随便释放掉。</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这一版存在的问题是使用shared_ptr保存Item对象，这会导致Item对象的生命周期由Factory控制，有可能一直无法析构，显然与需求不符。</p>
+<p>可以使用weak_ptr来解决这个问题。</p>
+<p>第二版：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Item</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  std::map&lt;std::string, weak_ptr&lt;Item&gt;&gt; data_;</span><br><span class="line">  <span class="keyword">mutable</span> std::mutex lock_;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function">shared_ptr&lt;Item&gt;  <span class="title">get</span><span class="params">(<span class="type">const</span> std::string&amp; key)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  shared_ptr&lt;Item&gt; ret;</span><br><span class="line">  lock_.<span class="built_in">lock</span>();</span><br><span class="line">  ret = data_[key].<span class="built_in">lock</span>(); <span class="comment">//weak提升为shared_ptr</span></span><br><span class="line">  <span class="keyword">if</span>(!ret) &#123;</span><br><span class="line">      ret.<span class="built_in">reset</span>(<span class="keyword">new</span> <span class="built_in">Item</span>());</span><br><span class="line">      data_[key] = ret;</span><br><span class="line">  &#125;</span><br><span class="line">  lock_.<span class="built_in">unlock</span>();</span><br><span class="line">  <span class="keyword">return</span> ret;    </span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>解决了第一版的问题，Item可以正常析构了，但是仍有一个问题存在。Item析构后，不会在Factory的map中将对应的Item erase掉，这会导致即使Item析构了，map的size也不会减少，所以析构后还必须在Factory的map中将对应的Item erase掉。</p>
+<p>可以给shared_ptr定制析构函数来实现。</p>
+<p>第三版：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Item</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Factory</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::map&lt;std::string, weak_ptr&lt;Item&gt;&gt; data_;</span><br><span class="line">    <span class="keyword">mutable</span> std::mutex lock_;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">deleteItem</span><span class="params">(Item* item)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(item)</span><br><span class="line">        &#123;</span><br><span class="line">            lock_.<span class="built_in">lock</span>();</span><br><span class="line">            data_.<span class="built_in">erase</span>(item-&gt;<span class="built_in">key</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">delete</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">shared_ptr&lt;Item&gt;  <span class="title">get</span><span class="params">(<span class="type">const</span> std::string&amp; key)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      shared_ptr&lt;Item&gt; ret;</span><br><span class="line">      lock_.<span class="built_in">lock</span>();</span><br><span class="line">      ret = data_[key].<span class="built_in">lock</span>(); <span class="comment">//weak提升为shared_ptr</span></span><br><span class="line">      <span class="keyword">if</span>(!ret) &#123;</span><br><span class="line">        ret.<span class="built_in">reset</span>(<span class="keyword">new</span> <span class="built_in">Item</span>(),std::<span class="built_in">bind</span>(&amp;Factory::deleteItem,<span class="keyword">this</span>,_1));</span><br><span class="line">        data_[key] = ret;</span><br><span class="line">      &#125;</span><br><span class="line">      lock_.<span class="built_in">unlock</span>();</span><br><span class="line">      <span class="keyword">return</span> ret;    </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如上在Factory中get函数创建Item时用std::bind绑定Item的定制析构函数，在shared_ptr析构时自动调用。但这仍存在问题，Item析构时需要调用Factory的deleteItem方法，但Item析构时Factory可能已经不存在。</p>
+<p>解决方法是延长Factory的生命周期，使用shared_ptr保存Factory的this指针，同时Factory必须保存在堆上，栈对象的生命周期是无法控制的(同理栈对象也不能用于多线程，因为生命周期无法控制)</p>
+<p>第四版：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Factory</span> : <span class="keyword">public</span> std::enable_shared_from_this&lt;Factory&gt; &#123;    <span class="comment">//必须继承这个类；</span></span><br><span class="line">     <span class="comment">//类内部需要使用shared_ptr&lt;this&gt;的地方，使用shared_from_this()来代替。</span></span><br><span class="line">     <span class="comment">//类内部需要使用weak_ptr&lt;this&gt;的地方，使用std::weak_ptr&lt;Factory&gt;(shared_from_this())就好了（就是使用shared_from_this()来生成了下weak_ptr()）</span></span><br><span class="line">    <span class="comment">//ret.reset(new Item(),std::bind(&amp;Factory::deleteItem,this,_1))变为</span></span><br><span class="line">    <span class="comment">//ret.reset(new Item(),std::bind(&amp;Factory::deleteItem,shared_from_this(),_1))</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>enable_shared_from_this这是一个以其派生类为模板类型实参的基类模板， 继承它之后， 用shared_from_this()就可以表示shared_ptr<this>。</p>
+<p>现在仍存在最后一个问题，std::bind中绑定了Factory的shared_ptr<this>，这会导致Factory的生命周期被延长，从而导致Factory无法析构。</p>
+<p>解决方法是将shared_ptr<this>改为weak_ptr<this>，这样就不会延长Factory的生命周期了，在Item析构前先通过weak_ptr<this>判断Factory是否存在。</p>
+<p>第五版：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Factory</span> : <span class="keyword">public</span> std::enable_shared_from_this&lt;Factory&gt; &#123;    <span class="comment">//必须继承这个类；</span></span><br><span class="line">     <span class="comment">//类内部需要使用shared_ptr&lt;this&gt;的地方，使用shared_from_this()来代替。</span></span><br><span class="line">     <span class="comment">//类内部需要使用weak_ptr&lt;this&gt;的地方，使用std::weak_ptr&lt;Factory&gt;(shared_from_this())就好了（就是使用shared_from_this()来生成了下weak_ptr()）</span></span><br><span class="line">    <span class="comment">//ret.reset(new Item(),std::bind(&amp;Factory::deleteItem,shared_from_this(),_1))变为</span></span><br><span class="line">    <span class="comment">//ret.reset(new Item(),std::bind(&amp;Factory::deleteItem,std::weak_ptr&lt;Factory&gt;(shared_from_this()),_1))</span></span><br><span class="line">    <span class="comment">//在deleteItem增加通过weak_ptr判断Factory是否存在的步骤。</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这种技术称为弱回调</p>
+<h3 id="多线程编程建议"><a href="#多线程编程建议" class="headerlink" title="多线程编程建议"></a>多线程编程建议</h3><p>尽量减少使用跨线程的对象 ，用流水线， 生产者消费者， 任务队列这些有规律的机制， 最低限度地共享数据。 这是我所知最好的多线程编程的建议了  </p>
+<h2 id="线程同步精要"><a href="#线程同步精要" class="headerlink" title="线程同步精要"></a>线程同步精要</h2><h3 id="线程同步原则"><a href="#线程同步原则" class="headerlink" title="线程同步原则"></a>线程同步原则</h3><p>线程同步的四项原则，按重要性排列：</p>
+<ol>
+<li>首要原则是尽量最低限度地共享对象，减少需要同步的场合。一个对象能不暴露给别的线程就不要暴露；如果要暴露，优先考虑const对象；实在不行才暴露可修改的对象，并用同步措施来充分保护它。</li>
+<li>其次是使用高级的并发编程构件，如任务队列TaskQueue、生产者消费者队列Producer Consumer Queue、倒计时锁存器CountDownLatch等等。</li>
+<li>最后不得已必须使用底层同步原语（primitives）时，只用非递归的互斥器和条件变量，慎用读写锁，不要用信号量。</li>
+<li>除了使用atomic整数之外，不自己编写lock-free代码，也不要用“内核级”同步原语。不凭空猜测“哪种做法性能会更好”，比如spin lock vs. mutex。</li>
+</ol>
+<h3 id="mutex的使用建议"><a href="#mutex的使用建议" class="headerlink" title="mutex的使用建议"></a>mutex的使用建议</h3><p>主要原则：</p>
+<ul>
+<li>用RAII手法封装mutex的创建、销毁、加锁、解锁这四个操作。即保证锁的生效期间等于一个作用域（scope），不会因异常而忘记解锁。</li>
+<li>只用非递归的mutex（即不可重入的mutex)。</li>
+<li>不手工调用lock()和unlock()函数，一切交给栈上的Guard对象的构造和析构函数负责。Guard对象的生命期正好等于临界区。这样我们保证始终在同一个函数同一个scope里对某个mutex加锁和解锁。避免在foo()里加锁，然后跑到bar()里解锁；也避免在不同的语句分支中分别加锁、解锁。这种做法被称为Scoped Locking。</li>
+<li>在每次构造Guard对象的时候，思考一路上（调用栈上）已经持有的锁，防止因加锁顺序不同而导致死锁（deadlock）。由于Guard对象是栈上对象，看函数调用栈就能分析用锁的情况，非常便利。</li>
+</ul>
+<p>次要原则：</p>
+<ul>
+<li>不使用跨进程的mutex， 进程间通信只用TCP sockets。</li>
+<li>加锁、解锁在同一个线程， 线程a不能去unlock线程b已经锁住的mutex（RAII自动保证）。</li>
+<li>别忘了解锁（RAII自动保证）。</li>
+<li>不重复解锁（RAII自动保证）。</li>
+<li>必要的时候可以考虑用PTHREAD_MUTEX_ERRORCHECK来排<br>错</li>
+</ul>
+<h4 id="只使用非递归mutex的原因"><a href="#只使用非递归mutex的原因" class="headerlink" title="只使用非递归mutex的原因"></a>只使用非递归mutex的原因</h4><p>mutex分为递归（recursive） 和非递归（non-recursive） 两种， 这是POSIX的叫法， 另外的名字是可重入（reentrant）与非可重入。   </p>
+<p>它们的唯一区别在于： 同一个线程可以重复对可递归mutex加锁， 但是不能重复对非递归mutex加锁。<strong>在同一个线程里多次对非递归锁加锁会立刻导致死锁。</strong></p>
+<p>选择非递归mutex的原因不是因为性能，非递归mutex性能要更好一点但是好的有限(递归锁需要保存线程id记录持有锁的线程，还要多一个计数器计算当前线程lock了递归锁几次，只有全部都unlock后才能真正释放锁)，而递归锁可以重复加锁比非递归方便的多。</p>
+<p><strong>非递归锁的优点恰恰在于在同一个线程里多次对非递归锁加锁会立刻导致死锁，</strong>这能帮助我们思考代码对锁的需求，并且及早（在编码阶段） 发现问题。</p>
+<p>递归锁因为方便可能会隐藏代码里的一些问题。典型情况是你以为拿到一个锁就能修改对象了，没想到外层代码已经拿到了锁，正在修改（或读取）同一个对象呢。来看一个具体的例子  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Mutexlock mutex;</span><br><span class="line">std::vector&lt;Foo&gt; foos;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushFoo</span><span class="params">(<span class="type">const</span> FOO&amp; f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">    foos.<span class="built_in">push_back</span>(f);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">traverse</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> it = foos.<span class="built_in">begin</span>(); it != foos.<span class="built_in">end</span>(); ++it)</span><br><span class="line">    &#123;</span><br><span class="line">        it-&gt;<span class="built_in">do</span>(); <span class="comment">//对Foo对象进行一些操作</span></span><br><span class="line">        <span class="built_in">pushFoo</span>(*it);</span><br><span class="line">        it-&gt;<span class="built_in">do</span>(); <span class="comment">//扩容后it失效，对it调用do函数导致coredump</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，如果在traverse函数中调用了pushFoo函数，表面看上去没事，但是在pushFoo中调用了vector的push_back函数，如果vector进行扩容并重新分配空间，这会导致vector的迭代器失效，从而导致traverse中的it失效，程序崩溃。所以边遍历vector边修改是不对的，而在使用递归锁的时候可能会让你无法发现这个错误。</p>
+<p>所以递归锁可能会导致你原来以为不会发生改变的对象发生改变，你在写程序时很可能无法注意到这一点，从而导致程序在特定情况下出现错误。</p>
+<p>而非递归锁虽然会导致死锁，但是死锁很容易debug，把各个线程的调用栈打出来， 只要每个函数不是特别长， 很容易看出来是怎么死的。 或者可以用PTHREAD_MUTEX_ERRORCHECK一下子就能找到错误（前提是MutexLock带debug选项）。  </p>
+<p>如果一定要边遍历vector边修改，有两种做法：一是把修改推后， 记住遍历中试图添加或删除哪些元素， 等遍历结束了再依记录修<br>改foos； 二是用copy-on-write。</p>
+<p>如果一个函数既可能在已加锁的情况下调用， 又可能在未加锁的情况下调用，也就是有用到递归锁的需求时，那么就将函数拆成两个函数加锁版和不加锁版<br>1．加锁版跟原来的函数同名， 函数加锁，并在内部调用不加锁版。<br>2．不加锁版给函数名加上后缀WithLockHold， 不加锁，把原来的函数体除了加锁部分搬过来。  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushFoo</span><span class="params">(<span class="type">const</span> FOO&amp; f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex)</span></span>;</span><br><span class="line">    <span class="built_in">pushFooWithLockHold</span>(f)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushFooWithLockHold</span><span class="params">(<span class="type">const</span> FOO&amp; f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    foos.<span class="built_in">push_back</span>(f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，但在使用不可递归锁时可能会导致新的问题，一是在本线程加了锁的情况下误调用了加锁版，导致死锁，可以用debug死锁的办法解决。二是在其他线程加了锁的情况下(不希望对象被修改)，本线程误调用了不加锁版导致对象被修改，从而导致数据损坏。可以通过在不加锁版函数头检测锁有没有被本线程持有来解决。如下所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushFooWithLockHold</span><span class="params">(<span class="type">const</span> FOO&amp; f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">assert</span>(mutex.<span class="built_in">isLockedByThisThread</span>()); <span class="comment">//muduo::MutexLock提供了该函数</span></span><br><span class="line">    foos.<span class="built_in">push_back</span>(f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="死锁的建议"><a href="#死锁的建议" class="headerlink" title="死锁的建议"></a>死锁的建议</h3><p><strong>死锁常见的两个例子：</strong></p>
+<ul>
+<li>同一线程发生死锁。<strong>同一个类中有锁的一个函数辗转调用了另一个有锁的函数。</strong></li>
+<li>两个线程发生死锁。<strong>两个类中持有锁的两对函数相互调用。</strong></li>
+</ul>
+<p><strong>死锁的检测与预防</strong></p>
+<p>预防：</p>
+<ol>
+<li>严格控制锁的调用顺序，用锁之前需要想调用栈上都有了哪些锁；</li>
+<li>将锁内调用的函数同时定义一个无锁版，锁内调用那个无锁版；</li>
+</ol>
+<p>检测：死锁之后，打开core文件或者使用gdb命令查看线程调用栈：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thread apply all bt</span><br></pre></td></tr></table></figure>
+
+<p>看到线程阻塞在一个锁上（__lll_lock_wait）就是发生了死锁。</p>
+<h3 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h3><h4 id="使用条件变量的建议"><a href="#使用条件变量的建议" class="headerlink" title="使用条件变量的建议"></a>使用条件变量的建议</h4><p>如果需要等待某个条件成立， 即等待某个bool表达式为真。我们应该使用条件变量（condition variable） 。 条件变量顾名思义是一个或多个线程等待某个布尔表达式为真， 即等待别的线程“唤醒”它。 条件变量的学名叫管程（monitor） 。  </p>
+<p>wait()函数可使得当前线程阻塞，直至条件变量唤醒。线程阻塞后，该函数会自动解锁，允许其他线程执行。一旦得到notify唤醒，该函数取消阻塞并获取锁，然后函数返回，一般为了避免虚假唤醒，会用while循环判断条件。</p>
+<p>notify()：因为只唤醒等待队列中的第一个线程；不存在锁争用，所以能够立即获得锁。其余的线程不会被唤醒，需要等待再次调用notify_one()或者notify_all()。</p>
+<p>notifyAll()：会唤醒所有等待队列中阻塞的线程，存在锁争用，只有一个线程能够获得锁。其余未获取锁的线程接着会继续尝试获得锁(类似于轮询)，而不会再次阻塞。当持有锁的线程释放锁时，这些线程中的一个会获得锁。而其余的会接着尝试获得锁。</p>
+<p>条件变量的notify通常代表资源可用（生产者模式）；notifyAll通常代表状态变化。（比如倒计时系统，可以开始做事了的那种）</p>
+<blockquote>
+<p>虚假唤醒：线程被唤醒后发现条件不满足的情况。一种情况是跟操作系统底层有关，wait有时会在没有唤醒的情况下返回。在不同的平台，原因可能不一样。另一种情况是被条件变量唤醒的线程在本线程内真正执行「加锁并返回」前，另一个线程插了进来，完整地进行了一套「拿锁、改条件、还锁」的操作。假设是在等待消费队列，一个线程A被nodify，但是还没有获得锁时，另一个线程B获得了锁，并消费掉了队列中的数据。B退出或wait后，A获得了锁，而这时条件已不满足。</p>
+</blockquote>
+<p>对于wait端：</p>
+<ul>
+<li>必须与mutex一起使用；wait函数和bool表达式的判断需要在mutex的保护下（如果wait不用mutex保护可能导致notify在wait之前发生，从而导致wait永远无法被唤醒）；</li>
+<li>把bool表达式的判断和wait()放到while循环中，而不能是if</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line"><span class="keyword">while</span>(queue.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">  cond.<span class="built_in">wait</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在锁的保护下，从queue中获取变量。</span></span><br></pre></td></tr></table></figure>
+
+<p>对于signal端</p>
+<ul>
+<li>notify、notifyAll函数不一定在已上锁的情况下调用；</li>
+<li>调用notify之前一般要修改bool表达式；（修改bool表达式要有锁保护）</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(mtx)</span></span>;</span><br><span class="line">queue.<span class="built_in">push_back</span>(x);</span><br><span class="line">cond.<span class="built_in">notify</span>();</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用CountDownLatch"><a href="#使用CountDownLatch" class="headerlink" title="使用CountDownLatch"></a>使用CountDownLatch</h4><p>mutex和条件变量是非常底层的同步原语， 很少直接使用， 一般都是用它来实现高层的同步措施， 如BlockingQueue<T>或CountDownLatch。<strong>在多线程开发时尽量用高层同步设施（线程池、 队列、 倒计时）；</strong></p>
+<p>倒计时（CountDownLatch）是一种常用且易用的同步手段。它主要有两种用途：</p>
+<ul>
+<li>主线程发起多个子线程， 等这些子线程各自都完成一定的任务之后， 主线程才继续执行。 通常用于主线程等待多个子线程完成初始化。</li>
+<li>主线程发起多个子线程， 子线程都等待主线程， 主线程完成其他一些任务之后通知所有子线程开始执行。 通常用于多个子线程等待主线程发出“起跑”命令。</li>
+</ul>
+<p><strong>倒计时的接口和实现</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CountDownLatch</span>:boost::nocopyable</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">CountDownLatch</span><span class="params">(<span class="type">int</span> count)</span></span>; <span class="comment">//倒数几次</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">wait</span><span class="params">()</span></span>; <span class="comment">//等待计数值变为0</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">countDown</span><span class="params">()</span></span>; <span class="comment">//计数减1</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">mutable</span> MutexLock mutex_;</span><br><span class="line">    Condition condition_;</span><br><span class="line">    <span class="type">int</span> count_;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CountDownLatch::wait</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">while</span>(count_ &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        condition_.<span class="built_in">wait</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CountDownLatch::countDown</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    --count_;</span><br><span class="line">    <span class="keyword">if</span>(count == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        condition_.<span class="built_in">notifyAll</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="不要使用读写锁和信号量"><a href="#不要使用读写锁和信号量" class="headerlink" title="不要使用读写锁和信号量"></a>不要使用读写锁和信号量</h3><p><strong>不使用读写锁有以下原因</strong></p>
+<ul>
+<li>程序员可能会不小心在读锁保护的函数中调用了会修改状态的函数。 这种错误的后果跟无保护并发读写共享数据是一样的。</li>
+<li>从性能方面来说， 读写锁不见得比普通mutex更高效。 无论如何读锁加锁的开销不会比mutex小， 因为它要更新当前读者的数目。 如果临界区很小， 锁竞争不激烈， 那么mutex往往会更快。</li>
+<li>读锁可能允许提升（upgrade）为写锁， 也可能不允许提升。考虑之前mutex的使用建议中的pushFoo()和traverse()函数， 如果用读写锁来保护foos对象， 那么pushFoo()应该持有写锁， 而traverse()应该持有读锁。 如果允许把读锁提升为写锁， 后果跟使用递归锁一样， 会造成迭代器失效，程序崩溃。 如果不允许提升， 后果跟使用非递归锁一样， 会造成死锁。 我宁愿程序死锁， 留个“全尸”好查验。</li>
+<li>通常读锁是可重入的，写锁是不可重入的。 但是为了防止写者饥饿，写锁通常会阻塞后来的读锁， 因此读锁在重入的时候可能死锁。 另外， 在追求低延迟读取的场合也不适用读写锁。</li>
+</ul>
+<p>遇到并发读写， 如果条件合适， 我通常会用copy on write的办法， 而不用读写锁， 同时避免读者被写者阻塞。 如果确实对并发读写有极高的性能要求， 可以考虑read-copy-update。</p>
+<p><strong>不使用信号量的原因</strong></p>
+<p>因为条件变量配合互斥器可以完全替代其功能， 而且更不易用错。 信号量的另一个问题在于它有自己的计数值， 而通常我们自己的数据结构也有长度值， 这就造成了同样的信息存了两份， 需要时刻保持一致， 这增加了程序员的负担和出错的可能。   </p>
+<h3 id="线程安全的单例模式"><a href="#线程安全的单例模式" class="headerlink" title="线程安全的单例模式"></a>线程安全的单例模式</h3><p>单例模式指在整个系统生命周期里，保证一个类只能产生一个实例，确保该类的<strong>唯一性</strong>。</p>
+<p><strong>单例模式分类</strong></p>
+<p>单例模式可以分为<strong>懒汉式</strong>和<strong>饿汉式</strong>，两者之间的区别在于<strong>创建实例的时间不同</strong>：</p>
+<ul>
+<li><strong>懒汉式</strong>：指系统运行中，实例并不存在，只有当需要使用该实例时，才会去创建并使用实例。<strong>（这种方式要考虑线程安全，否则可能会构造多个实例）</strong></li>
+<li><strong>饿汉式</strong>：指系统一运行，就初始化创建实例，当需要时，直接调用即可。<strong>（本身就线程安全，没有多线程的问题）</strong></li>
+</ul>
+<p><strong>单例类特点</strong></p>
+<ul>
+<li>构造函数和析构函数为<strong>private</strong>类型，目的<strong>禁止</strong>外部构造和析构</li>
+<li>拷贝构造和赋值构造函数为<strong>private</strong>类型，目的是<strong>禁止</strong>外部拷贝和赋值，确保实例的唯一性</li>
+<li>类里有个获取实例的<strong>静态函数</strong>，可以全局访问</li>
+</ul>
+<p><strong>用局部静态变量实现单例模式</strong></p>
+<p>非局部静态变量是线程安全的，而局部静态变量在C++11后也是线程安全的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Single</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 获取单实例对象</span></span><br><span class="line">    <span class="function"><span class="type">static</span> Single &amp;<span class="title">GetInstance</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 禁止外部构造</span></span><br><span class="line">    <span class="built_in">Single</span>();</span><br><span class="line">    <span class="comment">// 禁止外部析构</span></span><br><span class="line">    ~<span class="built_in">Single</span>();</span><br><span class="line">    <span class="comment">// 禁止外部拷贝构造</span></span><br><span class="line">    <span class="built_in">Single</span>(<span class="type">const</span> Single &amp;signal);</span><br><span class="line">    <span class="comment">// 禁止外部赋值操作</span></span><br><span class="line">    <span class="type">const</span> Single &amp;<span class="keyword">operator</span>=(<span class="type">const</span> Single &amp;signal);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">Single&amp; <span class="title">Single::GetInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 局部静态特性的方式实现单实例</span></span><br><span class="line">    <span class="type">static</span> Single signal;</span><br><span class="line">    <span class="keyword">return</span> signal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>用pthread_once_t实现单例模式</strong>  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果once_control为0，init_routine()就会执行。pthread_once()成功返回之后，once_control会变为2</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_once</span><span class="params">(<span class="type">pthread_once_t</span> *once_control, <span class="type">void</span> (*init_routine) (<span class="type">void</span>))</span>；</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">/* 功能：本函数使用初值为PTHREAD_ONCE_INIT的once_control变量保证init_routine()函数在本进程执行序列中仅执行一次。</span></span></span><br><span class="line"><span class="comment"><span class="function">在多线程编程环境下，尽管pthread_once()调用会出现在多个线程中，init_routine()函数仅执行一次，究竟在哪个线程中执行是不定的，是由内核调度来决定。 */</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Singleton</span> : noncopyable</span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">Singleton</span>() = <span class="keyword">delete</span>;</span><br><span class="line">  ~<span class="built_in">Singleton</span>() = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="type">static</span> T&amp; <span class="title">instance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">pthread_once</span>(&amp;ponce_, &amp;Singleton::init);</span><br><span class="line">    <span class="built_in">assert</span>(value_ != <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">return</span> *value_;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    value_ = <span class="keyword">new</span> <span class="built_in">T</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="type">static</span> <span class="type">pthread_once_t</span> ponce_;</span><br><span class="line">  <span class="type">static</span> T*             value_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="type">pthread_once_t</span> Singleton&lt;T&gt;::ponce_ = PTHREAD_ONCE_INIT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">T* Singleton&lt;T&gt;::value_ = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="不要将sleep-用于线程同步"><a href="#不要将sleep-用于线程同步" class="headerlink" title="不要将sleep()用于线程同步"></a>不要将sleep()用于线程同步</h3><p>sleep()&#x2F;usleep()&#x2F;nanosleep()只能出现在测试代码中，比如写单元测试的时候；或者用于有意延长临界区，加速复现死锁的情况。</p>
+<p>在程序的正常执行中， 如果需要等待一段已知的时间， 应该往event loop里注册一个timer， 然后在timer的回调函数里接着干活， 因为线程是个珍贵的共享资源，不能轻易浪费（阻塞也是浪费）。如果等待某个事件发生，那么应该采用条件变量或IO事件回调，不能用sleep来轮询。</p>
+<h2 id="多线程服务器的适用场合与常用编程模型"><a href="#多线程服务器的适用场合与常用编程模型" class="headerlink" title="多线程服务器的适用场合与常用编程模型"></a>多线程服务器的适用场合与常用编程模型</h2><h3 id="单线程服务器的常用编程模型"><a href="#单线程服务器的常用编程模型" class="headerlink" title="单线程服务器的常用编程模型"></a>单线程服务器的常用编程模型</h3><p>常用Reactor模型，也就是IO多路复用+非阻塞IO。程序的基本结构是一个事件循环（event loop），以事件驱动（event-driven）和事件回调的方式实现业务逻辑。</p>
+<p>业务逻辑就是程序循环阻塞在select&#x2F;poll&#x2F;epoll上， 接收到请求时触发IO回调函数进行处理。</p>
+<p>Reactor模型的优点很明显， 编程不难， 效率也不错。不仅可以用于读写socket，连接的建立，甚至DNS解析都可以用非阻塞方式进行， 以提高并发度和吞吐量，对于IO密集的应用是个不错的选择。lighttpd就是这样，它内部的fdevent结构十分精妙，值得学习。  </p>
+<p>基于事件驱动的编程模型也有其本质的缺点， 它要求事件回调函数必须是非阻塞的。 对于涉及网络IO的请求响应式协议， 它容易割裂业务逻辑， 使其散布于多个回调函数之中， 相对不容易理解和维护。 现代的语言有一些应对方法（例如coroutine）。</p>
+<blockquote>
+<p>IO多路复用搭配非阻塞IO的原因1.select&#x2F;poll&#x2F;epoll返回的并不一定可读，有可能因为数据检验错误被系统丢弃或者数据已被其他线程读取，或者等等未知的情况导致不可读，若使用阻塞IO有可能导致线程阻塞无法及时接收后续请求。2.多路复用只会告诉你 fd 对应的 socket 可读了，但不会告诉你有多少的数据可读，如果使用阻塞IO只能读一次，读多次就可能阻塞线程；而使用非阻塞IO则可以循环读一直读到返回不可读为止，效率更高。</p>
+</blockquote>
+<h3 id="多线程服务器的常用编程模型"><a href="#多线程服务器的常用编程模型" class="headerlink" title="多线程服务器的常用编程模型"></a>多线程服务器的常用编程模型</h3><ul>
+<li>每个请求创建一个线程， 使用阻塞式IO操作。 在Java 1.4引入NIO之前， 这是Java网络编程的推荐做法。 可惜伸缩性不佳。</li>
+<li>使用线程池， 同样使用阻塞式IO操作。与第1种相比，这是提高性能的措施。</li>
+<li>使用non-blocking IO＋IO multiplexing。 即Java NIO的方式。</li>
+<li>Leader&#x2F;Follower等高级模式。</li>
+</ul>
+<p>推荐使用多Reactor多线程+线程池作为C++多线程服务端编程模型。</p>
+<p>这个模型也叫one (event) loop per thread+ thread pool。</p>
+<ul>
+<li>event loop（也叫IO loop） 用作IO multiplexing， 配合non-blocking IO和定时器。</li>
+<li>thread pool用来做计算， 具体可以是任务队列或生产者消费者队列。</li>
+</ul>
+<p>程序里具体用几个loop、 线程池的大小等参数需要根据应用来设定， 基本的原则是“阻抗匹配”， 使得CPU和IO都能高效地运作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//阻抗匹配原则</span></span><br><span class="line">C = CPU数量</span><br><span class="line">P = CPU繁忙时间 / 总运行时间   <span class="comment">// 0&lt;P&lt;=1</span></span><br><span class="line">T = 所需设置线程数</span><br><span class="line">T = C / P</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用blocking-queue和线程池"><a href="#使用blocking-queue和线程池" class="headerlink" title="使用blocking queue和线程池"></a>使用blocking queue和线程池</h4><p>对于没有IO而光有计算任务的线程， 使用event loop有点浪费， 我会用一种补充方案， 即用blocking queue实现的任务队列<br>（TaskQueue）</p>
+<h5 id="blocking-queue实现"><a href="#blocking-queue实现" class="headerlink" title="blocking queue实现"></a>blocking queue实现</h5><h5 id="用blocking-queue实现线程池"><a href="#用blocking-queue实现线程池" class="headerlink" title="用blocking queue实现线程池"></a>用blocking queue实现线程池</h5><h3 id="进程通信只使用tcp的原因"><a href="#进程通信只使用tcp的原因" class="headerlink" title="进程通信只使用tcp的原因"></a>进程通信只使用tcp的原因</h3><p>如果强调本主机共享只读数据，当然是共享内存好，但是如果是进程间的消息传递，使用TCP会有一些列优点。</p>
+<ul>
+<li>TCP很容易跨主机使用，方便扩展，其他方式无法跨机器；</li>
+<li>TCP是双向的，而管道是单向的且需要进程为父子关系，相比TCP很不方便；</li>
+<li>TCP资源在进程结束时会被系统自动回收(都是文件描述符)，即使程序意外退出，也不会给系统留下垃圾，不用担心由于进程崩溃而导致资源无法释放的问题（这种情况只能重启操作系统，跨进程锁就有这个风险）；</li>
+<li>使用TCP进行通信，进程一方崩溃，操作系统会关闭连接，另一方可以很快的知道（应用层心跳也是需要有的）；</li>
+<li>出现问题方便记录与重现：使用wireshark&#x2F;tcpdump抓包就可以。</li>
+<li>任何一个进程都能单独重启。 换句话说，TCP连接是可再生的， 连接的任何一方都可以退出再启动， 重建连接之后就能继续工作， 这对开发牢靠的分布式系统意义重大。</li>
+</ul>
+<h4 id="分布式系统使用tcp长连接的优点"><a href="#分布式系统使用tcp长连接的优点" class="headerlink" title="分布式系统使用tcp长连接的优点"></a>分布式系统使用tcp长连接的优点</h4><p>1.容易定位分布式系统中服务的依赖关系：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tnpa | grep :port   </span><br></pre></td></tr></table></figure>
+
+<p>在机器上运行上述指令就能立刻列出用到某服务的客户端地址（Foreign列），然后在客户端的机器上用netstat或lsof命令找出是哪个进程发起的连接。</p>
+<p>2.可以通过发送队列和接受队列实时了解服务器的故障信息（可以用于监控）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tn</span><br></pre></td></tr></table></figure>
+
+<p>在正常运行的时候， netstat打印的Recv-Q和Send-Q都应该接近0，或者在0附近摆动。</p>
+<p>如果Recv-Q保持不变或持续增加，则通常意味着服务进程的处理速度变慢，可能发生了死锁或阻塞。 </p>
+<p>如果Send-Q保持不变或持续增加， 有可能是对方服务器太忙、来不及处理，也有可能是网络中间某个路由器或交换机故障造成丢包， 甚至对方服务器掉线， 这些因素都可能表现为数据发送不出去。 </p>
+<p>通过持续监控Recv-Q和Send-Q就能及早预警性能或可用性故障。   </p>
+<h3 id="使用多线程还是单线程"><a href="#使用多线程还是单线程" class="headerlink" title="使用多线程还是单线程"></a>使用多线程还是单线程</h3><p>如果要在一台多核机器上提供一种服务或执行一个任务， 可用的模式有<br>1． 运行一个单线程的进程；<br>2． 运行一个多线程的进程；<br>3． 运行多个单线程的进程；<br>4． 运行多个多线程的进程。<br>简单地总结如下：<br>模式1是不可伸缩的（scalable） ， 不能发挥多核机器的计算能力。模式3是目前公认的主流模式。 它有以下两种子模式：</p>
+<ul>
+<li>3a：简单地把模式1中的进程运行多份</li>
+<li>3b：主进程+woker进程， 如果必须绑定到一个TCP port， 比如httpd+fastcgi</li>
+</ul>
+<p>模式2是被很多人所鄙视的， 认为多线程程序难写， 而且与模式3相比并没有什么优势。模式4更是千夫所指， 它不但没有结合2和3的优点， 反而汇聚了二者的缺点。</p>
+<p>本文主要想讨论的是模式2和模式3b的优劣， 即： 什么时候一个服务器程序应该是多线程的。   </p>
+<p>从性能上讲， 无论是IO bound还是CPU bound的服务， 多线程都没有什么优势。  </p>
+<ul>
+<li>对于静态Web服务器， 或者FTP服务器， CPU的负载较轻， 主要瓶颈在磁盘IO和网络IO方面。 这时候往往一个单线程的程序（模式1） 就能撑满IO。 用多线程并不能提高吞吐量， 因为IO硬件容量已经饱和了。同理， 这时增加CPU数目也不能提高吞吐量。</li>
+<li>CPU跑满的情况比较少见， 这里我只好虚构一个例子。 假设有一个服务， 它的输入是n个整数， 问能否从中选出m个整数， 使其和为0（这里n＜100, m＞0）。 这是著名的subset sum问题， 是NP-Complete的。 对于这样一个“服务”， 哪怕很小的n值也会让CPU算死。 比如n＝30， 一次的输入不过200字节（32-bit整数） ， CPU的运算时间却能长达几分钟。 对于这种应用， 模式3a是最适合的， 能发挥多核的优势， 程序也简单。</li>
+</ul>
+<h4 id="适合使用单线程的场合"><a href="#适合使用单线程的场合" class="headerlink" title="适合使用单线程的场合"></a>适合使用单线程的场合</h4><p>有两种场合必须使用单线程：</p>
+<ul>
+<li>程序可能会fork(2)(如看门狗进程)</li>
+<li>限制程序的CPU占用率</li>
+</ul>
+<blockquote>
+<p>看门狗进程：当我们编写服务器代码时，为了让自己的服务器在意外崩溃时能够及时的重启，软件看门狗就显示出它的作用了，该看门狗进程是通过fork一个子进程（业务进程），父进程一旦捕获到了子进程的结束信号就重新再fork一个子进程来实现的。</p>
+</blockquote>
+<p>单线程程序能限制程序的CPU占用率， 比如在一个8核的服务器上， 一个单线程程序即便占满1个core， 其CPU使用率也只有12.5％。在这种最坏的情况下，系统还是有87.5％的计算资源可供其他服务进程使用。<br>因此对于一些辅助性的程序， 如果它必须和主要服务进程运行在同一台机器的话（比如它要监控其他服务进程的状态），那么做成单线程的能避免过分抢夺系统的计算资源。 比方说如果要把生产服务器上的日志文件压缩后备份到NFS上，那么应该使用普通单线程压缩工具（gzip&#x2F;bzip2）。</p>
+<h4 id="单线程的优缺点"><a href="#单线程的优缺点" class="headerlink" title="单线程的优缺点"></a>单线程的优缺点</h4><p><strong>优点</strong></p>
+<p>从编程的角度， 单线程程序的优势无须赘言：简单。</p>
+<p><strong>缺点</strong></p>
+<p>单线程Event loop有一个明显的缺点，它是非抢占的（non-preemptive）。假设事件a的优先级高于事件b， 处理事件a需要1ms， 处理事件b需要10ms。如果事件b稍早于a发生， 那么当事件a到来时， 程序已经离开了poll(2)调用， 并开始处理事件b。 事件a要等上10ms才有机会被处理， 总的响应时间为11ms。 这等于发生了优先级反转。 这个缺点可以用多线程来克服， 这也是多线程的主要优势。  </p>
+<h4 id="适合使用多线程的场合"><a href="#适合使用多线程的场合" class="headerlink" title="适合使用多线程的场合"></a>适合使用多线程的场合</h4><p>多线程的适用场景是： 提高响应速度， 让IO和“计算”相互重叠， 降低延迟。 虽然多线程不能提高绝对性能， 但能提高平均响应性<br>能。  </p>
+<p>一个程序要做成多线程的， 大致要满足：</p>
+<ul>
+<li>有多个CPU可用。 单核机器上多线程没有性能优势（但或许能简化并发业务逻辑的实现） 。</li>
+<li>线程间有共享数据， 即内存中的全局状态。 如果没有共享数据，用模型3b就行。 虽然我们应该把线程间的共享数据降到最低， 但不代表没有。</li>
+<li>共享的数据是可以修改的， 而不是静态的常量表。 如果数据不能修改， 那么可以在进程间用shared memory， 模式3就能胜任。</li>
+<li>提供非均质的服务。 即事件的响应有优先级差异， 我们可以用专门的线程来处理优先级高的事件。 防止优先级反转。</li>
+<li>latency和throughput同样重要， 不是逻辑简单的IO bound或CPU bound程序。 换言之， 程序要有相当的计算量。</li>
+<li>利用异步操作。 比如logging。 无论往磁盘写log file， 还是往log server发送消息都不应该阻塞critical path。</li>
+<li>能scale up。 一个好的多线程程序应该能享受增加CPU数目带来的好处， 目前主流是8核， 很快就会用到16核的机器了。</li>
+<li>具有可预测的性能。 随着负载增加， 性能缓慢下降， 超过某个临界点之后会急速下降。 线程数目一般不随负载变化。</li>
+<li>多线程能有效地划分责任与功能， 让每个线程的逻辑比较简单，任务单一， 便于编码。 而不是把所有逻辑都塞到一个event loop里， 不同类别的事件之间相互影响。</li>
+</ul>
+<p>举个例子，假设要管理一个Linux服务器机群， 这个机群里有8个计算节点， 1个控制节点。 机器的配置都是一样的， 双路四核CPU， 千兆网互联。 现在需要编写一个简单的机群管理软件（参考LLNL的SLURM20），这个软件由3个程序组成：</p>
+<ul>
+<li>运行在控制节点上的master， 这个程序监视并控制整个机群的状态。</li>
+<li>运行在每个计算节点上的slave， 负责启动和终止job， 并监控本机的资源。</li>
+<li>供最终用户使用的client命令行工具， 用于提交job。</li>
+</ul>
+<p>根据前面的分析， slave是个“看门狗进程”， 它会启动别的job进程， 因此必须是个单线程程序。 另外它不应该占用太多的CPU资源， 这<br>也适合单线程模型。 master应该是个模式2的多线程程序，原因如下：</p>
+<ul>
+<li>它独占一台8核的机器， 如果用模型1， 等于浪费了87.5％的CPU资源。</li>
+<li>整个机群的状态应该能完全放在内存中， 这些状态是共享且可变的。 如果用模式3， 那么进程之间的状态同步会成大问题。 而如果大量使用共享内存， 则等于是掩耳盗铃， 是披着多进程外衣的多线程程序。因为一个进程一旦在临界区内阻塞或crash， 其他进程会全部死锁。</li>
+<li>master的主要性能指标不是throughput， 而是latency， 即尽快地响应各种事件。 它几乎不会出现把IO或CPU跑满的情况。</li>
+<li>master监控的事件有优先级区别， 一个程序正常运行结束和异常崩溃的处理优先级不同， 计算节点的磁盘满了和机箱温度过高这两种报警条件的优先级也不同。 如果用单线程， 则可能会出现优先级反转。</li>
+<li>假设master和每个slave之间用一个TCP连接， 那么master采用2个或4个IO线程来处理8个TCP connections能有效地降低延迟。</li>
+<li>master要异步地往本地硬盘写log， 这要求logging library有自己的IO线程。</li>
+<li>master有可能要读写数据库， 那么数据库连接这个第三方library可能有自己的线程， 并回调master的代码。</li>
+<li>master要服务于多个clients， 用多线程也能降低客户响应时间。 也就是说它可以再用2个IO线程专门处理和clients的通信。</li>
+<li>master还可以提供一个monitor接口， 用来广播推送（pushing） 机群的状态， 这样用户不用主动轮询（polling） 。 这个功能如果用单独的线程来做， 会比较容易实现， 不会搞乱其他主要功能。</li>
+</ul>
+<p>最终master一共开了10个线程：</p>
+<ul>
+<li>4个用于和slaves通信的IO线程。</li>
+<li>1个logging线程。</li>
+<li>1个数据库IO线程。</li>
+<li>2个和clients通信的IO线程。</li>
+<li>1个主线程， 用于做些背景工作， 比如job调度。</li>
+<li>1个pushing线程， 用于主动广播机群的状态。</li>
+</ul>
+<p>虽然线程数目略多于core数目， 但是这些线程很多时候都是空闲的， 可以依赖OS的进程调度来保证可控的延迟。  </p>
+<p>综上所述， master用多线程方式编写是自然且高效的  。</p>
+<p>一个多线程服务程序中的线程大致可分为3类：</p>
+<ul>
+<li>IO线程， 这类线程的主循环是IO multiplexing， 阻塞地等在select&#x2F;poll&#x2F;epoll_wait系统调用上。 这类线程也处理定时事件。 当然它的功能不止IO， 有些简单计算也可以放入其中， 比如消息的编码或解码。</li>
+<li>计算线程， 这类线程的主循环是blocking queue， 阻塞地等在condition variable上。 这类线程一般位于thread pool中。 这种线程通常不涉及IO， 一般要避免任何阻塞操作。</li>
+<li>第三方库所用的线程， 比如logging，又比如database connection。</li>
+</ul>
+<p>服务器程序一般不会频繁地启动和终止线程。 甚至， 在我写过的程序里， create thread只在程序启动的时候调用， 在服务运行期间是不调用的。</p>
+<h4 id="多线程答疑"><a href="#多线程答疑" class="headerlink" title="多线程答疑"></a>多线程答疑</h4><p><strong>多线程能提高并发度吗？</strong><br>如果指的是“并发连接数”， 则不能。32位虚拟地址空间最多支持开300线程左右，这远远低于基于事件的单线程程序所能轻松达到的并<br>发连接数（成千上万）。所谓“基于事件”， 指的是用IO multiplexing event loop的编程模型， 又称Reactor模式， 在前文中已有介<br>绍。<br>那么采用前文中推荐的one loop per thread呢？ 至少不逊于单线程程序。 实际上单个event loop处理1万个并发长连接并不罕见， 一个multiloop的多线程程序应该能轻松支持5万并发链接。<br>小结：thread per connection不适合高并发场合， 其scalability不佳。one loop per thread的并发度足够大， 且与CPU数目成正比  </p>
+<p><strong>多线程能提高吞吐量吗？</strong><br>对于计算密集型服务， 不能。<br>假设有一个耗时的计算服务， 用单线程算需要0.8s。 在一台8核的机器上， 我们可以启动8个线程一起对外服务（如果内存够用， 启动8个进程也一样） 。 这样完成单个计算仍然要0.8s， 但是由于这些进程的计算可以同时进行， 理想情况下吞吐量可以从单线程的1.25qps（query per second） 上升到10qps。（实际情况可能要打个八折——如果不是打对折的话。）</p>
+<p>假如改用并行算法， 用8个核一起算， 理论上如果完全并行，加速比高达8， 那么计算时间是0.1s， 吞吐量还是10qps， 但是首次请求的响应时间却降低了很多。 实际上根据Amdahl’s law， 即便算法的并行度高达95％， 8核的加速比也只有6， 计算时间为0.133s， 这样会造成吞吐量下降为7.5qps。 不过以此为代价， 换得响应时间的提升， 在有些应用场合也是值得的  </p>
+<p><strong>多线程能降低响应时间吗？</strong><br>如果设计合理， 充分利用多核资源的话， 可以。 在突发（burst） 请求时效果尤为明显。  </p>
+<p><strong>多线程程序如何让IO和“计算”相互重叠， 降低latency？</strong><br>基本思路是， 把IO操作（通常是写操作） 通过Blocking Queue交给别的线程去做， 自己不必等待。</p>
+<p>例1:日志（logging） 在多线程服务器程序中，日志（logging）至关重要， 本例仅考虑写log file的情况， 不考虑log server。<br>在一次请求响应中，可能要写多条日志消息，而如果用同步的方式写文件（fprintf或fwrite），多半会降低性能， 因为：</p>
+<ul>
+<li>文件操作一般比较慢， 服务线程会等在IO上， 让CPU闲置， 增加响应时间。</li>
+<li>就算有buffer， 还是不灵。 多个线程一起写， 为了不至于把buffer写错乱， 往往要加锁。 这会让服务线程互相等待， 降低并发度。 （同时用多个log文件不是办法， 除非你有多个磁盘，且保证log files分散在不同的磁盘上，否则还是要受到磁盘IO瓶颈的制约。）</li>
+</ul>
+<p>解决办法是单独用一个logging线程， 负责写磁盘文件，通过一个或多个Blocking Queue对外提供接口。 别的线程要写日志的时候， 先把消息（字符串） 准备好， 然后往queue里一塞就行， 基本不用等待。 这样服务线程的计算就和logging线程的磁盘IO相互重叠， 降低了服务线程的响应时间。</p>
+<p>尽管logging很重要， 但它不是程序的主要逻辑， 因此对程序的结构影响越小越好， 最好能简单到如同一条printf语句， 且不用担心其他性能开销。 而一个好的多线程异步logging库能帮我们做到这一点。</p>
+<p><strong>除了你推荐的Reactor＋thread poll，还有别的多线程编程模型吗？</strong><br>有， Proactor。如果一次请求响应中要和别的进程打多次交道， 那么Proactor模型往往能做到更高的并发度。当然， 代价是代码变得支离破碎， 难以理解。<br>举HTTP proxy为例， 一次HTTP proxy的请求如果没有命中本地cache， 那么它多半会：</p>
+<ul>
+<li>解析域名（不要小看这一步， 对于一个陌生的域名， 解析可能要花几秒的时间） ；</li>
+<li>建立连接；</li>
+<li>发送HTTP请求；</li>
+<li>等待对方回应；</li>
+<li>把结果返回给客户。</li>
+</ul>
+<p>这5步中跟2个server发生了3次round-trip， 每次都可能花几百毫秒：</p>
+<ul>
+<li>向DNS问域名， 等待回复；</li>
+<li>向对方的HTTP服务器发起连接， 等待TCP三路握手完成；</li>
+<li>向对方发送HTTP request， 等待对方response。</li>
+</ul>
+<p>而实际上HTTP proxy本身的运算量不大，如果用线程池， 池中线程的数目会很庞大， 不利于操作系统的管理调度。这时我们有两个解决思路：</p>
+<ol>
+<li><p>把“域名已解析”、 “连接已建立”、 “对方已完成响应”做成event， 继续按照Reactor的方式来编程。 这样一来， 每次客户请求就不能用一个函数从头到尾执行完成， 而要分成多个阶段， 并且要管理好请求的状态（“目前到了第几步？ ”） 。</p>
+</li>
+<li><p>用回调函数， 让系统来把任务串起来。 比如收到用户请求， 如果没有命中本地缓存， 那么需要执行：</p>
+<ul>
+<li><p>立刻发起异步的DNS解析startDNSResolve()， 告诉系统在解析完之后调用DNSResolved()函数；</p>
+</li>
+<li><p>在DNSResolved()中， 发起TCP连接请求， 告诉系统在连接建立之后调用connectionEstablished()；</p>
+</li>
+<li><p>在connectionEstablished()中发送HTTP request， 告诉系统在收到响应之后调用httpResponsed()；</p>
+</li>
+<li><p>最后，在httpResponsed()里把结果返回给客户。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>NET大量采用的BeginInvoke&#x2F;EndInvoke操作也是这个编程模式。 当然， 对于不熟悉这种编程方式的人， 代码会显得很难看。 有关Proactor模式的例子可参看Boost.Asio的文档， 这里不再多说。</p>
+<p>Proactor模式依赖操作系统或库来高效地调度这些子任务， 每个子任务都不会阻塞， 因此能用比较少的线程达到很高的IO并发度。</p>
+<p>Proactor能提高吞吐， 但不能降低延迟。 另外， 在没有语言直接支持的情况下，Proactor模式让代码非常破碎， 在C++中使用Proactor是很痛苦的。 因此最好在“线程”很廉价的语言中使用这种方式， 这时runtime往往会屏蔽细节， 程序用单线程阻塞IO的方式来处理TCP连接。  </p>
+<p><strong>模式2和模式3a该如何取舍？</strong><br>模式2是一个多线程的进程， 模式3a是多个相同的单线程进程。</p>
+<p>我认为， 在其他条件相同的情况下， 可以根据工作集（work set）的大小来取舍。 工作集是指服务程序响应一次请求所访问的内存大小。如果工作集较大， 那么就用多线程， 避免CPU cache换入换出， 影响性能； 否则， 就用单线程多进程， 享受单线程编程的便利。 </p>
+<p>举例来说，如果程序有一个较大的本地cache， 用于缓存一些基础参考数据（in-memory look-up table），几乎每次请求都会访问cache， 那么多线程更适合一些， 因为可以避免每个进程都自己保留一份cache， 增加内存使用。</p>
+<p>memcached这个内存消耗大户用多线程服务端就比在同一台机器上运行多个memcached instance要好。（但是如果你在16GiB内存的机器上运行32-bit memcached， 那么此时多instance是必需的。 ）</p>
+<p>求解Sudoku用不了多大内存。 如果单线程编程更方便的话， 可以用单线程多进程来做。再在前面加一个单线程的load balancer，仿<br>lighttpd＋fastcgi的成例。</p>
+<p>线程不能减少工作量， 即不能减少CPU时间。 如果解决一个问题需要执行一亿条指令 ，那么用多线程只会让这个数字增加。 但是通过合理调配这一亿条指令在多个核上的执行情况， 我们能让工期提早结束。 这听上去像统筹方法， 其实也确实是统筹方法。  </p>
+<h2 id="C-多线程系统编程精要"><a href="#C-多线程系统编程精要" class="headerlink" title="C++多线程系统编程精要"></a>C++多线程系统编程精要</h2><p>学习多线程编程面临的最大的思维方式的转变有两点：</p>
+<ul>
+<li>当前线程可能随时会被切换出去， 或者说被抢占（preempt）了。</li>
+<li>多线程程序中事件的发生顺序不再有全局统一的先后关系</li>
+</ul>
+<p>当线程被切换回来继续执行下一条语句（指令） 的时候， 全局数据（包括当前进程在操作系统内核中的状态） 可能已经被其他线程修改<br>了。  </p>
+<p>在单CPU系统中， 理论上我们可以通过记录CPU上执行的指令的先后顺序来推演多线程的实际交织（interweaving） 运行的情况。 <strong>在多核系统中， 多个线程是并行执行的， 我们甚至没有统一的全局时钟来为每个事件编号。</strong> 在没有适当同步的情况下， 多个CPU上运行的多个线程中的事件发生先后顺序是无法确定的。 在引入适当同步后， 事件之间才有了happens-before关系  </p>
+<h3 id="基本线程原语的选用"><a href="#基本线程原语的选用" class="headerlink" title="基本线程原语的选用"></a>基本线程原语的选用</h3><p>用C&#x2F;C++编写跨平台的多线程程序不是普遍的需求， 因此本书只谈现代Linux下的多线程编程。   </p>
+<p>POSIX threads的函数有110多个，真正常用的不过十几个，这11个最基本的Pthreads函数是：</p>
+<ul>
+<li>2个： 线程的创建和等待结束（join）。</li>
+<li>4个： mutex的创建、 销毁、 加锁、 解锁。</li>
+<li>5个： 条件变量的创建、 销毁、 等待、 通知、 广播。</li>
+</ul>
+<p><strong>用这三样东西（thread、 mutex、condition） 可以完成任何多线程编程任务。</strong> 当然我们一般也不会直接使用它们（mutex除外） ， 而是使用更高层的封装， 例如ThreadPool和CountDownLatch等。</p>
+<p>除此之外， Pthreads还提供了其他一些原语， 有些是可以酌情使用的：</p>
+<ul>
+<li>pthread_once。其实不如直接用全局变量。</li>
+<li>pthread_key。 可以考虑用__thread替换之。 不建议使用：</li>
+<li>pthread_rwlock。读写锁通常应慎用</li>
+<li>sem_。 避免用信号量（semaphore）。它的功能与条件变量重合， 但容易用错。</li>
+<li>pthread_{cancel, kill}。 程序中出现了它们， 则通常意味着设计出了问题</li>
+</ul>
+<h3 id="C-x2F-C-系统库的线程安全性"><a href="#C-x2F-C-系统库的线程安全性" class="headerlink" title="C&#x2F;C++系统库的线程安全性"></a>C&#x2F;C++系统库的线程安全性</h3><p>线程的出现立刻给系统函数库带来了冲击， 破坏了20年来一贯的编程传统和假定。如：</p>
+<ul>
+<li>errno不再是一个全局变量， 因为每个线程可能会执行不同的系统库函数。</li>
+<li>有些“纯函数”不受影响， 例如memset&#x2F;strcpy&#x2F;snprintf等等。</li>
+<li>有些影响全局状态或者有副作用的函数可以通过加锁来实现线程安全， 例如malloc&#x2F;free、 printf、 fread&#x2F;fseek等等。</li>
+<li>有些返回或使用静态空间的函数不可能做到线程安全， 因此要提供另外的版本， 例如asctime_r&#x2F;ctime_r&#x2F;gmtime_r、 stderror_r、strtok_r等等。</li>
+<li>传统的fork()并发模型不再适用于多线程程序。</li>
+</ul>
+<p>现在glibc库函数大部分都是线程安全的。 特别是FILE*系列函数是安全的， glibc甚至提供了非线程安全的版本以应对某些特殊场合的性能需求。 <strong>尽管单个函数是线程安全的， 但两个或多个函数放到一起就不再安全了。</strong> 例如fseek()和fread()都是安全的， 但是对某个文件“先seek再read”这两步操作中间有可能会被打断， 其他线程有可能趁机修改了文件的当前位置， 让程序逻辑无法正确执行。在这种情况下， 我们可以用flockfile(FILE*)和funlockfile(FILE*)函数来显式地加锁。 并且由于FILE*的锁是可重入的， 加锁之后再调用fread()不会造成死锁。  </p>
+<p>由此可见， 编写线程安全程序的一个难点在于线程安全是不可组合的（composable），一个函数foo()调用了两个线程安全的函数， 而这个foo()函数本身很可能不是线程安全的。 即便现在大多数glibc库函数是线程安全的， 我们也不能像写单线程程序那样编写代码。   </p>
+<ul>
+<li>不用担心系统调用的线程安全性、因为系统调用对于用户态程序来说是原子的。但是需要注意它的使用对内核状态的改变可能会影响其他线程</li>
+<li>C++标准容器库和std::string 不是线程安全的，只有std::allocator是线程安全的。这是为了避免不必要的性能开销  </li>
+<li>C++库中的绝大多数泛型算法是线程安全的,因为这些都是无状态纯函数。 只要输入区间是线程安全的， 那么泛型函数就是线程安<br>全的。  </li>
+<li>C++的iostream不是线程安全的。因为在一行中连续流式输出等价于多次函数调用，即便ostream::operator&lt;&lt;()做到了线程安全， 也不能保证其他线程不会在两次函数调用之间向stdout输出其他字符。</li>
+</ul>
+<h3 id="Linux上的线程标识"><a href="#Linux上的线程标识" class="headerlink" title="Linux上的线程标识"></a>Linux上的线程标识</h3><p>POSIX threads库用pthread_t作为当前进程的标识符。pthread_t不一定是一个数值类型（整数或指针） ， 也有可能是一个结构体， 因此Pthreads专门提供了pthread_equal函数用于对比两个线程标识符是否相等。 这就带来一系列问题， 包括：</p>
+<ul>
+<li>无法打印输出pthread_t， 因为不知道其确切类型。 也就没法在日志中用它表示当前线程的id。</li>
+<li>无法比较pthread_t的大小或计算其hash值， 因此无法用作关联容器的key。</li>
+<li>无法定义一个非法的pthread_t值， 用来表示绝对不可能存在的线程id， 因此MutexLock class没有办法有效判断当前线程是否已经持有本锁。</li>
+<li>pthread_t值只在进程内有意义， 与操作系统的任务调度之间无法建立有效关联。 比方说在&#x2F;proc文件系统中找不到pthread_t对应的task。</li>
+</ul>
+<p>另外， glibc的Pthreads实现实际上把pthread_t用作一个结构体指针（它的类型是unsigned long） ， 指向一块动态分配的内存， 而且这块内存是反复使用的。 这就造成pthread_t的值很容易重复。 <strong>Pthreads只保证同一进程之内， 同一时刻的各个线程的id不同； 不能保证同一进程先后多个线程具有不同的id， 更不要说一台机器上多个进程之间的id唯一性了</strong>。  </p>
+<p>因此， pthread_t并不适合用作程序中对线程的标识符。</p>
+<p><strong>在Linux上，建议使用gettid(2)系统调用的返回值作为线程id</strong>， 这么做的好处有：</p>
+<ul>
+<li>它的类型是pid_t， 其值通常是一个小整数， 便于在日志中输出。</li>
+<li>在现代Linux中， 它直接表示内核的任务调度id， 因此在&#x2F;proc文件系统中可以轻易找到对应项： &#x2F;proc&#x2F;tid或&#x2F;prod&#x2F;pid&#x2F;task&#x2F;tid。</li>
+<li>在其他系统工具中也容易定位到具体某一个线程， 例如在top(1)中我们可以按线程列出任务， 然后找出CPU使用率最高的线程id， 再根据程序日志判断到底哪一个线程在耗用CPU。</li>
+<li>任何时刻都是全局唯一的， 并且由于Linux分配新pid采用递增轮回办法， 短时间内启动的多个线程也会具有不同的线程id。</li>
+<li>0是非法值， 因为操作系统第一个进程init的pid是1。</li>
+</ul>
+<h3 id="线程的创建与销毁的守则"><a href="#线程的创建与销毁的守则" class="headerlink" title="线程的创建与销毁的守则"></a>线程的创建与销毁的守则</h3><p>线程的创建和销毁是编写多线程程序的基本要素</p>
+<p><strong>线程的创建原则：</strong></p>
+<ul>
+<li><p>程序库不应该在未提前告知的情况下创建自己的“背景线程”</p>
+</li>
+<li><p>尽量用相同的方式创建线程</p>
+</li>
+<li><p>进入main函数之前不应该启动线程</p>
+</li>
+<li><p>程序中线程的创建最好在初始化阶段全部完成</p>
+</li>
+</ul>
+<p>原因如下：</p>
+<p>线程是稀缺资源，  因此我们在设计一个服务端程序的时候要精心规划线程的数目， 特别是根据机器的CPU数目来设置工作线程的数目， 并为关键任务保留足够的计算资源。 如果程序库在背地里使用了额外的线程来执行任务， 我们这种资源规划就漏算了。 可能会导致高估系统的可用资源，结果处理关键任务不及时， 达不到预设的性能指标。还有一个重要原因是， 一旦程序中有不止一个线程， 就很难安全地fork()了 。 因此“库”不能偷偷创建线程。 如果确实有必要使用背景线程， 至少应该让使用者知道。</p>
+<p>理想情况下， 程序里的线程都是用同一个class创建的（muduo::Thread），这样容易在线程的启动和销毁阶段做一些统一的簿<br>记（bookkeeping） 工作。 比如说调用一次muduo::CurrentThread::tid()把当前线程id缓存起来， 以后再取线程id就不会陷入内核了。 也可以统计当前有多少活动线程， 进程一共创建了多少线程， 每个线程的用途分别是什么。但是这不是总能做到的， 有些第三方库（C语言库） 会自己启动线程， 这样的“野生”线程就没有纳入全局的ThreadManager管理之中。muduo::CurrentThread::tid()必须要考虑被这种“野生”线程调用的可能，因此它必须每次都检查缓存的线程id是否有效， 而不能假定在线程启动阶段已经缓存好了id， 直接返回缓存值就行了。 如果库提供异步回调，一定要明确说明会在哪个（哪些） 线程调用用户提供的回调函数， 这样用户可以知道在回调函数中能不能执行耗时的操作， 会不会阻塞其他任务的执行。</p>
+<p>在main()函数之前不应该启动线程， 因为这会影响全局对象的安全构造。 C++保证在进入main()之前完成全局对象的构造。同时，各个编译单元之间的对象构造顺序是不确定的， 我们也有一些办法来影响初始化顺序， 保证在初始化某个全局对象时使用到的其他全局对象都是构造完成的。 但无论如何这些全局对象的构造是依次进行的，都在主线程中完成， 无须考虑并发与线程安全。如果其中一个全局对象创建了线程， 那就危险了。 因为这破坏了初始化全局对象的基本假设。万一将来代码改动之后造成该线程访问了未经初始化的全局对象， 那么这种隐晦错误查起来就很费劲了。 或许你想用锁来保证全局对象初始化完成， 但是怎么保证这个全局的锁对象的构造能在线程启动之前完成呢？ 因此，<strong>全局对象不能创建线程</strong>。 如果一个库需要创建线程， 那么应该进入main()函数之后再调用库的初始化函数做。  </p>
+<p>不要为了每个计算任务， 每次请求去创建线程。 一般也不会为每个网络连接创建线程， 除非并发连接数与CPU数相近。 一个服务程序的线程数目应该与当前负载无关， 而应该与机器的CPU数目有关， 即load average有比较小（最好不大于CPU数目） 的上限。 这样尽量避免出现thrashing， 不会因为负载急剧增加而导致机器失去正常响应。 这么做的重要原因是， 在机器失去响应期间， 我们无法探查它究竟在做什么， 也没办法立刻终止有问题的进程， 防止损害进一步扩大。 <strong>如果有实时性方面的要求， 线程数目不应该超过CPU数目</strong>， 这样可以基本保证新任务总能及时得到执行， 因为总有CPU是空闲的。 <strong>最好在程序的初始化阶段创建全部工作线程， 在程序运行期间不再创建或销毁线程。</strong> 借助muduo::ThreadPool和muduo::EventLoop， 我们很容易就能把计算任务和IO任务分配到已有的线程， 代价只有新建线程的几分之一。  </p>
+<p><strong>线程的销毁方式：</strong></p>
+<ul>
+<li><p>自然死亡。从线程的主函数返回，线程正常退出</p>
+</li>
+<li><p>非正常死亡，抛出异常或触发致命信号</p>
+</li>
+<li><p>自杀。 自己调用pthread_exit()退出</p>
+</li>
+<li><p>他杀。其他线程调用pthread_cancle()</p>
+</li>
+</ul>
+<p><strong>注意，线程正常退出的方式只有一个，自然死亡，任何从外部强行终止线程的做法和想法都是错误的</strong></p>
+<p>因为强行终止线程的话（无论是自杀还是他杀），它没有机会清理资源。 也没有机会释放已经持有的锁，其他线程如果再想对同一个mutex加锁， 那么就会立刻死锁。  </p>
+<p>如果确实需要强行终止一个耗时很长的计算任务， 而又不想在计算期间周期性地检查某个全局退出标志， 那么可以考虑把那一部分代码<br>fork()为新的进程， 这样杀一个进程比杀本进程内的线程要安全得多。 当然， fork()的新进程与本进程的通信方式也要慎重选取， 最好用文件描述符（pipe(2)&#x2F;socketpair(2)&#x2F;TCP socket）来收发数据， 而不要用共享内存和跨进程的互斥器等IPC， 因为这样仍然有死锁的可能。  </p>
+<p>最后， 我认为<strong>如果能做到前面提到的“程序中线程的创建最好能在初始化阶段全部完成”， 则线程是不必销毁的</strong>， 伴随进程一直运行， 彻<br>底避开了线程安全退出可能面临的各种困难， 包括Thread对象生命期管理、 资源释放等等。  </p>
+<h4 id="exit-3-在C-中不是线程安全的"><a href="#exit-3-在C-中不是线程安全的" class="headerlink" title="exit(3)在C++中不是线程安全的"></a>exit(3)在C++中不是线程安全的</h4><p><strong>exit(3)函数在C++中的作用除了终止进程， 还会析构全局对象和已经构造完的函数静态对象</strong>。 这有潜在的死锁可能，还有可能导致其他线程在调用全局对象时对象已被析构，所以多线程要慎用exit()</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">callExit</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GlobalObject</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">doit</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">        <span class="built_in">callExit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ~<span class="built_in">GlobalObject</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex_)</span></span>; <span class="comment">//发生死锁        </span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    MutexLock mutex_;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GlobalObject g_obj;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    g_obj.<span class="built_in">doit</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>GlobalObject::doit()函数辗转调用了exit()， 从而触发了全局对象g_obj的析构。 GlobalObject的析构函数会试图加锁mutex_， 而此时<br>mutex_已经被GlobalObject::doit()锁住了， 于是造成了死锁。  </p>
+<p>这其实不是exit()的过错， 而是全局对象析构的问题。 C++标准没有照顾全局对象在多线程环境下的析构， 据我看似乎也没有更好的办法。<strong>如果确实需要主动结束线程， 则可以考虑用_exit(2)系统调用。</strong> 它不会试图析构全局对象， 但是也不会执行其他任何清理工作， 比如flush标准输出。<br>由此可见， 安全地退出一个多线程的程序并不是一件容易的事情。何况这里还没有涉及如何安全地退出其他正在运行的线程， 这<strong>需要精心设计共享对象的析构顺序， 防止各个线程在退出时访问已失效的对象。在编写长期运行的多线程服务程序的时候， 可以不必追求安全地退出，而是让进程进入拒绝服务状态， 然后就可以直接杀掉了。</strong>  </p>
+<h3 id="善用-thread关键字"><a href="#善用-thread关键字" class="headerlink" title="善用__thread关键字"></a>善用__thread关键字</h3><p>__thread是GCC内置的线程局部存储设施（thread local storage）。它的实现非常高效， 比pthread_key_t快很多， _thread变量的存取效率可与全局变量相比 。</p>
+<p>_thread变量每一个线程有一份独立实体，各个线程的值互不干扰。可以用来修饰那些带有全局性且值可能变，但是又不值得用全局锁保护的变量。</p>
+<p><strong>_thread使用规则： 只能用于修饰POD类型， 不能修饰class类型，因为无法自动调用构造函数和析构函数。</strong> _thread可以用于修饰全局变量、 函数内的静态变量， 但是不能用于修饰函数的局部变量或者class的普通成员变量。 另外， _thread变量的初始化只能用编译期常量。 例如：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">_thread string <span class="title">obj</span><span class="params">(<span class="string">&quot;hufei&quot;</span>)</span></span>; <span class="comment">//错误，不能调用对象的构造函数</span></span><br><span class="line">_thread string* obj = <span class="keyword">new</span> string; <span class="comment">//错误，初始化必须用编译期常量</span></span><br><span class="line">_thread string* obj = <span class="literal">NULL</span>; <span class="comment">//正确，记住需要手工初始化并销毁对象    </span></span><br></pre></td></tr></table></figure>
+
+<p>使用举例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__thread <span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//创建线程A</span></span><br><span class="line">    <span class="comment">//创建线程B</span></span><br><span class="line">    <span class="comment">//此时A和B线程都有一个实体 count，二者并不相同</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多线程与IO"><a href="#多线程与IO" class="headerlink" title="多线程与IO"></a>多线程与IO</h3><p>在进行多线程网络编程的时候，能否多个线程同时读写同一个socket文件描述符？ </p>
+<p>首先， 操作文件描述符的系统调用本身是线程安全的， 我们不用担心多个线程同时操作文件描述符会造成进程崩溃或内核崩溃。但是， 多个线程同时操作同一个socket文件描述符确实很麻烦， 我认为是得不偿失的。 需要考虑的情况如下：  </p>
+<ul>
+<li>如果一个线程正在阻塞地read(2)某个socket， 而另一个线程close(2)了此socket。</li>
+<li>如果一个线程正在阻塞地accept(2)某个listening socket， 而另一个线程close(2)了此socket。</li>
+<li>更糟糕的是， 一个线程正准备read(2)某个socket， 而另一个线程close(2)了此socket； 第三个线程又恰好open(2)了另一个文件描述符， 其fd号码正好与前面的socket相同。 这样程序的逻辑就混乱了。</li>
+</ul>
+<p>现在假设不考虑关闭文件描述符， 只考虑读和写， 情况也不见得多好。 因为socket读写的特点是不保证完整性， 读100字节有可能只返回20字节， 写操作也是一样的。</p>
+<ul>
+<li>如果两个线程同时read同一个TCP socket， 两个线程几乎同时各自收到一部分数据， 如何把数据拼成完整的消息？ 如何知道哪部分数据先到达？</li>
+<li>如果两个线程同时write同一个TCP socket， 每个线程都只发出去半条消息， 那接收方收到数据如何处理？</li>
+<li>如果给每个TCP socket配一把锁， 让同时只能有一个线程读或写此socket， 似乎可以“解决”问题， 但这样还不如直接始终让同一个线程来操作此socket来得简单</li>
+</ul>
+<p>如此看来， 理论上只有read和write可以分到两个线程去， 因为TCP socket是双向IO。 问题是真的值得把read和write拆开成两个线程吗？  </p>
+<p>为了简单起见， 我认为多线程程序应该遵循的原则是： <strong>每个文件描述符只由一个线程操作</strong>， 从而轻松解决消息收发的顺序性问题， 也避免了关闭文件描述符的各种race condition。 一个线程可以操作多个文件描述符， 但一个线程不能操作别的线程拥有的文件描述符。   </p>
+<p>epoll也遵循相同的原则。  <strong>我们应该把对同一个epoll fd的操作（添加、 删除、 修改、 等待）都放到同一个线程中执行。</strong></p>
+<p> 这条规则有两个例外： 对于磁盘文件， 在必要的时候多个线程可以同时调用pread(2)&#x2F;pwrite(2)来读写同一个文件； 对于UDP， 由于协议本身保证消息的原子性， 在适当的条件下（比如消息之间彼此独立） 可以多个线程同时读写同一个UDP文件描述符。  </p>
+<h3 id="用RAII包装文件描述符"><a href="#用RAII包装文件描述符" class="headerlink" title="用RAII包装文件描述符"></a>用RAII包装文件描述符</h3><p>linux的文件描述符是小整数，程序刚启动时候，0是标准输入，1是标准输出，2是标准错误。因此新打开的文件描述符是3，因为POSIX标准要求每次新打开文件（含socket） 的时候必须使用当前最小可用的文件描述符号码。</p>
+<p>POSIX这种分配文件描述符的方式稍不注意就会造成串话。   如：</p>
+<ul>
+<li>第一个线程read某个socket，第二个线程几乎同时close此socket，第三个线程又打开了另一个文件描述符，与之前的相同，则会导致第一个线程会读不到属于他的数据。不仅如此， 还把第三个线程的功能也破坏了， 因为第一个线程把数据读走了  </li>
+<li>一个线程从fd＝8收到了比较耗时的请求， 它开始处理这个请求， 并记住要把响应结果发给fd＝8。 但是在处理过程中， fd＝8断开连接， 被关闭了，又有新的连接到来， 碰巧使用了相同的fd＝8。 当线程完成响应的计算， 把结果发给fd＝8时， 接收方已经物是人非， 后果难以预料。</li>
+</ul>
+<p>如何解决：</p>
+<ul>
+<li>用全局表存储文件描述符，读写时加锁。效率太低，不推荐</li>
+<li>RAII。 用Socket对象包装文件描述符， 所有对此文件描述符的读写操作都通过此对象进行， 在对象的析构函数里关闭文件描述符。 这样一来， 只要Socket对象还活着， 就不会有其他Socket对象跟它有一样的文件描述符， 也就不可能串话。（用shared_ptr来管理TcpConnection的生命期）</li>
+</ul>
+<h3 id="RAII与fork"><a href="#RAII与fork" class="headerlink" title="RAII与fork()"></a>RAII与fork()</h3><p>如果用RAII管理资源，在程序会fork()的情况下，可能会导致析构了不存在的资源。如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Foo foo;</span><br><span class="line">    fork();</span><br><span class="line">    foo.<span class="built_in">doit</span>();</span><br><span class="line">&#125; <span class="comment">//析构函数会被调用两次，父子进程各一次。</span></span><br></pre></td></tr></table></figure>
+
+<p>这是因为fork()后子进程不会继承对象的所有资源，所以子进程析构时可能会析构不存在的对象。</p>
+<p>fork()之后， 子进程继承了父进程的几乎全部状态， 但也有少数例外。 子进程会继承地址空间和文件描述符， <strong>因此用于管理动态内存和文件描述符的RAII class都能正常工作</strong>。 但是子进程不会继承：  </p>
+<ul>
+<li>父进程的内存锁， mlock(2)、 mlockall(2)。</li>
+<li>父进程的文件锁， fcntl(2)。</li>
+<li>父进程的某些定时器， setitimer(2)、 alarm(2)、 timer_create(2)等等。</li>
+</ul>
+<p>比方说用RAII技法封装timer_create()&#x2F;timer_delete()， 在子进程中析构函数调用timer_delete()可能会出错， 因为试图释放一个不存在的资源。 或者更糟糕地把其他对象持有的timer给释放了（如果碰巧新建的timer_t与之重复的话）。因此， 我们在编写服务端程序的时候， “是否允许fork()”是在一开始就应该慎重考虑的问题， 在一个没有为fork()做好准备的程序中使用fork()， 会遇到难以预料的问题。  </p>
+<p>当然若fork后的子进程立即调用exec()执行其它程序隔断了父子关系则不会出现上述情形。</p>
+<h3 id="多线程与fork"><a href="#多线程与fork" class="headerlink" title="多线程与fork()"></a>多线程与fork()</h3><p>多线程与fork()的协作性很差。 这是POSIX系列操作系统的历史包袱。 因为长期以来程序都是单线程的。</p>
+<p>fork()一般不能在多线程程序中调用， 因为Linux的fork()只克隆当前线程的thread of control， 不克隆其他线程。 <strong>fork()之后， 除了当前线程之外， 其他线程都消失了。</strong> 也就是说不能一下子fork()出一个和父进程一样的多线程子进程。 Linux没有forkall()这样的系统调用， forkall()其实也是很难办的（从语意上） ， 因为其他线程可能等在condition variable上， 可能阻塞在系统调用上， 可能等着mutex以跨入临界区， 还可能在密集的计算中， 这些都不好全盘搬到子进程里。</p>
+<p>fork()之后子进程中只有一个线程， 其他线程都消失了， 这就造成一个危险的局面。 <strong>其他线程可能正好位于临界区之内， 持有了某个锁，而它突然死亡， 再也没有机会去解锁了。 如果子进程试图再对同一个mutex加锁， 就会立刻死锁。</strong> 在fork()之后， 子进程就相当于处于signal handler之中， 你不能调用线程安全的函数（除非它是可重入的） ， 而只能调用异步信号安全（async-signal-safe） 的函数。 比方说， fork()之后， 子进程不能调用：</p>
+<ul>
+<li>malloc(3)。 因为malloc()在访问全局状态时几乎肯定会加锁。</li>
+<li>任何可能分配或释放内存的函数， 包括new、 map::insert()、snprintf33……</li>
+<li>任何Pthreads函数。 你不能用pthread_cond_signal()去通知父进程，只能通过读写pipe(2)来同步34。</li>
+<li>printf()系列函数， 因为其他线程可能恰好持有stdout&#x2F;stderr的锁。</li>
+<li>除了man 7 signal中明确列出的“signal安全”函数之外的任何函数。</li>
+</ul>
+<p><strong>总结</strong>：多线程下，fork()只会克隆当前线程，并且还有造成死锁的风险，不要在多线程下使用fork，除非fork后的子进程立即调用exec()执行其它程序</p>
+<h3 id="多线程与signal"><a href="#多线程与signal" class="headerlink" title="多线程与signal"></a>多线程与signal</h3><p>Linux&#x2F;Unix的信号（signal） 与多线程可谓是水火不容，signal会打断正在运行的thread of control， 在signal handler中只能调用<br>可重入（reentrant）函数(线程安全不一定可重入)。</p>
+<p>还有一点， <strong>如果signal handler中需要修改全局数据， 那么被修改的变量必须是sig_atomic_t类型的。</strong> 否则被打断的函数在恢复执行后很可能不能立刻看到signal handler改动后的数据， 因为编译器有可能假定这个变量不会被他处修改， 从而优化了内存访问。  </p>
+<p>在多线程时代， signal的语义更为复杂。 信号分为两类： 发送给某一线程（SIGSEGV） ， 发送给进程中的任一线程（SIGTERM） ， 还要考虑掩码（mask） 对信号的屏蔽等。 <strong>特别是在signal handler中不能调用任何Pthreads函数， 不能通过condition variable来通知其他线程。</strong>在多线程程序中， 使用signal的第一原则是不要使用signal。 包括：</p>
+<ul>
+<li>不要用signal作为IPC的手段， 包括不要用SIGUSR1等信号来触发服务端的行为。 如果确实需要， 可以用增加监听端口的方式来实现双向的、 可远程访问的进程控制。</li>
+<li>也不要使用基于signal实现的定时函数， 包括alarm&#x2F;ualarm&#x2F;setitimer&#x2F;timer_create、 sleep&#x2F;usleep等等。</li>
+<li>不主动处理各种异常信号（SIGTERM、 SIGINT等等） ， 只用默认语义： 结束进程。 有一个例外： SIGPIPE， 服务器程序通常的做法是忽略此信号， 否则如果对方断开连接， 而本机继续write的话， 会导致程序意外终止。</li>
+<li>在没有别的替代方法的情况下（比方说需要处理SIGCHLD信号），把异步信号转换为同步的文件描述符事件。 传统的做法是在signal handler里往一个特定的pipe(2)写一个字节， 在主程序中从这个pipe读取， 从而纳入统一的IO事件处理框架中去。 现代Linux的做法是采用signalfd(2)把信号直接转换为文件描述符事件， 从而从根本上避免使用signal handler。</li>
+</ul>
+<blockquote>
+<p>SIGPIPE信号:如果客户端关闭了socket（close），而服务端调用了一次write，服务端就会接收到一个RST Segment，如果服务端再次调用write，这个时候就会产生SIGPIPE信号，默认情况下会终止进程</p>
+</blockquote>
+<h3 id="多线程C-程序编写原则"><a href="#多线程C-程序编写原则" class="headerlink" title="多线程C++程序编写原则"></a>多线程C++程序编写原则</h3><ul>
+<li>线程是宝贵的， 一个程序可以使用几个或十几个线程。 一台机器上不应该同时运行几百个、 几千个用户线程， 这会大大增加内核scheduler的负担， 降低整体性能。</li>
+<li>线程的创建和销毁是有代价的， 一个程序最好在一开始创建所需的线程， 并一直反复使用。 不要在运行期间反复创建、 销毁线程， 如果必须这么做， 其频度最好能降到1分钟1次（ 或更低）。</li>
+<li>每个线程应该有明确的职责， 例如IO线程（ 运行EventLoop::loop()，处理IO事件）、计算线程（位于ThreadPool中，负责计算） 等等。</li>
+<li>线程之间的交互应该尽量简单， 理想情况下，线程之间只用消息传递（ 例如BlockingQueue） 方式交互。如果必须用锁，那么最好避免一个线程同时持有两把或更多的锁， 这样可彻底防止死锁。</li>
+<li>要预先考虑清楚一个mutable shared对象将会暴露给哪些线程， 每个线程是读还是写， 读写有无可能并发进行。</li>
+</ul>
+<h2 id="高效的多线程日志"><a href="#高效的多线程日志" class="headerlink" title="高效的多线程日志"></a>高效的多线程日志</h2><p>日志（logging）有两种：</p>
+<ul>
+<li>诊断日志（diagnostic log） 即log4j等常用日志库提供的日志功能。</li>
+<li>交易日志（transaction log） 即数据库的write-ahead log用于记录状态变更， 通过回放日志可以逐步恢复每一次修改之后的状态。</li>
+</ul>
+<p>本章的日志是前一个意思， 即文本的、 供人阅读的日志， 通常用于故障诊断和追踪（trace），也可用于性能分析。日志通常是分布式<br>系统中事故调查时的唯一线索， 用来追寻蛛丝马迹， 查出元凶。  </p>
+<p>对于关键进程， 日志通常要记录：</p>
+<ul>
+<li>收到的每条内部消息的id（还可以包括关键字段、 长度、 hash等） ；</li>
+<li>收到的每条外部消息的全文；</li>
+<li>发出的每条消息的全文， 每条消息都有全局唯一的id6；</li>
+<li>关键内部状态的变更， 等等。</li>
+</ul>
+<p>每条日志都有时间戳， 这样就能完整追踪分布式系统中一个事件的来龙去脉。 也只有这样才能查清楚发生故障时究竟发生了什么， 比如业务处理流程卡在了哪一步。</p>
+<p>一个日志库大体可分为前端（frontend） 和后端（backend） 两部分。 前端是供应用程序使用的接口（API） ， 并生成日志消息（log<br>message） ； 后端则负责把日志消息写到目的地（destination）。   </p>
+<p>在多线程程序中， 前端和后端都与单线程程序无甚区别， 无非是每个线程有自己的前端， 整个程序共用一个后端。 但难点在于将日志数据从多个前端高效地传输到后端。 <strong>这是一个典型的多生产者-单消费者问题</strong>， 对生产者（前端） 而言， 要尽量做到低延迟、 低CPU开销、 无阻塞； 对消费者（后端） 而言， 要做到足够大的吞吐量， 并占用较少资源。</p>
+<p>对C++程序而言， 最好整个程序（包括主程序和程序库） 都使用相同的日志库， 程序有一个整体的日志输出， 而不要各个组件有各自的日志输出。 从这个意义上讲， 日志库是个singleton。  </p>
+<h3 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h3><ul>
+<li>日志消息有多种级别（ level） ， 如TRACE、 DEBUG、 INFO、WARN、 ERROR、 FATAL等。</li>
+<li>日志消息可能有多个目的地（ appender） ， 如文件、 socket、SMTP等。</li>
+<li>日志消息的格式可配置（ layout） ， 例如org.apache.log4j.PatternLayout。</li>
+<li>可以设置运行时过滤器（ filter） ， 控制不同组件的日志消息的级别和目的地。</li>
+</ul>
+<p>在上面这几项中， 我认为除了第一项之外， 其余三项都是非必需的功能。  </p>
+<p>日志的输出级别在运行时可调， 这样同一个可执行文件可以分别在QA测试环境的时候输出DEBUG级别的日志， 在生产环境输出INFO级<br>别的日志。调整日志的输出级别不需要重新编译， 也不需要重启进程。</p>
+<p>对于分布式系统中的服务进程而言， 日志的目的地（ destination）只有一个： 本地文件。 <strong>往网络写日志消息是不靠谱的</strong>， 因为诊断日志的功能之一正是诊断网络故障。往网络写日志消息的另一个坏处是增加网络带宽消耗。</p>
+<p>以本地文件为日志的destination， 那么日志文件的滚动（ rolling）是必需的， 这样可以简化日志归档（ archive）的实现。 rolling的条件通常有两个： 文件大小（ 例如每写满1GB就换下一个文件） 和时间（ 例如每天零点新建一个日志文件， 不论前一个文件有没有写满） 。 muduo日志库的LogFile会自动根据文件大小和时间来主动滚动日志文件。</p>
+<p>一个典型的日志文件的文件名如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logfile_test.2012060-144022.hostname.3605.log</span><br></pre></td></tr></table></figure>
+
+<p>文件名由以下几部分组成：  </p>
+<ul>
+<li>第1部分logfile_test是进程的名字。 通常是main()函数参数中argv[0]的basename(3)， 这样容易区分究竟是哪个服务程序的日志。 必要时还可以把程序版本加进去。</li>
+<li>第2部分是文件的创建时间（GMT时区）。这样很容易通过文件名来选择某一时间范围内的日志， 例如用通配符*.20120603-14*表示2012年6月3日下午2点（GMT）左右的日志文件。</li>
+<li>第3部分是机器名称。这样即便把日志文件拷贝到别的机器上也能追溯其来源。</li>
+<li>第4部分是进程id。如果一个程序一秒之内反复重启， 那么每次都会生成不同的日志文件。</li>
+<li>第5部分是统一的后缀名.log。同样是为了便于周边配套脚本的编写。</li>
+</ul>
+<p><strong>日志文件压缩与归档（archive）不是日志库应有的功能</strong>， 而应该交给专门的脚本去做， 这样C++和Java的服务程序可以共享这一基础设<br>施，并且更改时也不必动业务程序， 改改周边配套脚本就行了。 </p>
+<p><strong>磁盘空间监控也不是日志库的必备功能。</strong> 有人或许曾经遇到日志文件把磁盘占满的情况， 因此希望日志库能限制空间使用，例如只分配10GB磁盘空间， 用满之后就冲掉旧日志， 重复利用空间。 殊不知如果出现程序死循环拼命写日志的异常情况， 那么往往是开头的几条日志最关键， 它往往反映了引发异常（busy-loop） 的原因（例如收到某条非法消息） ， 后面都是无用的垃圾日志。</p>
+<p>往文件写日志的一个常见问题是， 万一程序崩溃， 那么最后若干条日志往往就丢失了， 因为日志库不能每条消息都flush硬盘， 更不能每条日志都open&#x2F;close文件，这样性能开销太大。 muduo日志库用两个办法来应对这一点， 其一是定期（默认3秒） 将缓冲区内的日志消息flush到硬盘； 其二是每条内存中的日志消息都带有cookie（或者叫哨兵值&#x2F;sentry） ， 其值为某个函数的地址， 这样通过在core dump文件中查找cookie就能找到尚未来得及写入磁盘的消息。</p>
+<p>日志消息的格式是固定的， 不需要运行时配置， 这样可节省每条日志解析格式字符串的开销。 我认为日志的格式在项目的整个生命周期几乎不会改变。   因为我们经常会为不同目的编写parse日志的脚本，可能要和一年之前的日志文件的同类数据做对比。如果在此期间日志格式变了， 势必会增加很多无谓的工作量。 如果真的需要调整消息格式， 直接修改代码并重新编译即可。   </p>
+<p>日志消息格式有几个要点：</p>
+<ul>
+<li>尽量每条日志占一行。 这样很容易用awk、 sed、 grep等命令行工具来快速联机分析日志， 比方说要查看“2012-06-03 08:02:00”至“2012-06-03 08:02:59”这1分钟内每秒打印日志的条数（直方图），可以运行$ grep -o ‘^20120603 08:02:..’ | sort | uniq -c</li>
+<li>时间戳精确到微秒。 每条消息都通过gettimeofday(2)获得当前时间， 这么做不会有什么性能损失。 因为在x86-64 Linux上，gettimeofday(2)不是系统调用， 不会陷入内核。</li>
+<li>始终使用GMT时区。 对于跨洲的分布式系统而言，可省去本地时区转换的麻烦（别忘了主要西方国家大多实行夏令时），更易于追查事件的顺序。</li>
+<li>打印线程id。便于分析多线程程序的时序，也可以检测死锁。这里的线程id是指调用LOG_INFO &lt;&lt;的线程。</li>
+<li>打印日志级别。在线查错的时候先看看有无ERROR日志，通常可加速定位问题。</li>
+<li>打印源文件名和行号。修复bug的时候不至于搞错对象。</li>
+</ul>
+<p>每行日志的前4个字段的宽度是固定的， 以空格分隔， 便于用脚本解析。 另外， 应该避免在日志格式（特别是消息id）中出现正则表达<br>式的元字符（meta character） ， 例如’[‘和’]’等等， 这样在用less(1)查看日志文件的时候查找字符串更加便捷。</p>
+<p>运行时的日志过滤器（filter） 或许是有用的， 例如控制不同部件（程序库） 的输出日志级别， 但我认为这应该放到编译期去做， 整个程序有一个整体的输出级别就足够好了。 同时我认为一个程序同时写多个日志文件是非常罕见的需求， 这可以事后留给log archiver来分流， 不必做到日志库中。 不实现filter自然也能减小生成每条日志的运行时开销， 可以提高日志库的性能。</p>
+<h3 id="性能需求"><a href="#性能需求" class="headerlink" title="性能需求"></a>性能需求</h3><p>高效性体现在几方面：</p>
+<ul>
+<li>每秒写几千上万条日志的时候没有明显的性能损失。</li>
+<li>能应对一个进程产生大量日志数据的场景， 例如1GB&#x2F;min。</li>
+<li>不阻塞正常的执行流程。</li>
+<li>在多线程程序中， 不造成争用（contention） 。 这里列举一些具体的性能指标， 考虑往普通7200rpm SATA硬盘写日志文件的情况：磁盘带宽约是110MB&#x2F;s， 日志库应该能瞬时写满这个带宽（不必持续太久） 。</li>
+</ul>
+<p>以上是“高性能”日志库的最低指标。 如果磁盘带宽更高， 那么日志库的预期性能指标也会相应提高。  </p>
+<p>muduo日志库在现在的PC上能写到每秒200万条消息， 带宽足够撑满两个千兆网连接或4个SATA组成的RAID10， 性能是达标的。<br>为了实现这样的性能指标， muduo日志库的实现有几点优化措施值得一提：</p>
+<ul>
+<li>时间戳字符串中的日期和时间两部分是缓存的， 一秒之内的多条日志只需重新格式化微秒部分。 </li>
+<li>日志消息的前4个字段是定长的， 因此可以避免在运行期求字符串长度（不会反复调用strlen） 。 因为编译器认识memcpy()函数， 对于定长的内存复制， 会在编译期把它inline展开为高效的目标代码。</li>
+<li>线程id是预先格式化为字符串， 在输出日志消息时只需简单拷贝几个字节。 见CurrentThread::tidString()。</li>
+<li>每行日志消息的源文件名部分采用了编译期计算来获得basename， 避免运行期strrchr(3)开销。 见SourceFile class， 这里利用了gcc的内置函数。</li>
+</ul>
+<h3 id="多线程异步日志"><a href="#多线程异步日志" class="headerlink" title="多线程异步日志"></a>多线程异步日志</h3><p>线程安全的多线程日志的解决思路</p>
+<ul>
+<li>用一个全局锁保护IO，或者每个线程单独写一个日志文件。性能堪忧，前者造成所有线程抢占一个锁，后者会让业务线程阻塞在写磁盘操作上</li>
+<li>每个进程只写一个日志文件，用一个背景线程负责收集日志消息，并写入日志文件，其他业务线程只需往这个日志线程中发送日志消息，称为“异步日志”(本文采用)</li>
+</ul>
+<p>在多线程服务程序中， 异步日志是必需的， 因为如果在网络IO线程或业务线程中直接往磁盘写数据的话，写操作偶尔可能阻塞长达数秒之久（原因很复杂， 可能是磁盘或磁盘控制器复位）。这可能导致请求方超时， 或者耽误发送心跳消息， 在分布式系统中更可能造成多米诺骨牌效应， 例如误报死锁引发自动failover等。 <strong>因此， 在正常的实时业务处理流程中应该彻底避免磁盘IO</strong>， 这在使用one loop per thread模型的非阻塞服务端程序中尤为重要， 因为线程是复用的， 阻塞线程意味着影响多个客户连接。</p>
+<p>我们需要一个“队列”来将日志前端的数据传送到后端（日志线程） ， 但这个“队列”不必是现成的BlockingQueue&lt;std::string&gt;， 因为不<br>用每次产生一条日志消息都通知（notify()） 接收方。</p>
+<p><strong>muduo日志库采用的是双缓冲（double buffering） 技术</strong>， 基本思路是准备两块buffer： A和B， 前端负责往buffer A填数据（日志消<br>息） ， 后端负责将buffer B的数据写入文件。 当buffer A写满之后， 交换A和B， 让后端将buffer A的数据写入文件， 而前端则往buffer B填入新的日志消息， 如此往复。   </p>
+<p>用两个buffer的好处是在新建日志消息的时候不必等待磁盘文件操作， 也避免每条新日志消息都触发（唤醒） 后端日志线程。 换言之， 前端不是将一条条日志消息分别传送给后端， 而是将多条日志消息拼成一个大的buffer传送给后端， 相当于批处理， 减少了线程唤醒的频度， 降低开销。 另外， 为了及时将日志消息写入文件， 即便buffer A未满， 日志库也会每3秒执行一次上述交换写入操作。  </p>
+<h2 id="网络编程杂谈"><a href="#网络编程杂谈" class="headerlink" title="网络编程杂谈"></a>网络编程杂谈</h2><h3 id="网络编程本质"><a href="#网络编程本质" class="headerlink" title="网络编程本质"></a>网络编程本质</h3><p>基于事件的非阻塞网络编程是编写高性能并发网络服务程序的主流模式， 头一次使用这种方式编程通常需要转换思维模式。 把原来“主动<br>调用recv(2)来接收数据， 主动调用accept(2)来接受新连接， 主动调用send(2)来发送数据”的思路换成“注册一个收数据的回调， 网络库收到数据会调用我， 直接把数据提供给我， 供我消费。 注册一个接受连接的回调， 网络库接受了新连接会回调我， 直接把新的连接对象传给我， 供我使用。 需要发送数据的时候， 只管往连接中写， 网络库会负责无阻塞地发送。 ”这种编程方式有点像Win32的消息循环， 消息循环中的代码应该避免阻塞， 否则会让整个窗口失去响应， 同理， 事件处理函数也应该避免阻塞， 否则会让网络服务失去响应。</p>
+<p>我认为， TCP网络编程最本质的是处理三个半事件：</p>
+<ul>
+<li><p>连接的建立， 包括服务端接受（accept） 新连接和客户端成功发起（connect） 连接。 TCP连接一旦建立， 客户端和服务端是平等的， 可以各自收发数据。</p>
+</li>
+<li><p>连接的断开， 包括主动断开（close、 shutdown） 和被动断开（read(2)返回0） 。</p>
+</li>
+<li><p>消息到达， 文件描述符可读。 这是最为重要的一个事件， 对它的处理方式决定了网络编程的风格（阻塞还是非阻塞， 如何处理分包，应用层的缓冲如何设计， 等等） 。</p>
+</li>
+<li><p>消息发送完毕， 这算半个。 对于低流量的服务， 可以不必关心这个事件； 另外， 这里的“发送完毕”是指将数据写入操作系统的缓冲</p>
+<p>区， 将由TCP协议栈负责数据的发送与重传， 不代表对方已经收到数据</p>
+</li>
+</ul>
+<h3 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h3><ul>
+<li>如果要主动关闭连接， 如何保证对方已经收到全部数据？ 如果应用层有缓冲（这在非阻塞网络编程中是必需的， 见下文） ， 那么如何保证先发送完缓冲区中的数据， 然后再断开连接？ 直接调用close(2)恐怕是不行的。</li>
+<li>如果主动发起连接， 但是对方主动拒绝， 如何定期（带back-off地） 重试？</li>
+<li>非阻塞网络编程该用边沿触发（edge trigger） 还是电平触发（leveltrigger） ？如果是电平触发， 那么什么时候关注EPOLLOUT事件？ 会不会造成busy-loop？ 如果是边沿触发， 如何防止漏读造成的饥饿？epoll(4)一定比poll(2)快吗？</li>
+<li>在非阻塞网络编程中， 为什么要使用应用层发送缓冲区？ 假设应用程序需要发送40kB数据， 但是操作系统的TCP发送缓冲区只有25kB剩余空间， 那么剩下的15kB数据怎么办？ 如果等待OS缓冲区可用， 会阻塞当前线程， 因为不知道对方什么时候收到并读取数据。 因此网络库应该把这15kB数据缓存起来， 放到这个TCP链接的应用层发送缓冲区中， 等socket变得可写的时候立刻发送数据， 这样“发送”操作不会阻塞。 如果应用程序随后又要发送50kB数据， 而此时发送缓冲区中尚有未发送的数据（若干kB） ， 那么网络库应该将这50kB数据追加到发送缓冲区的末尾， 而不能立刻尝试write()， 因为这样有可能打乱数据的顺序。</li>
+<li>在非阻塞网络编程中， 为什么要使用应用层接收缓冲区？ 假如一次读到的数据不够一个完整的数据包， 那么这些已经读到的数据是不是应该先暂存在某个地方， 等剩余的数据收到之后再一并处理？ 见lighttpd关于\r\n\r\n分包的bug。 假如数据是一个字节一个字节地到达， 间隔10ms， 每个字节触发一次文件描述符可读（readable） 事件， 程序是否还能正常工作？ lighttpd在这个问题上出过安全漏洞。</li>
+<li>在非阻塞网络编程中， 如何设计并使用缓冲区？ 一方面我们希望减少系统调用， 一次读的数据越多越划算， 那么似乎应该准备一个大的缓冲区。 另一方面， 我们希望减少内存占用。 如果有10000个并发连接，每个连接一建立就分配各50kB的读写缓冲区(s)的话， 将占用1GB内存，而大多数时候这些缓冲区的使用率很低。 muduo用readv(2)结合栈上空间巧妙地解决了这个问题。</li>
+<li>如果使用发送缓冲区， 万一接收方处理缓慢， 数据会不会一直堆积在发送方， 造成内存暴涨？ 如何做应用层的流量控制？</li>
+<li>如何设计并实现定时器？ 并使之与网络IO共用一个线程， 以避免锁</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%EF%BC%9A%E4%BD%BF%E7%94%A8muduo%20C++%E7%BD%91%E7%BB%9C%E5%BA%93/" data-id="cld6uioj8000aacsfgqh1cb2t" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/muduo%E6%97%A5%E5%BF%97/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/linux/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

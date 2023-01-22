@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="std::ref作用：std::ref 用于取某个变量的引用，引入其是为了解决函数式编程（如std::bind）的一些传参问题。 总结：  std::bind使用的是参数的拷贝而不是引用，当可调用对象期待入参为引用时，必须显示利用std::ref来进行引用绑定。 多线程std::thread的可调用对象期望入参为引用时，也必须显式通过std::ref来绑定引用进行传参。  我们知道 C++ 中本来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/stdref/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="std::ref作用：std::ref 用于取某个变量的引用，引入其是为了解决函数式编程（如std::bind）的一些传参问题。 总结：  std::bind使用的是参数的拷贝而不是引用，当可调用对象期待入参为引用时，必须显示利用std::ref来进行引用绑定。 多线程std::thread的可调用对象期望入参为引用时，也必须显式通过std::ref来绑定引用进行传参。  我们知道 C++ 中本来">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.960Z">
+<meta property="article:modified_time" content="2022-11-10T19:08:45.300Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-stdref" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/stdref/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.960Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="std-ref"><a href="#std-ref" class="headerlink" title="std::ref"></a>std::ref</h1><p>作用：<br><code>std::ref</code> 用于取某个变量的引用，引入其是为了解决函数式编程（如std::bind）的一些传参问题。</p>
+<p>总结：</p>
+<ul>
+<li>std::bind使用的是参数的拷贝而不是引用，当可调用对象期待入参为引用时，必须显示利用std::ref来进行引用绑定。</li>
+<li>多线程std::thread的可调用对象期望入参为引用时，也必须显式通过std::ref来绑定引用进行传参。</li>
+</ul>
+<p>我们知道 C++ 中本来就有引用的存在，为何 C++11 中还要引入一个 <code>std::ref</code> 了？主要是考虑函数式编程（如 <code>std::bind</code>）在使用时，是对参数直接拷贝，而不是引用。下面通过例子说明</p>
+<p>示例1：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">int</span>&amp; n1, <span class="type">int</span>&amp; n2, <span class="type">const</span> <span class="type">int</span>&amp; n3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;In function: &quot;</span> &lt;&lt; n1 &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; n2 &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; n3 &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    ++n1; <span class="comment">// increments the copy of n1 stored in the function object</span></span><br><span class="line">    ++n2; <span class="comment">// increments the main()&#x27;s n2</span></span><br><span class="line">    <span class="comment">// ++n3; // compile error</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n1 = <span class="number">1</span>, n2 = <span class="number">2</span>, n3 = <span class="number">3</span>;</span><br><span class="line">    std::function&lt;<span class="type">void</span>()&gt; bound_f = std::<span class="built_in">bind</span>(f, n1, std::<span class="built_in">ref</span>(n2), std::<span class="built_in">cref</span>(n3));</span><br><span class="line">    n1 = <span class="number">10</span>;</span><br><span class="line">    n2 = <span class="number">11</span>;</span><br><span class="line">    n3 = <span class="number">12</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Before function: &quot;</span> &lt;&lt; n1 &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; n2 &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; n3 &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    <span class="built_in">bound_f</span>();</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;After function: &quot;</span> &lt;&lt; n1 &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; n2 &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; n3 &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Before function: 10 11 12</span><br><span class="line">In function: 1 11 12</span><br><span class="line">After function: 10 12 12</span><br></pre></td></tr></table></figure>
+
+<p>上述代码在执行 <code>std::bind</code> 后，在函数 <code>f()</code> 中 <code>n1</code> 的值仍然是 1，<code>n2</code> 和 <code>n3</code> 改成了修改的值，<strong>说明 <code>std::bind</code> 使用的是参数的拷贝而不是引用，因此必须显示利用 <code>std::ref</code> 来进行引用绑定</strong>。具体为什么 <code>std::bind</code> 不使用引用，可能确实有一些需求，使得 C++11 的设计者认为默认应该采用拷贝，如果使用者有需求，加上 <code>std::ref</code> 即可。</p>
+<p>示例2：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">threadFunc</span><span class="params">(std::string &amp;str, <span class="type">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    str = <span class="string">&quot;change by threadFunc&quot;</span>;</span><br><span class="line">    a = <span class="number">13</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::string <span class="title">str</span><span class="params">(<span class="string">&quot;main&quot;</span>)</span></span>;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">9</span>;</span><br><span class="line">    <span class="function">std::thread <span class="title">th</span><span class="params">(threadFunc, std::ref(str), a)</span></span>;</span><br><span class="line"></span><br><span class="line">    th.<span class="built_in">join</span>();</span><br><span class="line"></span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;str = &quot;</span> &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;a = &quot;</span> &lt;&lt; a &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str = change by threadFunc</span><br><span class="line">a = 9</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，和 <code>std::bind</code> 类似，多线程的 <code>std::thread</code> 也是必须显式通过 <code>std::ref</code> 来绑定引用进行传参，否则，形参的引用声明是无效的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/stdref/" data-id="cld6uioji000eacsfbxlfc382" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/stdaccumulate%E5%92%8Cstdtransform/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

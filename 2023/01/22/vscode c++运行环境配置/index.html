@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="vscode c++运行环境配置VSCode打开文件夹（称作工作目录）之后，如果进行一定的配置之后，会在该文件夹下产生一个叫”.vscode”的文件夹，该文件夹中存放的是一些.json的配置文件，这些配置文件是对工作目录中的代码文件产生作用的。所以以后需要相同开发环境的时候，不用每次都去创建配置文件并进行相关配置，直接拷贝.vscode文件夹即可，但是第一次还是需要手动配置出自己所需的环境。 1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="vscode c++运行环境配置VSCode打开文件夹（称作工作目录）之后，如果进行一定的配置之后，会在该文件夹下产生一个叫”.vscode”的文件夹，该文件夹中存放的是一些.json的配置文件，这些配置文件是对工作目录中的代码文件产生作用的。所以以后需要相同开发环境的时候，不用每次都去创建配置文件并进行相关配置，直接拷贝.vscode文件夹即可，但是第一次还是需要手动配置出自己所需的环境。 1.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220308200821131.png">
+<meta property="og:image" content="c:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220308215000782.png">
+<meta property="article:published_time" content="2023-01-22T03:54:01.962Z">
+<meta property="article:modified_time" content="2022-04-18T16:24:09.574Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220308200821131.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-vscode c++运行环境配置" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.962Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="vscode-c-运行环境配置"><a href="#vscode-c-运行环境配置" class="headerlink" title="vscode c++运行环境配置"></a>vscode c++运行环境配置</h1><p>VSCode打开文件夹（称作工作目录）之后，如果进行一定的配置之后，会在该文件夹下产生一个叫”.vscode”的文件夹，该文件夹中存放的是一些.json的配置文件，这些配置文件是对工作目录中的代码文件产生作用的。所以以后需要相同开发环境的时候，不用每次都去创建配置文件并进行相关配置，直接拷贝.vscode文件夹即可，但是第一次还是需要手动配置出自己所需的环境。</p>
+<p>1.下载vscode</p>
+<p>2.下载minGW并将minGW的bin文件夹路径添加到环境变量中</p>
+<p>3.安装c&#x2F;c++ extension pack扩展包</p>
+<p>4.用vscode打开文件夹，ctrl+shift+p调出命令面板，输入c&#x2F;c++</p>
+<p><img src="C:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220308200821131.png" alt="image-20220308200821131"></p>
+<p>点击c&#x2F;c++:编辑配置（UI），修改编译器路径为minGW的bin文件夹路径，其中有gcc.exe，g++.exe，c++.exe。一般来说c程序选择gcc，c++选择g++。</p>
+<p>5.新建cpp文件并运行，<img src="C:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220308215000782.png" alt="image-20220308215000782"></p>
+<p>选择第一项”C++ (GDB&#x2F;LLDB)”（Windows那个是给MSVC编译器用的，MingGW需要使用GDB）</p>
+<p>6.VS Code自动创建好tasks.json和launch.json文件,并运行（linux下的vscode不会自动创建，需要自行添加）</p>
+<h3 id="gcc和g-区别如下："><a href="#gcc和g-区别如下：" class="headerlink" title="gcc和g++区别如下："></a>gcc和g++区别如下：</h3><p>gcc和g++并不是编译器，也不是编译器的集合，它们只是一种驱动器，根据参数中要编译的文件的类型，调用对应的GNU编译器而已，比如，用gcc编译一个c文件的话，会有以下几个步骤：</p>
+<p>Step1：Call a preprocessor, like cpp.</p>
+<p>Step2：Call an actual compiler, like cc or cc1.</p>
+<p>Step3：Call an assembler, like as.</p>
+<p>Step4：Call a linker, like ld</p>
+<p>所以，更准确的说法是：<strong>gcc调用了C compiler，而g++调用了C++ compiler</strong></p>
+<p>gcc和g++的主要区别</p>
+<ol>
+<li><p>对于 <em>.c和</em>.cpp文件，gcc分别当做c和cpp文件编译（c和cpp的语法强度是不一样的）</p>
+</li>
+<li><p>对于 <em>.c和</em>.cpp文件，g++则统一当做cpp文件编译</p>
+</li>
+<li><p>使用g++编译文件时，<strong>g++会自动链接标准库STL，而gcc不会自动链接STL，需要手动指明</strong></p>
+</li>
+<li><p>gcc在编译C文件时，可使用的预定义宏是比较少的</p>
+</li>
+<li><p>gcc在编译cpp文件时&#x2F;g++在编译c文件和cpp文件时（这时候gcc和g++调用的都是cpp文件的编译器），会加入一些额外的宏，这些宏如下：</p>
+</li>
+</ol>
+<p>#define <strong>GXX_WEAK</strong> 1<br>#define __cplusplus 1<br>#define __DEPRECATED 1<br>#define <strong>GNUG</strong> 4<br>#define __EXCEPTIONS 1<br>#define <strong>private_extern</strong> extern</p>
+<ol start="6">
+<li>在用gcc编译c++文件时，为了能够使用STL，需要加参数 –lstdc++ ，但这并不代表 gcc –lstdc++ 和 g++等价。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-id="cld6uioji000facsf0h6wdne3" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%B8%B8%E9%87%8F%E5%92%8Cconstexpr/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/stdref/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

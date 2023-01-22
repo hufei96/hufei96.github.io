@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="muduo日志日志（logging）有两种：  诊断日志（diagnostic log） 即log4j等常用日志库提供的日志功能。 交易日志（transaction log） 即数据库的write-ahead log用于记录状态变更， 通过回放日志可以逐步恢复每一次修改之后的状态。  本章的日志是前一个意思， 即文本的、 供人阅读的日志， 通常用于故障诊断和追踪（trace），也可用于性能分析。日">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/muduo%E6%97%A5%E5%BF%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="muduo日志日志（logging）有两种：  诊断日志（diagnostic log） 即log4j等常用日志库提供的日志功能。 交易日志（transaction log） 即数据库的write-ahead log用于记录状态变更， 通过回放日志可以逐步恢复每一次修改之后的状态。  本章的日志是前一个意思， 即文本的、 供人阅读的日志， 通常用于故障诊断和追踪（trace），也可用于性能分析。日">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.947Z">
+<meta property="article:modified_time" content="2022-12-11T18:43:29.603Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-muduo日志" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/muduo%E6%97%A5%E5%BF%97/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.947Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="muduo日志"><a href="#muduo日志" class="headerlink" title="muduo日志"></a>muduo日志</h1><p>日志（logging）有两种：</p>
+<ul>
+<li>诊断日志（diagnostic log） 即log4j等常用日志库提供的日志功能。</li>
+<li>交易日志（transaction log） 即数据库的write-ahead log用于记录状态变更， 通过回放日志可以逐步恢复每一次修改之后的状态。</li>
+</ul>
+<p>本章的日志是前一个意思， 即文本的、 供人阅读的日志， 通常用于故障诊断和追踪（trace），也可用于性能分析。日志通常是分布式<br>系统中事故调查时的唯一线索， 用来追寻蛛丝马迹， 查出元凶。  </p>
+<p>对于关键进程， 日志通常要记录：</p>
+<ul>
+<li>收到的每条内部消息的id（还可以包括关键字段、 长度、 hash等） ；</li>
+<li>收到的每条外部消息的全文；</li>
+<li>发出的每条消息的全文， 每条消息都有全局唯一的id；</li>
+<li>关键内部状态的变更， 等等。</li>
+</ul>
+<p>每条日志都有时间戳， 这样就能完整追踪分布式系统中一个事件的来龙去脉。 也只有这样才能查清楚发生故障时究竟发生了什么， 比如业务处理流程卡在了哪一步。</p>
+<p>一个日志库大体可分为前端（frontend） 和后端（backend） 两部分。 前端是供应用程序使用的接口（API） ， 并生成日志消息（log<br>message） ； 后端则负责把日志消息写到目的地（destination）。   </p>
+<p>在多线程程序中， 前端和后端都与单线程程序无甚区别， 无非是每个线程有自己的前端， 整个程序共用一个后端。 但难点在于将日志数据从多个前端高效地传输到后端。 <strong>这是一个典型的多生产者-单消费者问题</strong>， 对生产者（前端） 而言， 要尽量做到低延迟、 低CPU开销、 无阻塞； 对消费者（后端） 而言， 要做到足够大的吞吐量， 并占用较少资源。</p>
+<p>对C++程序而言， 最好整个程序（包括主程序和程序库） 都使用相同的日志库， 程序有一个整体的日志输出， 而不要各个组件有各自的日志输出。 从这个意义上讲， 日志库是个singleton。  </p>
+<h2 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h2><ul>
+<li>日志消息有多种级别（ level） ， 如TRACE、 DEBUG、 INFO、WARN、 ERROR、 FATAL等。</li>
+<li>日志消息可能有多个目的地（ appender） ， 如文件、 socket、SMTP等。</li>
+<li>日志消息的格式可配置（ layout） ， 例如org.apache.log4j.PatternLayout。</li>
+<li>可以设置运行时过滤器（ filter） ， 控制不同组件的日志消息的级别和目的地。</li>
+</ul>
+<p>在上面这几项中， 我认为除了第一项之外， 其余三项都是非必需的功能。  </p>
+<p>日志的输出级别在运行时可调， 这样同一个可执行文件可以分别在QA测试环境的时候输出DEBUG级别的日志， 在生产环境输出INFO级<br>别的日志。调整日志的输出级别不需要重新编译， 也不需要重启进程。</p>
+<p>对于分布式系统中的服务进程而言， 日志的目的地（ destination）只有一个： 本地文件。 <strong>往网络写日志消息是不靠谱的</strong>， 因为诊断日志的功能之一正是诊断网络故障。往网络写日志消息的另一个坏处是增加网络带宽消耗。</p>
+<p>以本地文件为日志的destination， 那么<strong>日志文件的滚动（ rolling）是必需的</strong>， 这样可以简化日志归档的实现。 rolling的条件通常有两个： 文件大小（ 例如每写满1GB就换下一个文件） 和时间（ 例如每天零点新建一个日志文件， 不论前一个文件有没有写满） 。 muduo日志库的LogFile会自动根据文件大小和时间来主动滚动日志文件。</p>
+<p>一个典型的日志文件的文件名如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logfile_test.2012060-144022.hostname.3605.log</span><br></pre></td></tr></table></figure>
+
+<p>文件名由以下几部分组成：  </p>
+<ul>
+<li>第1部分logfile_test是进程的名字。 通常是main()函数参数中argv[0]的basename(3)， 这样容易区分究竟是哪个服务程序的日志。 必要时还可以把程序版本加进去。</li>
+<li>第2部分是文件的创建时间（GMT时区）。这样很容易通过文件名来选择某一时间范围内的日志， 例如用通配符*.20120603-14*表示2012年6月3日下午2点（GMT）左右的日志文件。</li>
+<li>第3部分是机器名称。这样即便把日志文件拷贝到别的机器上也能追溯其来源。</li>
+<li>第4部分是进程id。如果一个程序一秒之内反复重启， 那么每次都会生成不同的日志文件。</li>
+<li>第5部分是统一的后缀名.log。同样是为了便于周边配套脚本的编写。</li>
+</ul>
+<p><strong>日志文件压缩与归档（archive）不是日志库应有的功能</strong>， 而应该交给专门的脚本去做， 这样C++和Java的服务程序可以共享这一基础设<br>施，并且更改时也不必动业务程序， 改改周边配套脚本就行了。 </p>
+<p><strong>磁盘空间监控也不是日志库的必备功能。</strong> 有人或许曾经遇到日志文件把磁盘占满的情况， 因此希望日志库能限制空间使用，例如只分配10GB磁盘空间， 用满之后就冲掉旧日志， 重复利用空间。 殊不知如果出现程序死循环拼命写日志的异常情况， 那么往往是开头的几条日志最关键， 它往往反映了引发异常（busy-loop） 的原因（例如收到某条非法消息） ， 后面都是无用的垃圾日志。</p>
+<p>往文件写日志的一个常见问题是， 万一程序崩溃， 那么最后若干条日志往往就丢失了， 因为日志库不能每条消息都flush硬盘， 更不能每条日志都open&#x2F;close文件，这样性能开销太大。 muduo日志库用两个办法来应对这一点， 其一是定期（默认3秒） 将缓冲区内的日志消息flush到硬盘； 其二是每条内存中的日志消息都带有cookie（或者叫哨兵值&#x2F;sentry） ， 其值为某个函数的地址， 这样通过在core dump文件中查找cookie就能找到尚未来得及写入磁盘的消息。</p>
+<p>日志消息的格式是固定的， 不需要运行时配置， 这样可节省每条日志解析格式字符串的开销。 我认为日志的格式在项目的整个生命周期几乎不会改变。因为我们经常会为不同目的编写parse日志的脚本，可能要和一年之前的日志文件的同类数据做对比。如果在此期间日志格式变了， 势必会增加很多无谓的工作量。 如果真的需要调整消息格式， 直接修改代码并重新编译即可。</p>
+<p>日志消息格式有几个要点：</p>
+<ul>
+<li>尽量每条日志占一行。 这样很容易用awk、 sed、 grep等命令行工具来快速联机分析日志， 比方说要查看“2012-06-03 08:02:00”至“2012-06-03 08:02:59”这1分钟内每秒打印日志的条数（直方图），可以运行$ grep -o ‘^20120603 08:02:..’ | sort | uniq -c</li>
+<li>时间戳精确到微秒。 每条消息都通过gettimeofday(2)获得当前时间， 这么做不会有什么性能损失。 因为在x86-64 Linux上，gettimeofday(2)不是系统调用， 不会陷入内核。</li>
+<li>始终使用GMT时区。 对于跨洲的分布式系统而言，可省去本地时区转换的麻烦（别忘了主要西方国家大多实行夏令时），更易于追查事件的顺序。</li>
+<li>打印线程id。便于分析多线程程序的时序，也可以检测死锁。这里的线程id是指调用LOG_INFO &lt;&lt;的线程。</li>
+<li>打印日志级别。在线查错的时候先看看有无ERROR日志，通常可加速定位问题。</li>
+<li>打印源文件名和行号。修复bug的时候不至于搞错对象。</li>
+</ul>
+<p>muduo日志消息的默认格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">日期      时间      微秒    线程   级别  正文    源文件名:行号</span><br><span class="line">20120603 08:02:46.125770Z 23261 INFO Hello - test.cc:51</span><br></pre></td></tr></table></figure>
+
+<p>每行日志的前4个字段的宽度是固定的， 以空格分隔， 便于用脚本解析。 另外， 应该避免在日志格式（特别是消息id）中出现正则表达<br>式的元字符（meta character） ， 例如’[‘和’]’等等， 这样在用less(1)查看日志文件的时候查找字符串更加便捷。</p>
+<p>运行时的日志过滤器（filter） 或许是有用的， 例如控制不同部件（程序库） 的输出日志级别， 但我认为这应该放到编译期去做， 整个程序有一个整体的输出级别就足够好了。 同时我认为一个程序同时写多个日志文件是非常罕见的需求， 这可以事后留给log archiver来分流， 不必做到日志库中。 不实现filter自然也能减小生成每条日志的运行时开销， 可以提高日志库的性能。</p>
+<h2 id="性能需求"><a href="#性能需求" class="headerlink" title="性能需求"></a>性能需求</h2><p>高效性体现在几方面：</p>
+<ul>
+<li>每秒写几千上万条日志的时候没有明显的性能损失。</li>
+<li>能应对一个进程产生大量日志数据的场景， 例如1GB&#x2F;min。</li>
+<li>不阻塞正常的执行流程。</li>
+<li>在多线程程序中， 不造成争用（contention） 。 这里列举一些具体的性能指标， 考虑往普通7200rpm SATA硬盘写日志文件的情况：磁盘带宽约是110MB&#x2F;s， 日志库应该能瞬时写满这个带宽（不必持续太久） 。</li>
+</ul>
+<p>以上是“高性能”日志库的最低指标。 如果磁盘带宽更高， 那么日志库的预期性能指标也会相应提高。  </p>
+<p>muduo日志库在现在的PC上能写到每秒200万条消息， 带宽足够撑满两个千兆网连接或4个SATA组成的RAID10， 性能是达标的。<br>为了实现这样的性能指标， muduo日志库的实现有几点优化措施值得一提：</p>
+<ul>
+<li>时间戳字符串中的日期和时间两部分是缓存的， 一秒之内的多条日志只需重新格式化微秒部分。 </li>
+<li>日志消息的前4个字段是定长的， 因此可以避免在运行期求字符串长度（不会反复调用strlen） 。 因为编译器认识memcpy()函数， 对于定长的内存复制， 会在编译期把它inline展开为高效的目标代码。</li>
+<li>线程id是预先格式化为字符串， 在输出日志消息时只需简单拷贝几个字节。 见CurrentThread::tidString()。</li>
+<li>每行日志消息的源文件名部分采用了编译期计算来获得basename， 避免运行期strrchr(3)开销。 见SourceFile class， 这里利用了gcc的内置函数。</li>
+</ul>
+<h2 id="多线程异步日志"><a href="#多线程异步日志" class="headerlink" title="多线程异步日志"></a>多线程异步日志</h2><p>线程安全的多线程日志的解决思路</p>
+<ul>
+<li>用一个全局锁保护IO，或者每个线程单独写一个日志文件。性能堪忧，前者造成所有线程抢占一个锁，后者会让业务线程阻塞在写磁盘操作上</li>
+<li>每个进程只写一个日志文件，用一个背景线程负责收集日志消息，并写入日志文件，其他业务线程只需往这个日志线程中发送日志消息，称为“异步日志”(本文采用)</li>
+</ul>
+<p>在多线程服务程序中， 异步日志是必需的， 因为如果在网络IO线程或业务线程中直接往磁盘写数据的话，写操作偶尔可能阻塞长达数秒之久（原因很复杂， 可能是磁盘或磁盘控制器复位）。这可能导致请求方超时， 或者耽误发送心跳消息， 在分布式系统中更可能造成多米诺骨牌效应， 例如误报死锁引发自动failover等。 <strong>因此， 在正常的实时业务处理流程中应该彻底避免磁盘IO</strong>， 这在使用one loop per thread模型的非阻塞服务端程序中尤为重要， 因为线程是复用的， 阻塞线程意味着影响多个客户连接。</p>
+<p>我们需要一个“队列”来将日志前端的数据传送到后端（日志线程） ， 但这个“队列”不必是现成的BlockingQueue&lt;std::string&gt;， 因为不<br>用每次产生一条日志消息都通知（notify()） 接收方。</p>
+<p><strong>muduo日志库采用的是双缓冲（double buffering） 技术</strong>， 基本思路是准备两块buffer： A和B， 前端负责往buffer A填数据（日志消<br>息） ， 后端负责将buffer B的数据写入文件。 当buffer A写满之后， 交换A和B， 让后端将buffer A的数据写入文件， 而前端则往buffer B填入新的日志消息， 如此往复。   </p>
+<p>用两个buffer的好处是在新建日志消息的时候不必等待磁盘文件操作， 也避免每条新日志消息都触发（唤醒） 后端日志线程。 换言之， 前端不是将一条条日志消息分别传送给后端， 而是将多条日志消息拼成一个大的buffer传送给后端， 相当于批处理， 减少了线程唤醒的频度， 降低开销。 另外， 为了及时将日志消息写入文件， 即便buffer A未满， 日志库也会每3秒执行一次上述交换写入操作。  </p>
+<h2 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h2><p>Muduo日志的代码由 Logging.h&#x2F;cc, LogStream.h&#x2F;cc , LogFile.h&#x2F;cc , AsyncLogging.h&#x2F;cc 这四对组成。把整体分为三个模块来考虑：日志生成、多线程日志传递、日志打印。</p>
+<h3 id="日志生成"><a href="#日志生成" class="headerlink" title="日志生成"></a>日志生成</h3><p>这一模块要做的工作就是接收用户的信息，将其与日志格式内的其他信息（日期、时间、线程、行号等）进行拼接组合，形成一条字符串，这个字符串就是最后要输出的日志。</p>
+<h4 id="预定义宏"><a href="#预定义宏" class="headerlink" title="预定义宏"></a>预定义宏</h4><p>这部分由 Logging.h&#x2F;cc 以及 LogStream.h&#x2F;cc 组合完成。首先外部代码对日志库所有的访问入口都是通过定义好的宏来：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//define后接if，可以在满足if的条件时才进行宏定义。\是换行符</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_TRACE <span class="keyword">if</span> (muduo::Logger::logLevel() &lt;= muduo::Logger::TRACE) \</span></span><br><span class="line"><span class="meta">  muduo::Logger(__FILE__, __LINE__, muduo::Logger::TRACE, __func__).stream()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_DEBUG <span class="keyword">if</span> (muduo::Logger::logLevel() &lt;= muduo::Logger::DEBUG) \</span></span><br><span class="line"><span class="meta">  muduo::Logger(__FILE__, __LINE__, muduo::Logger::DEBUG, __func__).stream()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_INFO <span class="keyword">if</span> (muduo::Logger::logLevel() &lt;= muduo::Logger::INFO) \</span></span><br><span class="line"><span class="meta">  muduo::Logger(__FILE__, __LINE__).stream()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_WARN muduo::Logger(__FILE__, __LINE__, muduo::Logger::WARN).stream()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_ERROR muduo::Logger(__FILE__, __LINE__, muduo::Logger::ERROR).stream()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_FATAL muduo::Logger(__FILE__, __LINE__, muduo::Logger::FATAL).stream()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_SYSERR muduo::Logger(__FILE__, __LINE__, false).stream()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_SYSFATAL muduo::Logger(__FILE__, __LINE__, true).stream()</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>__FILE__，__LINE__是预定义宏，目的是获取文件名和行号</strong></p>
+<p>标准C语言预处理要求定义某些对象宏，每个预定义宏的名称一两个下划线字符开头和结尾，这些预定义宏不能被取消定义（#undef）或由编程人员重新定义。</p>
+<p>__LINE__  ：当前程序行的行号，表示为十进制整型常量<br>__FILE__  ：当前源文件名，表示字符串型常量<br>__DATE__ ：转换的日历日期，表示为Mmm dd yyyy 形式的字符串常量，Mmm是由asctime产生的。<br>__TIME__  ：转换的时间，表示”hh:mm:ss”形式的字符串型常量，是有asctime产生的。（asctime貌似是指的一个函数）<br>__STDC__ ：编辑器为ISO兼容实现时位十进制整型常量<br>__STDC_VERSION__  ：如何实现复合C89整部1，则这个宏的值为19940SL；如果实现符合C99，则这个宏的值为199901L；否则数值是未定义<br>__STDC_EOBTED__ ：(C99)实现为宿主实现时为1,实现为独立实现为0<br>__STDC_IEC_559__ ：(C99)浮点数实现复合IBC 60559标准时定义为1，否者数值是未定义<br>__STDC_IEC_559_COMPLEX__： (C99)复数运算实现复合IBC 60559标准时定义为1，否者数值是未定义<br>__STDC_ISO_10646__ ：(C99)定义为长整型常量，yyyymmL表示wchar_t值复合ISO 10646标准及其指定年月的修订补充，否则数值未定义<br>C++中还定义了 __cplusplus用来定义是否是C++编译器。<br><strong>另外 gcc还支持__func__,和__FUNCTION__</strong>,它指示所在的函数名，但是这个关键字不被windows下的vc6.0支持</p>
+<p><strong>gcc还使用 __thread宏作为内置的线程局部存储设施</strong>，存取效率可以和全局变量相比，它只能修饰POD类型。**__thread变量每一个线程有一份独立实体**，各个线程的值互不干扰，可以用来修饰那些带有全局性且值可能变，但是又不值得用全局变量保护的变量。</p>
+<p><strong>我们以 LOG_INFO 为例</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// LOG_INFO &lt;&lt; &quot;This is a log.&quot;展开后如下</span></span><br><span class="line">muduo::<span class="built_in">Logger</span>(__FILE__, __LINE__).<span class="built_in">stream</span>() &lt;&lt; <span class="string">&quot;This is a log.&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>将这句话放在日志打印的地方意味着什么呢？</p>
+<ol>
+<li>创建一个 Logger(<strong>FILE</strong>, <strong>LINE</strong>) 的匿名对象；</li>
+<li>调用这个匿名对象的 stream() 成员函数；</li>
+<li>调用重载后的 « 操作符，输入日志信息；</li>
+<li>析构该匿名对象，析构函数内会调用真正的output日志信息函数。</li>
+</ol>
+<p>注意，匿名对象的析构发生在该条语句结束后，实际上在实现上，前3步的目的是整合拼接一条完整的日志信息，实际的日志打印动作就发生在第4步析构上。</p>
+<blockquote>
+<p>匿名对象一般会在语句结束后就析构，但如果用匿名对象初始化另外一个同类型的对象，匿名对象转成有名对象，此时匿名对象生命周期变成有名对象的生命周期，不会立即析构</p>
+<p>用匿名对象赋值给另外一个同类型的对象，匿名对象在语句结束后被析构</p>
+</blockquote>
+<h4 id="相关类的代码"><a href="#相关类的代码" class="headerlink" title="相关类的代码"></a>相关类的代码</h4><h5 id="Logger"><a href="#Logger" class="headerlink" title="Logger"></a>Logger</h5><p>下面给出 Logger 类的整体结构：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 定义 LogLevel 枚举类型，注意最后会定义一个NUM_LOG_LEVELS，这是为了方便创建枚举数组</span></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">LogLevel</span> &#123;</span><br><span class="line">        TRACE,</span><br><span class="line">        ...</span><br><span class="line">        NUM_LOG_LEVELS</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// SourceFile作用是编译期间从 __FILE__ 中获取文件basename，FILE宏是源文件路径，如/home/test.cpp，记录日志嫌长，代码中用strrchr截取最后一个/后面的名称。在编译时计算的原理是GCC的strrchr()对于字符串字面量可以在编译期求值。</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">SourceFile</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="built_in">Logger</span>(...);</span><br><span class="line">    <span class="function">LogStream&amp; <span class="title">stream</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> impl_.stream_;&#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// Impl 类封装了Logger私有的变量和函数，如文件名，行号，日志等级等等。</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Impl</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    Impl impl_;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，整个 Logger 类主要由 3 个部分组成，分别是枚举类型的LogLevel，获取文件basename的SourceFile类，私有的Impl类。</p>
+<p>我们从构造函数入手：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Logger::<span class="built_in">Logger</span>(SourceFile file, <span class="type">int</span> line)</span><br><span class="line">  : <span class="built_in">impl_</span>(INFO, <span class="number">0</span>, file, line)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化一个 Logger 其实是初始化它的 Impl 内部对象，Logger对外的构造函数有很多，但内部类的构造函数只有一种，Logger不同的构造函数调用了相同的Impl的构造函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Logger::Impl::<span class="built_in">Impl</span>(LogLevel level, <span class="type">int</span> savedErrno, <span class="type">const</span> SourceFile&amp; file, <span class="type">int</span> line)</span><br><span class="line">  : <span class="built_in">time_</span>(Timestamp::<span class="built_in">now</span>()),</span><br><span class="line">    <span class="built_in">stream_</span>(),</span><br><span class="line">    <span class="built_in">level_</span>(level),</span><br><span class="line">    <span class="built_in">line_</span>(line),</span><br><span class="line">    <span class="built_in">basename_</span>(file)</span><br><span class="line">&#123;</span><br><span class="line">  formatTime();</span><br><span class="line">  CurrentThread::<span class="built_in">tid</span>();</span><br><span class="line">  stream_ &lt;&lt; <span class="built_in">T</span>(CurrentThread::<span class="built_in">tidString</span>(), CurrentThread::<span class="built_in">tidStringLength</span>()); <span class="comment">// T 类是helper class for known string length at compile time，把字符串和字符串的长度整合</span></span><br><span class="line">  stream_ &lt;&lt; <span class="built_in">T</span>(LogLevelName[level], <span class="number">6</span>);</span><br><span class="line">  <span class="keyword">if</span> (savedErrno != <span class="number">0</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    stream_ &lt;&lt; <span class="built_in">strerror_tl</span>(savedErrno) &lt;&lt; <span class="string">&quot; (errno=&quot;</span> &lt;&lt; savedErrno &lt;&lt; <span class="string">&quot;) &quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在构造过程中，首先通过 formatTime() 获取当前时间，并将时间格式化成年月日分秒微秒的形式，然后传递给 stream对象（输出到stream的缓冲区），接着将线程id和日志等级输出到stream缓冲区。</p>
+<blockquote>
+<p><strong>TIP:</strong> 对于一个时间信息： 20180426 14:50:34.345346Z，会将每次打印日志的时间中年月日秒的部分缓存在t_time[64] 这个变量里，同时还单独缓存了每次打印日志的时间中秒的部分，打印日志时会判断跟上次打印日志是不是同一秒，如果是同一秒则直接用缓存的信息，而不需要再重新获取时间并格式化。也就是说，同1s内打印的日志，只有微秒部分是需要被格式化的。这是为了提高性能，因为格式化非常耗时。</p>
+</blockquote>
+<p>构造完成后会将调用Logger的stream()函数返回stream，然后调用stream的&lt;&lt;运算符函数将要记录的日志输出到stream缓冲区，如LOG_INFO &lt;&lt; “This is a log.”中的”This is a log.”</p>
+<p>最后看下析构 Logger 这个匿名对象会发生什么事。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Logger::~<span class="built_in">Logger</span>()</span><br><span class="line">&#123;</span><br><span class="line">  impl_.<span class="built_in">finish</span>();</span><br><span class="line">  <span class="function"><span class="type">const</span> LogStream::Buffer&amp; <span class="title">buf</span><span class="params">(stream().buffer())</span></span>;</span><br><span class="line">  <span class="built_in">g_output</span>(buf.<span class="built_in">data</span>(), buf.<span class="built_in">length</span>());  <span class="comment">// 日志输出函数，可设置</span></span><br><span class="line">  <span class="keyword">if</span> (impl_.level_ == FATAL) </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">g_flush</span>();  <span class="comment">// 日志flush 函数，可设置</span></span><br><span class="line">    <span class="built_in">abort</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>finish函数会把文件名和行号输出到stream缓冲区，接着析构函数会调用 g_output() 将stream缓冲区的日志输出(默认输出到stdout，如果需要输出到日志文件中需要在使用前设置output函数)。</p>
+<p>这样就完成了一条日志语句的生成，最后生成的日志格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">日期      时间      微秒    线程   级别  正文    源文件名:行号</span><br><span class="line">20120603 08:02:46.125770Z 23261 INFO Hello - test.cc:51</span><br></pre></td></tr></table></figure>
+
+<h5 id="LogStream"><a href="#LogStream" class="headerlink" title="LogStream"></a>LogStream</h5><p>LogStream是muduo自己实现的流，不用iostream是因为iostream的效率低 </p>
+<p>相关类的结构为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LogStream</span> &#123;</span><br><span class="line">    <span class="keyword">typedef</span> detail::FixedBuffer&lt;detail::kSmallBuffer&gt; Buffer;</span><br><span class="line">    Buffer buffer_;</span><br><span class="line">     </span><br><span class="line">    self&amp; <span class="keyword">operator</span>&lt;&lt;(<span class="type">const</span> string&amp; v);</span><br><span class="line">    self&amp; <span class="keyword">operator</span>&lt;&lt;(...);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span>&lt;<span class="type">int</span> SIZE&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FixedBuffer</span> &#123;</span><br><span class="line">    <span class="type">char</span> data_[SIZE];</span><br><span class="line">    <span class="type">char</span>* cur_;   <span class="comment">// cur_ 指针指向data_数组中有效数据的尾部。</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">append</span><span class="params">(...)</span></span>;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="type">const</span> <span class="type">char</span>* <span class="title">data</span><span class="params">()</span> <span class="type">const</span> </span>&#123;<span class="keyword">return</span> data_;&#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">length</span><span class="params">()</span> <span class="type">const</span> </span>&#123;<span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(cur_-data_);&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>LogStream</code>在构造过程中，会初始化一个 <code>FixedBuffer</code> 对象，其中又初始化一个<code>char</code>数组（大小为预先定义的 <code>kSmallBuffer : 4k</code>）。 然后通过重载的操作符，将信息写入到这个数组中。其中<code>Buffer</code>对象提供 <code>data()</code> 和 <code>length()</code> 接口供<code>Logger</code>类使用。</p>
+<p>可以看到<code>Buffer</code>提供的<code>append()</code>接口入参是<code>const char* buf, size_t len</code>，然后内部通过 <code>memcpy</code> 来复制字符串。</p>
+<blockquote>
+<p><strong>TIP:</strong> 回顾 Logger，日志信息的固定格式都为定长的，通过 T 传入stream，这样就直接通过memcpy来拷贝，避免了每次通过 strlen 来获取字符串长度，提高了效率</p>
+</blockquote>
+<h3 id="多线程日志传递"><a href="#多线程日志传递" class="headerlink" title="多线程日志传递"></a>多线程日志传递</h3><h4 id="AsyncLogging"><a href="#AsyncLogging" class="headerlink" title="AsyncLogging"></a>AsyncLogging</h4><p>我们可以很容易的抽象出来一个异步日志库的模式：N个业务线程通过接口将日志信息推送到一个结构内；1 个日志打印线程从这个结构中顺序地打印日志到文件中。这是因为将数据存储到磁盘很耗费时间，所以应该有单独的后台线程来做这件事情，不能阻塞前台线程的运行。</p>
+<p>这是一个很典型的多生产者、单消费者场景。这种场景考虑的点无非就三个方向</p>
+<ol>
+<li>生产者吞吐能力；</li>
+<li>生产者消费者如何高效传递数据；</li>
+<li>消费者吞吐能力。</li>
+</ol>
+<p>Muduo这部分的内容在 AsyncLogging.h&#x2F;cc 中。下面给出 AsyncLogging 类的大体结构。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AsyncLogging</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">AsyncLogging</span>(...);</span><br><span class="line">    ~<span class="built_in">AsyncLogging</span>() &#123; ..<span class="built_in">stop</span>()..&#125;;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">append</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* logline, <span class="type">int</span> len)</span></span>;  <span class="comment">// 供 Logger 注册的接口</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">start</span><span class="params">()</span></span>;  <span class="comment">// 启动线程</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">stop</span><span class="params">()</span></span>;   <span class="comment">// 关闭线程</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">threadFunc</span><span class="params">()</span></span>;  <span class="comment">// 异步线程处理逻辑</span></span><br><span class="line"> </span><br><span class="line">    BufferPtr  currentBuffer_;  <span class="comment">// 当前写入的 buffer</span></span><br><span class="line">    BufferPtr  nextBuffer_;     <span class="comment">// 下一个备用 buffer</span></span><br><span class="line">    BufferVector  buffers_;     <span class="comment">// 写入完毕，待打印的 buffer 集合</span></span><br></pre></td></tr></table></figure>
+
+<p>多线程使用AsyncLogging需要一个共享的AsyncLogging对象(单例或全局变量)，并在使用前设置Logger类的output类函数，将函数设置为调用AsyncLogging的append函数将生成的日志存入AsyncLogging的缓冲区。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">asyncOutput</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* msg, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  g_asyncLog-&gt;<span class="built_in">append</span>(msg, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">muduo::Logger::<span class="built_in">setOutput</span>(asyncOutput);</span><br></pre></td></tr></table></figure>
+
+<p>AsyncLogging的重点是 append 和 threadFunc 函数，前者负责收集业务线程发来的日志消息存储到buffer中，后者是单独的线程，它负责调控 buffer，并调用Logfile将buffer的日志存入到文件中。</p>
+<p>我们称 append 为前台，threadFunc 后台，Muduo logging 的思想为，前台、后台分别 持有 2 个 buffer 和一个 buffervector，buffer暂时缓存写入的日志，buffervector则是存放即将打印的buffer。前台写满一个buffer后，放入它的buffervector，并通知后台，后台来处理buffer的交换和填充。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AsyncLogging::append</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* logline, <span class="type">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">muduo::MutexLockGuard <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (currentBuffer_-&gt;<span class="built_in">avail</span>() &gt; len)&#123;       <span class="comment">// 当前buffer空间够,直接将日志写入</span></span><br><span class="line">        currentBuffer_-&gt;<span class="built_in">append</span>(logline, len); </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        buffers_.<span class="built_in">push_back</span>(currentBuffer_.<span class="built_in">release</span>());       <span class="comment">// buffer空间不够，代表该buffer已满，该打印了，放入vector</span></span><br><span class="line">        <span class="keyword">if</span> (nextBuffer_)&#123;       <span class="comment">// currentBuffer_放入vector后，若nextBuffer_ 不为空，将nextBuffer_转移给currentBuffer_</span></span><br><span class="line">        currentBuffer_ = boost::ptr_container::<span class="built_in">move</span>(nextBuffer_);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 没有可用 buffer，当短时间之内要输出的日志太多，消费者来不及消费时发生，直接new 一个给currentBuffer_</span></span><br><span class="line">        currentBuffer_.<span class="built_in">reset</span>(<span class="keyword">new</span> Buffer);</span><br><span class="line">        &#125;</span><br><span class="line">        currentBuffer_-&gt;<span class="built_in">append</span>(logline, len);</span><br><span class="line">        cond_.<span class="built_in">notify</span>();   <span class="comment">// 通知后台事件发生，vector不为空，可以取数据打印</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里还少了的逻辑就是何时 next_buffer 会被填充。看 threadFunc() 的代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">AsyncLogging::threadFunc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">BufferPtr <span class="title">newBuffer1</span><span class="params">(<span class="keyword">new</span> Buffer)</span></span>;</span><br><span class="line">    <span class="function">BufferPtr <span class="title">newBuffer2</span><span class="params">(<span class="keyword">new</span> Buffer)</span></span>;</span><br><span class="line">    BufferVector buffersToWrite;</span><br><span class="line">	<span class="function">LogFile <span class="title">output</span><span class="params">(basename_, rollSize_, <span class="literal">false</span>)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (running_) &#123;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">muduo::MutexLockGuard <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">            <span class="keyword">if</span> (buffers_.<span class="built_in">empty</span>())  <span class="comment">// vector为空则等待，需要注意这是if不是while，这是为了每隔一个flush间隔就打印一次</span></span><br><span class="line">            &#123;</span><br><span class="line">                cond_.<span class="built_in">waitForSeconds</span>(flushInterval_);  <span class="comment">// 条件变量，等一个flush间隔或者前台唤醒(buffer满时)</span></span><br><span class="line">            &#125;</span><br><span class="line">            buffers_.<span class="built_in">push_back</span>(std::<span class="built_in">move</span>(currentBuffer_));  <span class="comment">// 把当前在写的 buffer 也放到vector中</span></span><br><span class="line">            currentBuffer_ = std::<span class="built_in">move</span>(newBuffer1);  <span class="comment">// 把 newbuffer1 移交给 currBuffer</span></span><br><span class="line">            buffersToWrite.<span class="built_in">swap</span>(buffers_);   <span class="comment">// 将vector和空的后台vector进行交换，相当于将vector中的数据先进行转移再处理，这是为了减少临界区的时间。若直接用vector打印，那么在取数据的时候，append无法将数据添加到vector中</span></span><br><span class="line">            <span class="keyword">if</span> (!nextBuffer_)&#123;   <span class="comment">// 若nextBuffer为空，移交 newbuffer2 给前台 nextBuffer</span></span><br><span class="line">                nextBuffer_ = std::<span class="built_in">move</span>(newBuffer2);;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (buffersToWrite.<span class="built_in">size</span>() &gt; <span class="number">25</span>) <span class="comment">//堆积的日志过多时直接丢弃，只保留前面两块缓冲区的日志</span></span><br><span class="line">    	&#123;</span><br><span class="line">      		<span class="type">char</span> buf[<span class="number">256</span>];</span><br><span class="line">      		<span class="built_in">snprintf</span>(buf, <span class="keyword">sizeof</span> buf, <span class="string">&quot;Dropped log messages at %s, %zd larger buffers\n&quot;</span>,</span><br><span class="line">               	Timestamp::<span class="built_in">now</span>().<span class="built_in">toFormattedString</span>().<span class="built_in">c_str</span>(),</span><br><span class="line">               	buffersToWrite.<span class="built_in">size</span>()<span class="number">-2</span>);</span><br><span class="line">      		<span class="built_in">fputs</span>(buf, stderr);</span><br><span class="line">      		output.<span class="built_in">append</span>(buf, <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(<span class="built_in">strlen</span>(buf)));</span><br><span class="line">      		buffersToWrite.<span class="built_in">erase</span>(buffersToWrite.<span class="built_in">begin</span>()+<span class="number">2</span>, buffersToWrite.<span class="built_in">end</span>());</span><br><span class="line">    	&#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; buffer : buffersToWrite)</span><br><span class="line">    	&#123;</span><br><span class="line">      		output.<span class="built_in">append</span>(buffer-&gt;<span class="built_in">data</span>(), buffer-&gt;<span class="built_in">length</span>()); <span class="comment">//将vector中的每个buffer调用Logfile输出</span></span><br><span class="line">    	&#125;</span><br><span class="line">        <span class="keyword">if</span> (!newBuffer1)&#123;</span><br><span class="line">      		newBuffer1 = std::<span class="built_in">move</span>(buffersToWrite.<span class="built_in">back</span>()); <span class="comment">//输出完的buffer还给newBuffer1，重复利用buffer，避免重新申请空间</span></span><br><span class="line">      		buffersToWrite.<span class="built_in">pop_back</span>();</span><br><span class="line">      		newBuffer1-&gt;<span class="built_in">reset</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!newBuffer2)&#123;</span><br><span class="line">            newBuffer2 = buffersToWrite.<span class="built_in">pop_back</span>(); <span class="comment">//输出完的buffer还给newBuffer2，重复利用buffer，避免重新申请空间</span></span><br><span class="line">            newBuffer2-&gt;<span class="built_in">reset</span>();</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到AsyncLogging一共有4个buffer，前台生产者两个，后台消费者两个，前台正常情况下最多能同时写满两个buffer，若日志生产过多消费者速度跟不上时会直接申请空间作为新的buffer。后台两个buffer是作为前台buffer的备用，后台在从前台buffer取数据时会将后台空的buffer给前台使用，而前台的buffer取完数据之后就放在后台作为备用，这样就把4个buffer循环利用起来了。</p>
+<p><strong>如果日志堆积过多时会直接丢弃后面的日志</strong>，只保留前面两个缓冲区的日志。</p>
+<p><strong>值得一提的是这里大量使用了交换指针的技巧来避免生产者和消费者之间的竞争</strong>，消费者在从buffer取数据时不会直接取出，而是先将buffer的指针跟空的buffer进行交换，再取出数据，这样消费者在取数据的同时还不影响生产者的生产，减少了临界区的竞争。</p>
+<h3 id="日志打印"><a href="#日志打印" class="headerlink" title="日志打印"></a>日志打印</h3><p>使用是 fwrite_unlocked()(因为是单独的线程负责打印，不涉及到多线程，所以不需要加锁) 和 fflush() 接口。</p>
+<p>打印时会记录打印的数据大小和时间，以便于日志滚动。日志滚动会自动根据文件大小和时间来主动生成新的日志文件。</p>
+<h2 id="其他方案"><a href="#其他方案" class="headerlink" title="其他方案"></a>其他方案</h2><p>当然在前端和后端之间高效传递日志消息的办法不止这一种， <strong>比方说使用常规的消息队列</strong>BlockingQueue&lt;std::string&gt;在前后端之间传递日志消息， 其中每个std::string是一条消息。 这种做法每条日志消息都要分配内存， 特别是在前端线程分配的内存要由后端线程释放， 因此对malloc的实现要求较高， 需要针对多线程特别优化。 另外， 如果用这种方案， 那么需要修改LogStream的Buffer， 使之直接将日志写到std::string中， 可节省一次内存拷贝。</p>
+<p>muduo现在的异步日志实现用了一个全局锁。 尽管临界区很小， 但是如果线程数目较多， 锁争用（lock contention） 也可能影响性能。 <strong>一种解决办法是像Java的ConcurrentHashMap那样用多个桶子（bucket） ， 前端写日志的时候再按线程id哈希到不同的bucket中</strong>， 以减少锁的争用。这种方案的后端实现较为复杂。为了简化实现， 目前muduo日志库只允许指定日志文件的名字， 不允许指定其路径。 日志库会把日志文件写到当前路径， 因此可以在启动脚本（shell脚本）里改变当前路径， 以达到相同的目的。Linux默认会把core dump写到当前目录， 而且文件名是固定的core。 <strong>为了不让新的core dump文件冲掉旧的， 我们可以通过sysctl设置kernel.core_pattern参数</strong>（也可以修改 ） ， 让每次core dump都产生不同的文件。 例如设为%e.%t.%p.%u.core， 其中各个<br>参数的意义见man 5 core。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>与Log相关的类包括FileUtil、LogFile、AsyncLogging、LogStream、Logging。 其中前4个类每一个类都含有一个append函数，Log的设计也是主要围绕这个<strong>append</strong>函数展开的。</p>
+<ul>
+<li>FileUtil是最底层的文件类，封装了Log文件的打开、写入并在类析构的时候关闭文件，底层使用了标准IO，该append函数直接向文件写。</li>
+<li>LogFile进一步封装了FileUtil，并设置了一个循环次数，每过这么多次就flush一次。</li>
+<li>AsyncLogging是核心，它负责启动一个log线程，专门用来将log写入LogFile，应用了“双缓冲技术”，其实有4个以上的缓冲区，但思想是一样的。AsyncLogging负责(定时到或被填满时)将缓冲区中的数据写入LogFile中。</li>
+<li>LogStream主要用来格式化输出，重载了&lt;&lt;运算符，同时也有自己的一块缓冲区，这里缓冲区的存在是为了缓存一行，把多个&lt;&lt;的结果连成一块。</li>
+<li>Logging是对外接口，Logging类内涵一个LogStream对象，主要是为了每次打log的时候在log之前和之后加上固定的格式化的信息，比如打log的行、文件名等信息。</li>
+</ul>
+<h2 id="实现中用到的技术"><a href="#实现中用到的技术" class="headerlink" title="实现中用到的技术"></a>实现中用到的技术</h2><p>1.用枚举表示日志级别，有限种类的物品都可以用枚举表示；枚举中最后一个变量设置为NUM_LOG_LEVELS，这是为了方便创建数组，代码中最好不要直接出现数字，可以将数字代替为变量，这样方便后续修改。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">LogLevel</span></span><br><span class="line">&#123;</span><br><span class="line">  TRACE,</span><br><span class="line">  DEBUG,</span><br><span class="line">  INFO,</span><br><span class="line">  WARN,</span><br><span class="line">  ERROR,</span><br><span class="line">  FATAL,</span><br><span class="line">  NUM_LOG_LEVELS,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* LogLevelName[Logger::NUM_LOG_LEVELS] =</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;TRACE &quot;</span>,</span><br><span class="line">  <span class="string">&quot;DEBUG &quot;</span>,</span><br><span class="line">  <span class="string">&quot;INFO  &quot;</span>,</span><br><span class="line">  <span class="string">&quot;WARN  &quot;</span>,</span><br><span class="line">  <span class="string">&quot;ERROR &quot;</span>,</span><br><span class="line">  <span class="string">&quot;FATAL &quot;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>2.使用宏定义将创建匿名对象并调用函数的过程简化，简化了接口，方便用户使用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> LOG_TRACE <span class="keyword">if</span> (muduo::Logger::logLevel() &lt;= muduo::Logger::TRACE) \</span></span><br><span class="line"><span class="meta">  muduo::Logger(__FILE__, __LINE__, muduo::Logger::TRACE, __func__).stream()</span></span><br></pre></td></tr></table></figure>
+
+<p>3.使用预定义宏__FILE__，__LINE__等，方便的获取文件名和行号。</p>
+<p>4.在编译期计算文件的basename，原理还需研究。</p>
+<p>5.使用了内部类，适合什么场景使用还需研究。</p>
+<p>6.使用getenv()获取环境变量进行初始化。</p>
+<p>7.比较复杂的类型或者需要改名方便看出用途的类型，用typedef或using来简化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> muduo::detail::FixedBuffer&lt;muduo::detail::kLargeBuffer&gt; Buffer;</span><br><span class="line"><span class="keyword">typedef</span> std::vector&lt;std::unique_ptr&lt;Buffer&gt;&gt; BufferVector;</span><br><span class="line"><span class="keyword">typedef</span> BufferVector::value_type BufferPtr;</span><br></pre></td></tr></table></figure>
+
+<p>8.使用clang的注解进行检查，防止出错，具体参考clang线程安全注解文档。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">muduo::Condition cond_ <span class="title">GUARDED_BY</span><span class="params">(mutex_)</span></span>;</span><br><span class="line"><span class="function">BufferPtr currentBuffer_ <span class="title">GUARDED_BY</span><span class="params">(mutex_)</span></span>;</span><br><span class="line"><span class="function">BufferPtr nextBuffer_ <span class="title">GUARDED_BY</span><span class="params">(mutex_)</span></span>;</span><br><span class="line"><span class="function">BufferVector buffers_ <span class="title">GUARDED_BY</span><span class="params">(mutex_)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>9.线程析构前先join。</p>
+<p>10.在vector中用unique_ptr保存变量，这样做的好处是保证存储的变量只有一份，而且外界传入时必须使用std::move()，这样会调用移动构造函数提高效率。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::unique_ptr&lt;Buffer&gt;&gt; BufferVector;</span><br></pre></td></tr></table></figure>
+
+<p>11.在使用缓冲区前，先调用bzero函数初始化缓冲区为0。</p>
+<p>12.使用static_cast和implicit_cast进行类型转换，保证类型转换的安全性。</p>
+<p>13.不使用可重入锁，而使用不可重入锁+一个函数分为加锁版和无锁版。</p>
+<p>14.使用全局变量和全局函数时，在前面加上::</p>
+<p>15.使用main函数的arcv[0]获取文件名</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//argv是参数数组，其中argv[0]存储了文件的全名(包括路径)，argc是数组中变量的个数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">strncpy</span>(name, argv[<span class="number">0</span>], <span class="keyword">sizeof</span> name - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>16.使用和空变量交换的方式来处理生产者和消费者之间的共享变量，这样可以有效减少竞争</p>
+<p><strong>实现中涉及的函数</strong></p>
+<ul>
+<li><p>fflush()，C 库函数 <strong>int fflush(FILE *stream)</strong> 刷新流 stream 的输出缓冲区。</p>
+</li>
+<li><p>fwrite()，C 库函数 <strong>size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)</strong> 把 <strong>ptr</strong> 所指向的数组中的数据写入到给定流 <strong>stream</strong> 中。</p>
+</li>
+<li><p>sprintf()，C 库函数 <strong>int sprintf(char *str, const char *format, …)</strong> 发送格式化输出到 <strong>str</strong> 所指向的字符串。</p>
+</li>
+<li><p>getenv()，C 库函数 <strong>char *getenv(const char *name)</strong> 搜索 name 所指向的环境字符串，并返回相关的值给字符串。</p>
+</li>
+<li><p>strrchr()，C 库函数 <strong>char *strrchr(const char *str, int c)</strong> 在参数 <strong>str</strong> 所指向的字符串中搜索最后一次出现字符 <strong>c</strong>（一个无符号字符）的位置。</p>
+</li>
+<li><p>vector.reserve()，用于初始化vector的大小；vector.resize()函数用于修改vector的大小，若修改后更小，会删除后面多出的元素。</p>
+<p>reserve是容器预留空间，但并不真正创建元素对象，在创建对象之前，不能引用容器内的元素，因此当加入新的元素时，需要用push_back()&#x2F;insert()函数。</p>
+<p>resize是改变容器的大小，并且创建对象，因此，调用这个函数之后，就可以引用容器内的对象了，因此当加入新的元素时，用operator[]操作符，或者用迭代器来引用元素对象。</p>
+</li>
+</ul>
+<p><strong>为了实现性能指标，本日志设计中几点优化：</strong></p>
+<ul>
+<li>时间戳字符串中的日期和时间两部分是缓存的,一秒之内的多条日志只需格式化微妙即可</li>
+<li>日志消息的前四段是定长的,可避免运行时字串长度的计算</li>
+<li>线程id是预先格式化的字符串</li>
+<li>原文件名部分通过编译期计算来获得,避免运行期strrchr()的开销</li>
+<li>单独的io线程负责持久化日志数据到磁盘，工作线程只将日志写入缓冲区，这样不会影响工作线程的效率</li>
+<li>使用多缓冲设计，有效提高效率</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/muduo%E6%97%A5%E5%BF%97/" data-id="cld6uioj70008acsf08xjb1ip" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/muduo%E7%BD%91%E7%BB%9C%E6%BA%90%E7%A0%81/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%EF%BC%9A%E4%BD%BF%E7%94%A8muduo%20C++%E7%BD%91%E7%BB%9C%E5%BA%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

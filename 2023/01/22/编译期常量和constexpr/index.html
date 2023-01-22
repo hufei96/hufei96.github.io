@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="编译期常量和constexpr编译期常量类型总有些东西是编译器要求编译期间就要确定的，除了变量的类型外，最频繁出现的地方就是数组、switch的case标签和模板了。 数组中的编译期常量 如果我们想要创建一个不是动态分配内存的数组，那么我们就必须给他设定一个size，这个size必须在编译期间就知道，因此静态数组的大小是编译期常量。 1int someArray[520];  因为函数栈分配的内存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%B8%B8%E9%87%8F%E5%92%8Cconstexpr/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="编译期常量和constexpr编译期常量类型总有些东西是编译器要求编译期间就要确定的，除了变量的类型外，最频繁出现的地方就是数组、switch的case标签和模板了。 数组中的编译期常量 如果我们想要创建一个不是动态分配内存的数组，那么我们就必须给他设定一个size，这个size必须在编译期间就知道，因此静态数组的大小是编译期常量。 1int someArray[520];  因为函数栈分配的内存">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.965Z">
+<meta property="article:modified_time" content="2022-11-22T07:27:38.508Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-编译期常量和constexpr" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%B8%B8%E9%87%8F%E5%92%8Cconstexpr/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.965Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="编译期常量和constexpr"><a href="#编译期常量和constexpr" class="headerlink" title="编译期常量和constexpr"></a>编译期常量和constexpr</h1><h2 id="编译期常量类型"><a href="#编译期常量类型" class="headerlink" title="编译期常量类型"></a>编译期常量类型</h2><p>总有些东西是编译器要求编译期间就要确定的，除了变量的类型外，最频繁出现的地方就是数组、switch的case标签和模板了。</p>
+<p><strong>数组中的编译期常量</strong></p>
+<p>如果我们想要创建一个不是动态分配内存的数组，那么我们就必须给他设定一个size，这个size必须在编译期间就知道，因此静态数组的大小是编译期常量。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> someArray[<span class="number">520</span>];</span><br></pre></td></tr></table></figure>
+
+<p>因为函数栈分配的内存大小是要在编译期确定的，所以数组大小也必须在编译期确定。</p>
+<p>有些时候我们不用显示得指明数组的大小，我们用字符串或花括号来初始化数组的时候，编译器会实现帮我们数好这个数组的大小。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> someArray[] = &#123;<span class="number">5</span>, <span class="number">2</span>, <span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">char</span> charArray[] = <span class="string">&quot;Ich liebe dich.&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>模板中的编译期常量</strong></p>
+<p>除了类型以外，数字也可以作为模板的参数。这些数值变量包括int，long，short，bool，char和弱枚举enum等。</p>
+<p>编译器在初始化模板的时候必须知道模板的类型，那么这些模板的参数也必须是编译期常量。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Color</span> &#123;RED, GREEN, BLUE&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="type">unsigned</span> <span class="type">long</span> N, <span class="type">char</span> ID, Color C&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">someStruct</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">someStruct&lt;<span class="number">42ul</span>, <span class="string">&#x27;e&#x27;</span>, GREEN&gt; theStruct;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Case 表达式</strong></p>
+<p>switch语句中case后接的表达式也必须是编译期常量，和上边模板的情况非常类似。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">comment</span><span class="params">(<span class="type">int</span> phrase)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span>(phrase) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">42</span>:</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;You are right!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> BLUE:</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;Don&#x27;t be upset!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;z&#x27;</span>:</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;You are the last one!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">  <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;This is beyond what I can handle...&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用编译期常量有什么好处"><a href="#使用编译期常量有什么好处" class="headerlink" title="使用编译期常量有什么好处"></a><strong>使用编译期常量有什么好处</strong></h2><h3 id="更安全的程序"><a href="#更安全的程序" class="headerlink" title="更安全的程序"></a><strong>更安全的程序</strong></h3><p>编译期常量能让我们写出更有逻辑的代码——在编译期就体现出逻辑。比如矩阵相乘：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Matrix</span>&#123;</span><br><span class="line">  <span class="type">unsigned</span> rowCount;</span><br><span class="line">  <span class="type">unsigned</span> columnCount;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>我们都知道，两个矩阵相乘，当且仅当左矩阵的列数等于右矩阵的行数，如果不满足这个规则的话，那就完蛋了，所以针对上边矩阵的乘法，我们在函数中要做一些判断：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Matrix <span class="keyword">operator</span>*(Matrix <span class="type">const</span>&amp; lhs, Matrix <span class="type">const</span>&amp; rhs) &#123;</span><br><span class="line">  <span class="keyword">if</span>(lhs.<span class="built_in">getColumnCount</span>() != rhs.<span class="built_in">getRowCount</span>()) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="built_in">OhWeHaveAProblem</span>(); </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是如果我们在编译期就知道了矩阵的size，那么我们就可以把上边的判断放在模板中完成——这样的话不同size的矩阵一下子就成了不同类型的变量了。这样我们的矩阵乘法也相应变得简单了一些：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="type">unsigned</span> Rows, <span class="type">unsigned</span> Columns&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Matrix</span> &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="type">unsigned</span> N, <span class="type">unsigned</span> M, <span class="type">unsigned</span> P&gt;</span><br><span class="line">Matrix&lt;N, P&gt; <span class="keyword">operator</span>*(Matrix&lt;N, M&gt; <span class="type">const</span>&amp; lhs, Matrix&lt;M, P&gt; <span class="type">const</span>&amp; rhs) &#123;</span><br><span class="line">  <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Matrix&lt;<span class="number">1</span>, <span class="number">2</span>&gt; m12 = <span class="comment">/* ... */</span>;</span><br><span class="line">Matrix&lt;<span class="number">2</span>, <span class="number">3</span>&gt; m23 = <span class="comment">/* ... */</span>;</span><br><span class="line"><span class="keyword">auto</span> m13 = m12 * m23; <span class="comment">// OK</span></span><br><span class="line"><span class="keyword">auto</span> mX = m23 * m13;  <span class="comment">// Compile Error!</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，编译器本身就阻止了错误的发生，还有很多其他的例子——更复杂的例子在编译期间使用模板。从C++11后有一堆这样的模板都定义在了标准库STL中，这个之后再说。所以大家不要觉得上边这种做法是脱裤子放屁，相当于我们把运行时的条件判断交给了编译期来做，前提就是矩阵的类型必须是编译期常量。你可能会问，除了像上边直接用常数来实例化矩阵，有没有其他方法来告诉编译器这是个编译期常量呢？请往下看。</p>
+<h3 id="编译优化"><a href="#编译优化" class="headerlink" title="编译优化"></a><strong>编译优化</strong></h3><p>编译器能根据编译期常量来实现各种不同的优化。比如，如果在一个if判断语句中，其中一个条件是编译期常量，编译器知道在这个判断句中一定会走某一条路，那么编译器就会把这个if语句优化掉，留下只会走的那一条路。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">sizeof</span>(<span class="type">void</span>*) == <span class="number">4</span>) &#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;This is a 32-bit system!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;This is a 64-bit system!&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上例中，编译器就会直接利用其中某一个cout语句来替换掉整个if代码块——反正运行代码的机器是32还是64位的又不会变。 另一个可以优化的地方在空间优化。总体来说，如果我们的对象利用编译期常数来存储数值，那么我们就不用在这个对象中再占用内存存储这些数。就拿本文之前的例子来举例：</p>
+<ul>
+<li>someStruct结构中包含一个‘unsigned long’，一个‘char’，和一个‘color’，尽管如此他的实例对象却只占用一个byte左右的空间。</li>
+<li>矩阵相乘的时候，我们在矩阵中也没必要花费空间去存储矩阵的行数和列数了。</li>
+</ul>
+<h2 id="编译期常量都从哪里来？"><a href="#编译期常量都从哪里来？" class="headerlink" title="编译期常量都从哪里来？"></a><strong>编译期常量都从哪里来？</strong></h2><p>在我们的经验中，大部分编译期常量的来源还是字面常量（literals）以及枚举量（enumerations）。如<code>someStruct&lt;42ul, &#39;e&#39;, GREEN&gt; theStruct;</code>中<code>someStruct</code>的三个模板参数都是常量——分别是整形字面量、char型字面量和枚举常量。</p>
+<p>比较典型的编译期常量的来源就是内置的<code>sizeof</code>操作符。编译器必须在编译期就知道一个变量占据了多少内存，所以它的值也可以被用作编译期常量。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SomeClass</span> &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">int</span> <span class="type">const</span> count = <span class="number">10</span>;  <span class="comment">//作为数组的size，编译期常量</span></span><br><span class="line">SomeClass theMovie[count] = &#123; <span class="comment">/* ... */</span>&#125;; <span class="comment">//常量表达式，在编译期计算</span></span><br><span class="line"><span class="type">int</span> <span class="type">const</span> otherConst = <span class="number">26</span>; <span class="comment">//只是常量，但不是编译期常量</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i = <span class="number">419</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> buffer[<span class="built_in">sizeof</span>(i)] = &#123;&#125;;   <span class="comment">//常量表达式，在编译期计算</span></span><br></pre></td></tr></table></figure>
+
+<p>另一个经常出现编译期常量最常出现的地方就是<strong>静态类成员变量</strong>（static class member variables），而枚举常量常常作为它的替换也出现在类中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SomeStruct</span>&#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">unsigned</span> <span class="type">const</span> size1 = <span class="number">44</span>;  <span class="comment">//编译期常量</span></span><br><span class="line">  <span class="keyword">enum</span> &#123; size2 = <span class="number">45</span> &#125;;  <span class="comment">//编译期常量</span></span><br><span class="line">  <span class="type">int</span> someIntegers[size1];  <span class="comment">//常量表达式，在编译期计算</span></span><br><span class="line">  <span class="type">double</span> someDoubles[size2]; <span class="comment">//常量表达式，在编译期计算</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>与编译期常量对应的概念<strong>编译期常量表达式（compile-time constant expression）</strong>指的是，值不会改变且在编译期就可以计算出来的表达式。其实更好理解的说法是，<strong>任何不是用户自己定义的——而必须通过编译期计算出来的字面量都属于编译期常量表达式</strong>。需要注意的是，并不是所有的常量表达式都是编译期常量表达式，只有我们<strong>要求编译器计算出来时</strong>，才是编译期常量表达式。希望下边这个例子可以做很好的说明：我们通过把<code>p</code>安排在合适的位置——数组的size，强制编译器去计算<code>p</code>的值，即<code>p</code>此时变成了编译期常量表达式。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> i = <span class="number">100</span>;        </span><br><span class="line"><span class="type">const</span> <span class="type">int</span> j = i * <span class="number">200</span>;    <span class="comment">//常量表达式，但不是编译期常量表达式</span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> k = <span class="number">100</span>;        </span><br><span class="line"><span class="type">const</span> <span class="type">int</span> p = k * <span class="number">200</span>;    <span class="comment">//是编译期常量表达式，由下边数组确定</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> helper[p] = &#123;&#125;; <span class="comment">//要求p是编译期常量表达式，在编译期就需确定</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="编译期运算"><a href="#编译期运算" class="headerlink" title="编译期运算"></a><strong>编译期运算</strong></h2><p>从上边的例子可以看出，有时我们可以<strong>通过某些手段去“胁迫”编译器，把运算任务从运行时提前到编译期</strong>，这就是编译期运算的原理。正如“常量表达式”这个名字，我们可以做各种各样的编译期运算，实现在编译期就确定一个常量表达式的目的。事实上，由最简单的运算表达式出发，我们可以做到各种各样的编译期运算。比如非常简单：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> doubleCount = <span class="number">10</span>;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> doubleBuffer[<span class="function">doubleCount * <span class="title">sizeof</span><span class="params">(<span class="type">double</span>)</span>] </span>= &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>除此之外，我们也可以用许多其他的操作，比如考虑下边并没有什么意义的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">nonsense</span><span class="params">(<span class="type">char</span> input)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span>(input) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&quot;some&quot;</span>[(<span class="built_in">sizeof</span>(<span class="type">void</span>*) == <span class="number">4</span>) ? <span class="number">0</span> : <span class="number">1</span>]:</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Aachen&quot;</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Wuhan&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上边的代码并没有什么实际的意义，<code>switch</code>语句的每一个case label必须是编译期常量，表达式<code>sizeof(void*) == 4</code>的意思是当前系统是不是一个32位系统，这个表达式由于<code>sizeof</code>的原因是常量表达式，判断结果作为三元运算符的第一个参数，最后的case label由当前系统的位数分别是”some”的”s”（是32位系统）或”o”（不是32位系统）。返回的两个字符串分别是两个城市。</p>
+<p>尽管上边的例子是无意义的，我们仍然可以看出由这种方法写出的常量表达式很难读。我们可以改进可读性，将上边例子改写成：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">nonsense</span><span class="params">(<span class="type">char</span> input)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">auto</span> <span class="type">const</span> index = (<span class="built_in">sizeof</span>(<span class="type">void</span>*) == <span class="number">4</span>) ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">auto</span> <span class="type">const</span> someLabel = <span class="string">&quot;some&quot;</span>[index];</span><br><span class="line">  <span class="keyword">switch</span>(input) &#123;</span><br><span class="line">  <span class="keyword">case</span> someLabel:</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Aachen&quot;</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Wuhan&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用模板进行编译期运算"><a href="#使用模板进行编译期运算" class="headerlink" title="使用模板进行编译期运算"></a><strong>使用模板进行编译期运算</strong></h3><p>实例化模板的参数必须为编译期常数——换句话说编译器会在编译期计算<strong>作为实例化模板参数的常量表达式</strong>。回忆一下我们可以利用静态成员常量作为编译期常量，我们就可以利用以上特性去把函数模板当成函数来计算，其实这就是模板元编程（template meta programming）方法的雏形。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="type">unsigned</span> N&gt; </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span>&lt;<span class="number">0</span>&gt; &#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">unsigned</span> <span class="type">const</span> value = <span class="number">0</span>;   </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span>&lt;<span class="number">1</span>&gt; &#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">unsigned</span> <span class="type">const</span> value = <span class="number">1</span>;   </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="type">unsigned</span> N&gt; </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span> &#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">unsigned</span> <span class="type">const</span> value = Fibonacci&lt;N<span class="number">-1</span>&gt;::value + Fibonacci&lt;N<span class="number">-2</span>&gt;::value;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>最后一个模板比较有意思，仔细看代码就会发现，它<strong>递归式地</strong>去实例化参数为N的的模板，递归终止在模板参数为<code>0</code>和<code>1</code>时，就是我们的第二和第三个模板所直接返回的编译期常量。</p>
+<p>这种模板元函数看起来啰啰嗦嗦的，但是在C++11出现前，它是<strong>唯一</strong>可以在编译期进行复杂编译期运算的方法。虽然它已经被证实为图灵完备的，但是往往编译器在递归的时候还是会设置一个模板最大初始化深度来避免无穷编译期递归。</p>
+<h2 id="constexpr"><a href="#constexpr" class="headerlink" title="constexpr"></a>constexpr</h2><p>C++03版编译期运算最大的问题恐怕就在于，我们写出来的代码<strong>只能够给编译期使用</strong>。如果我们想实现一个函数，使得他在编译期和运行时都能够被使用，我们就必须复制一份代码，一份给编译期，一份适配run-time，这也无形中给代码维护和迭代带来没有必要的压力。</p>
+<p>所以能不能写一种函数，它既能够在编译期运行也能够在运行期运行——上边的选择仅仅取决于当前的调用语境呢？在C++11中我们引入了<code>constexpr</code>关键字来很好地解决这个问题。</p>
+<p><code>constexpr</code>关键字出现在函数的声明中，保证函数返回一个编译期常量的<strong>可能性</strong>（但这个函数不是只能在编译期使用），即如果穿进去的参数是编译期常量，那么这个函数就能够也返回一个编译期常量。</p>
+<p>有了<code>constexpr</code>，模板元编程版本的斐波那契函数的计算就可以被简化成：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="type">unsigned</span> <span class="title">fibonacci</span><span class="params">(<span class="type">unsigned</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (i &lt;= <span class="number">1u</span>) ? i : (<span class="built_in">fibonacci</span>(i - <span class="number">1</span>) + <span class="built_in">fibonacci</span>(i - <span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只是多了一个<code>constexpr</code>，这个函数就可以在编译期和运行期同时起作用。如果带有<code>constexpr</code>的函数的参数被编译器检测到为编译期常量，那么这个函数就可以自动地在编译期运行。请看下边的例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> </span>&#123;</span><br><span class="line">  <span class="type">char</span> int_values[<span class="built_in">fibonacci</span>(<span class="number">6</span>)] = &#123;&#125;;           <span class="comment">//正确，数组大小在编译期被强制计算</span></span><br><span class="line">  std::cout &lt;&lt; <span class="built_in">sizeof</span>(int_values) &lt;&lt; std::endl; <span class="comment">//正确，sizeof函数参数在编译期被计算</span></span><br><span class="line">  </span><br><span class="line">  std::cout &lt;&lt; <span class="built_in">fibonacci</span>(argc) &lt;&lt; std::endl;    <span class="comment">//在运行时计算，因为argc只有在运行时才能确定</span></span><br><span class="line">  std::cout &lt;&lt; <span class="built_in">sizeof</span>(std::array&lt;<span class="type">char</span>, <span class="built_in">fibonacci</span>(argc)&gt;) &lt;&lt; std::endl;  <span class="comment">//ERROR，模板参数要求在编译期确定fibonacci的值，但是argc是运行时参数。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后一行编译时会报错，因为模板参数和<code>sizeof()</code>函数都要求在编译期确定<code>fibonacci(argc)</code>的值，但是<code>argc</code>只能在运行时确定。</p>
+<h3 id="constexptr修饰的变量"><a href="#constexptr修饰的变量" class="headerlink" title="constexptr修饰的变量"></a><strong>constexptr修饰的变量</strong></h3><p>声明时带有<code>constexpr</code>关键字的变量是常量表达式，因而可以被用做编译期计算。不像在C++03标准中，只有内置类型的字面量才能被视作编译期常量，这个标准在C++11和C++14中被放宽了许多。</p>
+<p>由此衍生出了一个新概念literal type：声明时可以加<code>constexpr</code>修饰的类我们成为literal type。</p>
+<blockquote>
+<p>Specifies that a type is a literal type. Literal types are the types of constexpr variables and they can be constructed, manipulated, and returned from constexpr functions.  <a href="http://link.zhihu.com/?target=http://-cppreference.com">http://-cppreference.com</a></p>
+</blockquote>
+<p>需要注意的是，所有拥有<code>constexpr</code>修饰的构造函数的类也都是literal type，因为拥有此类构造函数的类的对象可以被<code>constexpr</code>函数初始化。考虑下边的Point类，它就是一个literal type：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">  <span class="type">int</span> x;</span><br><span class="line">  <span class="type">int</span> y;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="title">Point</span><span class="params">(<span class="type">int</span> ix, <span class="type">int</span> iy)</span> : x&#123;</span>ix&#125;, y&#123;iy&#125; &#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="type">int</span> <span class="title">getX</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> x; &#125;</span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="type">int</span> <span class="title">getY</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> y; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以使用<code>constexpr</code>构造函数来创造它的编译期常量对象，鉴于它也有<code>x</code>的<code>constepxr</code>类型的getter函数，我们也可以在编译期使用这些函数来获取它的成员值。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> Point p&#123;<span class="number">1</span>, <span class="number">2</span>&#125;;      <span class="comment">//OK, 因为有constexpr构造函数</span></span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> py = p.<span class="built_in">getY</span>();  <span class="comment">//OK, 因为y的getter是constexpr的。</span></span><br><span class="line"><span class="type">double</span> darry[py] &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="constexpr修饰的函数"><a href="#constexpr修饰的函数" class="headerlink" title="constexpr修饰的函数"></a><strong>constexpr修饰的函数</strong></h3><p>那么是不是所有的函数都可以被这么定义为编译期运算函数呢？其实不然。在C++11中，我们对<code>constexpr</code>函数的内容有非常严格的规定，在C++14中这些标准被放宽松了许多，但是保留的最严格的规定莫过于函数体内不能有<code>try</code>块，以及任何<code>static</code>和局部线程变量。并且，在函数中只能调用其他<code>constexpr</code>函数，该函数也不能有任何运行时才会有的行为，比如抛出异常、使用<code>new</code>或<code>delete</code>操作等等。所以在C++14中，如果把斐波那契函数写成下边这样，它的可读性会大大提升。：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="type">unsigned</span> <span class="title">fibonacci</span><span class="params">(<span class="type">unsigned</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (i) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">default</span>: <span class="keyword">return</span> <span class="built_in">fibonacci</span>(i - <span class="number">1</span>) + <span class="built_in">fibonacci</span>(i - <span class="number">2</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们给一个函数加上一个<code>constexpr</code>关键字，<strong>不是说我们就把这个函数绑死在编译期上了</strong>——在文章一开始就说过，这个函数也应该能在运行期被复用。如果一次调用被认为是runtime的，那么这个函数返回的值也不再是编译期常量了——它就被当作一个正常的函数来对待。需要注意的是，在编译期调用<code>constexpr</code>函数，所有运行时所做的检查，在编译期均不会处理。最常见的问题就是<code>int</code>溢出的问题，此时我们还应该在代码中手动加上相应的检查：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="type">unsigned</span> <span class="title">fibonacci</span><span class="params">(<span class="type">unsigned</span> i)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (i) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">default</span>: &#123;</span><br><span class="line">      <span class="keyword">auto</span> f1 = <span class="built_in">fibonacci</span>(i - <span class="number">1</span>);</span><br><span class="line">      <span class="keyword">auto</span> f1 = <span class="built_in">fibonacci</span>(i - <span class="number">2</span>);</span><br><span class="line">      <span class="comment">//手动进行越界检查，如果compile-time发现越界，引导函数进入throw语句，throw语句是典型的run-time语句</span></span><br><span class="line">      <span class="keyword">if</span>(f1 &gt; std::numeric_limits&lt;<span class="type">unsigned</span>&gt;::<span class="built_in">max</span>() - f2) &#123;</span><br><span class="line">        <span class="keyword">throw</span> std::invalid_argument&#123;<span class="string">&quot;Overflow detected!&quot;</span>&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上边的检查会始终起作用，如果我们在编译期传入一个过大的参数从而产生了整型溢出，那么函数语句就会走到抛出<code>std::invalid_argument</code>的分支语句中，又因为抛出异常这种行为是编译期所不允许的，所以编译时就会报错——<strong>这个函数调用并不是一个编译期运算表达式</strong>；如果没有上边的检查，那么编译器就会默许这种错误，导致错误更难发现。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a><strong>结论</strong></h2><p>尽管编译期运算会延长我们的编译时间，但是我们有些时候会用它来加快程序的运行速度。但是在使用时我们仍应该抱着谨慎的态度。有些人说，反正<code>constexpr</code>函数在运行时和编译期都可以执行，那我们可不可以给每一个函数都加上<code>constexpr</code>呢？我对此观点持保留意见，因为它会让我们的代码中充斥着不必要的关键字，影响阅读不说，它到底给我们编译期带来的好处能不能把坏的影响抵消掉还是要好好权衡的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%B8%B8%E9%87%8F%E5%92%8Cconstexpr/" data-id="cld6uiojx000xacsf57cv8e82" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

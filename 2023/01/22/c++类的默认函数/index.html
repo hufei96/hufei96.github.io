@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="c++类的默认函数在C++中，一个类有八个默认函数：  默认构造函数；  默认拷贝构造函数；  默认析构函数；  默认重载赋值运算符函数；  默认重载取址运算符函数；  默认重载取址运算符const函数；  默认移动构造函数（C++11）；  默认重载移动赋值运算符函数（C++11）。   其中默认移动构造函数和默认重载移动赋值运算符函数是c++11后加入的内容。 这些函数只有在第一次被调用时，才">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="c++类的默认函数在C++中，一个类有八个默认函数：  默认构造函数；  默认拷贝构造函数；  默认析构函数；  默认重载赋值运算符函数；  默认重载取址运算符函数；  默认重载取址运算符const函数；  默认移动构造函数（C++11）；  默认重载移动赋值运算符函数（C++11）。   其中默认移动构造函数和默认重载移动赋值运算符函数是c++11后加入的内容。 这些函数只有在第一次被调用时，才">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.925Z">
+<meta property="article:modified_time" content="2022-11-03T18:58:20.634Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-c++类的默认函数" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.925Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="c-类的默认函数"><a href="#c-类的默认函数" class="headerlink" title="c++类的默认函数"></a>c++类的默认函数</h1><p>在C++中，一个类有八个默认函数：</p>
+<ul>
+<li><p>默认构造函数；</p>
+</li>
+<li><p>默认拷贝构造函数；</p>
+</li>
+<li><p>默认析构函数；</p>
+</li>
+<li><p>默认重载赋值运算符函数；</p>
+</li>
+<li><p>默认重载取址运算符函数；</p>
+</li>
+<li><p>默认重载取址运算符const函数；</p>
+</li>
+<li><p>默认移动构造函数（C++11）；</p>
+</li>
+<li><p>默认重载移动赋值运算符函数（C++11）。</p>
+</li>
+</ul>
+<p>其中默认移动构造函数和默认重载移动赋值运算符函数是c++11后加入的内容。</p>
+<p><strong>这些函数只有在第一次被调用时，才会被编译器创建。所有这些函数都是inline和public的。</strong></p>
+<p>C++11新增标识符default和delete,控制这些默认函数是否使用。</p>
+<ul>
+<li>default：被标识的默认函数将使用类的默认行为，如：A() &#x3D; default;</li>
+<li>delete：被标识的默认函数将禁用，如：A() &#x3D; delete;</li>
+<li>override：被标识的函数需要强制重写基类虚函数；</li>
+<li>final：被标识的函数禁止重写基类虚函数；</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 默认构造函数;</span></span><br><span class="line">    <span class="built_in">A</span>();</span><br><span class="line">    <span class="comment">// 默认拷贝构造函数</span></span><br><span class="line">    <span class="built_in">A</span>(<span class="type">const</span> A&amp;);</span><br><span class="line">    <span class="comment">// 默认析构函数</span></span><br><span class="line">    ~<span class="built_in">A</span>();</span><br><span class="line">    <span class="comment">// 默认重载赋值运算符函数</span></span><br><span class="line">    A&amp; <span class="keyword">operator</span> = (<span class="type">const</span> A&amp;);</span><br><span class="line">    <span class="comment">// 默认重载取址运算符函数</span></span><br><span class="line">    A* <span class="keyword">operator</span> &amp; ();</span><br><span class="line">    <span class="comment">// 默认重载取址运算符const函数</span></span><br><span class="line">    <span class="type">const</span> A* <span class="keyword">operator</span> &amp; () <span class="type">const</span>;</span><br><span class="line">    <span class="comment">// 默认移动构造函数</span></span><br><span class="line">    <span class="built_in">A</span>(A&amp;&amp;);</span><br><span class="line">    <span class="comment">// 默认重载移动赋值操作符</span></span><br><span class="line">    A&amp; <span class="keyword">operator</span> = (<span class="type">const</span> A&amp;&amp;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="默认移动构造函数"><a href="#默认移动构造函数" class="headerlink" title="默认移动构造函数"></a>默认移动构造函数</h2><p>默认移动构造函数只有在<strong>没有自定义拷贝构造函数</strong>、<strong>没有自定义operator&#x3D;<strong>也</strong>没有自定义析构函数</strong>的时候才会自动生成。</p>
+<p>这是因为默认的移动构造函数不会帮你将原对象的资源指针赋值为nullptr而是简单的复制，如果自定义了这些函数，编译器就认为对象内存在资源，而默认实现因为不会将原对象的资源指针赋值为nullptr可能导致资源被意外销毁，因此就不会生成默认的移动构造函数了。</p>
+<p>默认移动构造的实现：C++编译器合成的默认移动函数对于POD类型只是简单把其值拷贝，等同于默认拷贝构造函数；对于string这种自定义了移动构造函数的类才会调用其移动构造函数，发生真正的资源移动。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/" data-id="cld6uioj00001acsfe6234u05" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

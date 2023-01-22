@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-c++类的默认函数" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.925Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="c-类的默认函数"><a href="#c-类的默认函数" class="headerlink" title="c++类的默认函数"></a>c++类的默认函数</h1><p>在C++中，一个类有八个默认函数：</p>
+<ul>
+<li><p>默认构造函数；</p>
+</li>
+<li><p>默认拷贝构造函数；</p>
+</li>
+<li><p>默认析构函数；</p>
+</li>
+<li><p>默认重载赋值运算符函数；</p>
+</li>
+<li><p>默认重载取址运算符函数；</p>
+</li>
+<li><p>默认重载取址运算符const函数；</p>
+</li>
+<li><p>默认移动构造函数（C++11）；</p>
+</li>
+<li><p>默认重载移动赋值运算符函数（C++11）。</p>
+</li>
+</ul>
+<p>其中默认移动构造函数和默认重载移动赋值运算符函数是c++11后加入的内容。</p>
+<p><strong>这些函数只有在第一次被调用时，才会被编译器创建。所有这些函数都是inline和public的。</strong></p>
+<p>C++11新增标识符default和delete,控制这些默认函数是否使用。</p>
+<ul>
+<li>default：被标识的默认函数将使用类的默认行为，如：A() &#x3D; default;</li>
+<li>delete：被标识的默认函数将禁用，如：A() &#x3D; delete;</li>
+<li>override：被标识的函数需要强制重写基类虚函数；</li>
+<li>final：被标识的函数禁止重写基类虚函数；</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 默认构造函数;</span></span><br><span class="line">    <span class="built_in">A</span>();</span><br><span class="line">    <span class="comment">// 默认拷贝构造函数</span></span><br><span class="line">    <span class="built_in">A</span>(<span class="type">const</span> A&amp;);</span><br><span class="line">    <span class="comment">// 默认析构函数</span></span><br><span class="line">    ~<span class="built_in">A</span>();</span><br><span class="line">    <span class="comment">// 默认重载赋值运算符函数</span></span><br><span class="line">    A&amp; <span class="keyword">operator</span> = (<span class="type">const</span> A&amp;);</span><br><span class="line">    <span class="comment">// 默认重载取址运算符函数</span></span><br><span class="line">    A* <span class="keyword">operator</span> &amp; ();</span><br><span class="line">    <span class="comment">// 默认重载取址运算符const函数</span></span><br><span class="line">    <span class="type">const</span> A* <span class="keyword">operator</span> &amp; () <span class="type">const</span>;</span><br><span class="line">    <span class="comment">// 默认移动构造函数</span></span><br><span class="line">    <span class="built_in">A</span>(A&amp;&amp;);</span><br><span class="line">    <span class="comment">// 默认重载移动赋值操作符</span></span><br><span class="line">    A&amp; <span class="keyword">operator</span> = (<span class="type">const</span> A&amp;&amp;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="默认移动构造函数"><a href="#默认移动构造函数" class="headerlink" title="默认移动构造函数"></a>默认移动构造函数</h2><p>默认移动构造函数只有在<strong>没有自定义拷贝构造函数</strong>、<strong>没有自定义operator&#x3D;<strong>也</strong>没有自定义析构函数</strong>的时候才会自动生成。</p>
+<p>这是因为默认的移动构造函数不会帮你将原对象的资源指针赋值为nullptr而是简单的复制，如果自定义了这些函数，编译器就认为对象内存在资源，而默认实现因为不会将原对象的资源指针赋值为nullptr可能导致资源被意外销毁，因此就不会生成默认的移动构造函数了。</p>
+<p>默认移动构造的实现：C++编译器合成的默认移动函数对于POD类型只是简单把其值拷贝，等同于默认拷贝构造函数；对于string这种自定义了移动构造函数的类才会调用其移动构造函数，发生真正的资源移动。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/" data-id="cld6uioj00001acsfe6234u05" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-自动驾驶" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.923Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="自动驾驶"><a href="#自动驾驶" class="headerlink" title="自动驾驶"></a>自动驾驶</h1><h2 id="算法类"><a href="#算法类" class="headerlink" title="算法类"></a>算法类</h2><h3 id="SLAM算法工程师"><a href="#SLAM算法工程师" class="headerlink" title="SLAM算法工程师"></a>SLAM算法工程师</h3><p>SLAM英文全名叫simultaneous localization and mapping，中文名叫<strong>同步定位与建图</strong>。SLAM算法属于<strong>感知—规划—控制</strong>中的<strong>感知类算法</strong>。该算法主要用于自动驾驶车辆的根据<strong>点云数据</strong>对车辆周围环境的地图构建。而其中的点云数据是由两种传感器来进行采集的，包括激光雷达和摄像头</p>
+<h4 id="激光SLAM算法工程师"><a href="#激光SLAM算法工程师" class="headerlink" title="激光SLAM算法工程师"></a><strong>激光SLAM算法工程师</strong></h4><p>激光SLAM的传感器即为激光雷达。</p>
+<p><strong>激光SLAM所需要学习很多滤波算法,如：ESKF、EKF、UKF等。同时需要学习G2O、ceres等用来优化非线性误差函数的c++框架。</strong></p>
+<h4 id="视觉SLAM算法工程师"><a href="#视觉SLAM算法工程师" class="headerlink" title="视觉SLAM算法工程师"></a><strong>视觉SLAM算法工程师</strong></h4><p>视觉SLAM中的传感器即为摄像头，摄像头如果使用深度相机，可以直接获取障碍物的距离，生成点云数据。当然也有用单目、双目、鱼眼摄像机的 视觉SLAM ，这些摄像头需要用其他的方法才能间接的获取周围障碍物的距离。</p>
+<p>学习常用的vSLAM算法，如ORB-SLAM、SVO、DSO、MonoSLAM，VINS以及RGB-D等；ROS机器人操作系统；还需要学习很多滤波算法，如：ESKF、EKF、UKF等。同时需要学习G2O、ceres等用来优化非线性误差函数的c++框架。</p>
+<h3 id="感知融合算法工程师"><a href="#感知融合算法工程师" class="headerlink" title="感知融合算法工程师"></a>感知融合算法工程师</h3><p>在实际的自动驾驶车辆上，SLAM 其实是需要多个传感器进行融合的，取长补短，比如GPS、IMU（惯性导航）等传感器融合的方案，所以自动驾驶算法方向又出现了下面的一个新的岗位，即感知融合算法工程师。</p>
+<p>掌握camera、毫米波雷达(电磁波)、超声波雷达(声波)、激光雷达、惯性导航等相关数据解析融合算法；熟悉感知融合算法发展趋势。</p>
+<h3 id="决策算法工程师"><a href="#决策算法工程师" class="headerlink" title="决策算法工程师"></a>决策算法工程师</h3><p>自动驾驶的决策是指给将知模块传递的信息，如何决策汽车的行为达到驾驶的目标。例如，汽车加速、减速、左转、右转、换道、超车都是决策模块的输出。决策需要考虑到汽车的安全性和舒适性，保证尽快到达目标地点，还需要在旁边的车辆恶意的情况下保证乘客的安全。</p>
+<p>需要学习常用的决策算法，如决策状态机、决策树、马尔可夫决策过程，POMDP等；如果往深里学的话，还需要学习深度学习，学习深度学习框架等。</p>
+<h3 id="规划算法工程师"><a href="#规划算法工程师" class="headerlink" title="规划算法工程师"></a>规划算法工程师</h3><p><strong>规划包括路径规划和速度规划，一般都是做路径规划的比较多。即自动驾驶路径规划工程师。</strong></p>
+<p>规划算法中，自动驾驶车辆首先通过路径规划确定车辆可行驶的路径，然后选择该路径确定可行驶的速度。</p>
+<p>学习常见路径规划算法，例如A<em>、D</em>、RRT等；如果往深里学的话；学习轨迹预测算法，如MDP、POMDP、Came Theory等；学习ROS机器人操作系统；学习深度学习和强化学习技术也是加分项，例如RNN、LSTM、Deep Q-Learning等。</p>
+<h3 id="控制算法工程师"><a href="#控制算法工程师" class="headerlink" title="控制算法工程师"></a>控制算法工程师</h3><p>控制算法方向偏向于传统方向，一般是对车辆横纵向动力学建模，然后开发控制算法，实现车辆运动控制等。</p>
+<p>学习自动控制理论基础；学习车辆动力学模型；学习CarSim等仿真软件；学习ACC、AEB、APA、LKA、LCC等辅助驾驶功能开发的是加分项。</p>
+<h3 id="视觉算法工程师"><a href="#视觉算法工程师" class="headerlink" title="视觉算法工程师"></a><strong>视觉算法工程师</strong></h3><p>该方向主要基于摄像头传感器，主要包括：车道线检测、车辆等障碍物检测、可行驶区域检测、红绿灯等交通信息检测等等。</p>
+<p>需要机器学习的基本算法 ( 降维、分类、回归等 )；需要学习深度学习，深度学习框架；学习计算机视觉和图像处理的常用方法 ( 物体检测、跟踪、分割、分类识别等 ) 。</p>
+<h3 id="仿真方向"><a href="#仿真方向" class="headerlink" title="仿真方向"></a>仿真方向</h3><p>该方向需要参与自动驾驶相关仿真系统的搭建，包括车辆动力学相关仿真，各类虚拟传感器模型和虚拟场景的建模与仿真，根据测试案例搭建测试场景，执行自动驾驶算法仿真测试等等。以下为基于Carla仿真平台的自动驾驶仿真演示视频。</p>
+<p>熟练操作一种常用车辆动力学或无人车相关仿真软件，比如Perscan、Carsim、Carmaker等。熟悉机器人操作系统ROS等。有的仿真岗位纯属于做仿真，但有的岗位需要做仿真环境的开发，这样的岗位对编程要求会更高一些。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" data-id="cld6uiojx000zacsf8d6tah8o" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-智能指针的线程安全性" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.920Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="智能指针的线程安全性"><a href="#智能指针的线程安全性" class="headerlink" title="智能指针的线程安全性"></a>智能指针的线程安全性</h1><p>shared_ptr 有两个数据成员，读写操作不能原子化，shared_ptr 的引用计数本身是线程安全且无锁的，但 shared_ptr 管理的对象本身的读写则不是。</p>
+<p>shared_ptr 是引用计数型智能指针，计数值保存在堆上动态分配的内存中。具体而言，<code>shared_ptr&lt;Foo&gt;</code>包含两个成员，一个是 Foo 类型的指针，指向被管理的对象；一个 ref_count 指针，指向堆上的控制块：</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png" alt="shared_ptr"></p>
+<p>由于 shared_ptr 间的拷贝涉及两个成员的复制，而这两步拷贝不会原子性地发生：</p>
+<ul>
+<li>步骤 1：复制 ptr 指针</li>
+<li>步骤 2：复制 ref_count 指针，并递增引用计数（此递增为线程安全的）</li>
+</ul>
+<p><strong>多线程读 shared_ptr 是安全的</strong></p>
+<p> 一个全局的 shared_ptr：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shared_ptr&lt;Foo&gt; global_ptr;</span><br></pre></td></tr></table></figure>
+
+<p> 线程 1 到 N 运行：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">threadFunc</span><span class="params">()</span></span>&#123;</span><br><span class="line">    shared_ptr&lt;Foo&gt; local = global_ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上对于 shared_ptr 变量<code>global</code>的读取操作是线程安全的。</p>
+<p><strong>多线程写同一个shared_ptr是不安全的</strong></p>
+<p>考虑以下场景，有三个 shared_ptr：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">shared_ptr&lt;Foo&gt; <span class="title">g</span><span class="params">(<span class="keyword">new</span> Foo)</span></span>;     <span class="comment">// 线程间共享的 shared_ptr 对象</span></span><br><span class="line"><span class="function">shared_ptr&lt;Foo&gt; <span class="title">n</span><span class="params">(<span class="keyword">new</span> Foo)</span></span>;     <span class="comment">// 线程 B 的局部变量</span></span><br><span class="line">shared_ptr&lt;Foo&gt; x;      <span class="comment">// 线程 A 的局部变量</span></span><br></pre></td></tr></table></figure>
+
+<p>现在假设让x &#x3D; g，当ptr 指针已经复制而引用计数还没有+1时，也就是步骤1已经发生而步骤2还未发生时，执行g &#x3D; n。</p>
+<p>因为g的引用计数还没有+1，g &#x3D; n会导致g的引用计数减1变为0，g指向的对象销毁，从而导致x指向的对象已经销毁，指针变为野指针。</p>
+<p><strong>为什么要尽量使用 make_shared()</strong></p>
+<p>为了节省一次内存分配，原来 shared_ptr<Foo> x(new Foo); 需要为 Foo 和 ref_count 各分配一次内存，现在用 make_shared() 的话，可以一次分配一块足够大的内存，供 Foo 和 ref_count 对象容身。</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/make_shared.png" alt="img"></p>
+<p>不过 Foo 的构造函数参数要传给 make_shared()，后者再传给 Foo::Foo()，这只有在 C++11 里通过 perfect forwarding 才能完美解决。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/" data-id="cld6uioju000pacsf864f29jb" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-智能指针" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.917Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h1><p>在传统 C++ 中，『记得』手动释放资源，总不是最佳实践。因为我们很有可能就忘记了去释放资源而导致泄露。 所以通常的做法是对于一个对象而言，我们在构造函数的时候申请空间，而在析构函数（在离开作用域时调用）的时候释放空间， 也就是我们常说的 RAII 资源获取即初始化技术。</p>
+<p>C++11 引入了智能指针的概念，使用了引用计数的想法，让程序员不再需要关心手动释放内存。 这些智能指针包括 <code>std::shared_ptr</code>&#x2F;<code>std::unique_ptr</code>&#x2F;<code>std::weak_ptr</code>，使用它们需要包含头文件 <code>&lt;memory&gt;</code>。</p>
+<p>智能指针解决了忘记释放资源而导致内存泄露的问题，还解决了多线程编程中资源共享的问题(shared_ptr保证线程使用资源时，这个资源没有被其他线程析构)</p>
+<h2 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h2><p><code>std::unique_ptr</code> 是一种独占的智能指针，它禁止其他智能指针与其共享同一个对象，从而保证代码的安全：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::unique_ptr&lt;int&gt; pointer = std::make_unique&lt;int&gt;(10); // make_unique 从 C++14 引入</span><br><span class="line">std::unique_ptr&lt;int&gt; pointer2 = pointer; // 非法</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>make_unique</code> 并不复杂，C++11 没有提供 <code>std::make_unique</code>，可以自行实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T, typename ...Args&gt;</span><br><span class="line">std::unique_ptr&lt;T&gt; make_unique( Args&amp;&amp; ...args ) &#123;</span><br><span class="line">  return std::unique_ptr&lt;T&gt;( new T( std::forward&lt;Args&gt;(args)... ) );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至于为什么没有提供，C++ 标准委员会主席 Herb Sutter 在他的<a target="_blank" rel="noopener" href="https://herbsutter.com/gotw/_102/">博客</a>中提到原因是因为『被他们忘记了』。</p>
+</blockquote>
+<p>既然是独占，换句话说就是不可复制。<strong>unique_ptr禁用了拷贝构造和赋值运算符，但是实现了移动拷贝和移动赋值</strong>，需要转移资源控制权时我们可以利用 <code>std::move</code> 将其转移给其他的 <code>unique_ptr</code></p>
+<h2 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h2><p><code>std::shared_ptr</code> 是一种智能指针，它能够记录多少个 <code>shared_ptr</code> 共同指向一个对象，从而消除显式的调用 <code>delete</code>，当引用计数变为零的时候就会将对象自动删除。shared_ptr可以延长对象的生命周期，解决了多线程编程中资源共享的问题(shared_ptr保证线程使用资源时，这个资源没有被其他线程析构)</p>
+<p>shared_ptr 有两个数据成员，读写操作不能原子化，shared_ptr 的引用计数本身是线程安全且无锁的，但 shared_ptr 管理的对象本身的读写则不是。</p>
+<p><strong>shared_ptr 是引用计数型智能指针，计数值保存在堆上动态分配的内存中</strong>。具体而言，<code>shared_ptr&lt;Foo&gt;</code>包含两个成员，一个是 Foo 类型的指针，指向被管理的对象；一个 ref_count 指针，指向堆上的控制块：</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png" alt="shared_ptr"></p>
+<p>由于 shared_ptr 间的拷贝涉及两个成员的复制，而这两步拷贝不会原子性地发生：</p>
+<ul>
+<li>步骤 1：复制 ptr 指针</li>
+<li>步骤 2：复制 ref_count 指针，并递增引用计数（此递增为线程安全的）</li>
+</ul>
+<p>因为使用 <code>std::shared_ptr</code> 仍然需要使用 <code>new</code> 来调用，这使得代码出现了某种程度上的不对称。</p>
+<p><code>std::make_shared</code> 就能够用来消除显式的使用 <code>new</code>，所以<code>std::make_shared</code> 会分配创建传入参数中的对象， 并返回这个对象类型的<code>std::shared_ptr</code>指针。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// auto pointer = new int(10); // illegal, no direct assignment</span></span><br><span class="line">    <span class="comment">// Constructed a std::shared_ptr</span></span><br><span class="line">    <span class="keyword">auto</span> pointer = std::<span class="built_in">make_shared</span>&lt;<span class="type">int</span>&gt;(<span class="number">10</span>);</span><br><span class="line">    <span class="comment">// The shared_ptr will be destructed before leaving the scope</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>std::shared_ptr</code> 可以通过 <code>get()</code> 方法来获取原始指针，通过 <code>reset()</code> 来减少一个引用计数， 并通过<code>use_count()</code>来查看一个对象的引用计数。</p>
+<p><strong>为什么要尽量使用 make_shared()</strong></p>
+<p>为了节省一次内存分配，原来 shared_ptr<Foo> x(new Foo); 需要为 Foo 和 ref_count 各分配一次内存，现在用 make_shared() 的话，可以一次分配一块足够大的内存，供 Foo 和 ref_count 对象容身。</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/make_shared.png" alt="img"></p>
+<p>不过 Foo 的构造函数参数要传给 make_shared()，后者再传给 Foo::Foo()，这只有在 C++11 里通过 perfect forwarding 才能完美解决。</p>
+<h2 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h2><p><code>std::shared_ptr</code>在对象互相引用时依然存在着资源无法释放的问题。看下面这个例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    std::shared_ptr&lt;B&gt; pointer;</span><br><span class="line">    ~<span class="built_in">A</span>() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;A 被销毁&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span> &#123;</span><br><span class="line">    std::shared_ptr&lt;A&gt; pointer;</span><br><span class="line">    ~<span class="built_in">B</span>() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;B 被销毁&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> a = std::<span class="built_in">make_shared</span>&lt;A&gt;();</span><br><span class="line">    <span class="keyword">auto</span> b = std::<span class="built_in">make_shared</span>&lt;B&gt;();</span><br><span class="line">    a-&gt;pointer = b;</span><br><span class="line">    b-&gt;pointer = a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果是 A, B 都不会被销毁，这是因为 a,b 内部的 pointer 同时又引用了 <code>a,b</code>，这使得 <code>a,b</code> 的引用计数均变为了 2，而离开作用域时，<code>a,b</code> 智能指针被析构，却只能造成这块区域的引用计数减一，这样就导致了 <code>a,b</code> 对象指向的内存区域引用计数不为零，而外部已经没有办法找到这块区域了，也就造成了内存泄露，如图：</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/pointers1.png"></p>
+<p>根本原因在于A中持有B对象的shared_ptr，这保证了B一定比A晚析构（shared_ptr保证你在使用资源时一定没有析构）。而B中持有A对象的shared_ptr，这保证了A一定比B晚析构。这构成了矛盾，从而导致A，B都无法析构。</p>
+<p>解决这个问题的办法就是使用弱引用指针 <code>std::weak_ptr</code>，<code>std::weak_ptr</code>是一种弱引用（相比较而言 <code>std::shared_ptr</code> 就是一种强引用）。弱引用不会引起引用计数增加。<strong>weak_ptr需要用shared_ptr进行初始化</strong>。<strong>weak_ptr无法保证资源一定更晚析构，它只能检测资源是否析构</strong>。在使用时需要提升到shared_ptr再进行使用，这一步操作是原子的。</p>
+<p><code>std::weak_ptr</code> 没有 <code>*</code> 运算符和 <code>-&gt;</code> 运算符，<strong>所以不能够对资源进行操作</strong>，它可以用于检查 <code>std::shared_ptr</code> 是否存在，其 <code>expired()</code> 方法能在资源未被释放时，会返回 <code>false</code>，否则返回 <code>true</code>；除此之外，它也可以用于获取指向原始对象的 <code>std::shared_ptr</code> 指针，其 <code>lock()</code> 方法在原始对象未被释放时，返回一个指向原始对象的 <code>std::shared_ptr</code> 指针，进而访问原始对象的资源，否则返回<code>nullptr</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" data-id="cld6uiojt000oacsfdyltaeps" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-异常" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E5%BC%82%E5%B8%B8/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.914Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="异常和异常安全"><a href="#异常和异常安全" class="headerlink" title="异常和异常安全"></a>异常和异常安全</h1><p>程序运行时常会碰到一些异常情况，例如：</p>
+<ul>
+<li>做除法的时候除数为 0；（<strong>c++无法捕获除0异常</strong>，需要自行提前判断）</li>
+<li>用户输入年龄时输入了一个负数；</li>
+<li>用 new 运算符动态分配空间时，空间不够导致无法分配；</li>
+<li>访问数组元素时，下标越界；打开文件读取时，文件不存在。</li>
+</ul>
+<p>这些异常情况，如果不能catch处理，则会不断向上抛出，直到程序崩溃。</p>
+<p>所谓“处理”，可以是让程序沿一条不会出错的路径继续执行；也可能是不得不结束程序，但在结束前做一些必要的工作，如记录错误到文件中、将内存中的数据写入文件、关闭打开的文件等。</p>
+<p><strong>进程崩溃是一种保护机制</strong>，是为了防止继续犯下更大的错误。比如说用户原本有10块钱，消费了1块钱，但是扣减一块钱的过程失败了，如果继续执行下去，就会按照用户仍然拥有10块钱处理，可能会造成严重的损失。</p>
+<p><strong>是操作系统决定让进程崩溃的</strong>，而不是CPU。当操作系统实在不知道如何让一个线程继续执行下去了，就会让它所在的整个进程崩溃。</p>
+<h2 id="异常处理基本语法"><a href="#异常处理基本语法" class="headerlink" title="异常处理基本语法"></a>异常处理基本语法</h2><h3 id="throw"><a href="#throw" class="headerlink" title="throw"></a>throw</h3><p>C++ 通过 throw 语句和 try…catch 语句实现对异常的处理。throw 语句的语法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span> 表达式;</span><br></pre></td></tr></table></figure>
+
+<p>该语句拋出一个异常。异常是一个表达式，其值的类型可以是基本类型，也可以是类。</p>
+<p>函数 A 在执行过程中发现异常时可以不加处理，而只是“拋出一个异常”给 A 的调用者，假定为函数 B。拋出异常而不加处理会导致函数 A 立即中止，在这种情况下，函数 B 可以选择捕获 A 拋出的异常进行处理，也可以选择置之不理。如果置之不理，这个异常就会被拋给 B 的调用者，以此类推,直到main函数，若main函数也不处理，则程序崩溃。</p>
+<h3 id="try…catch"><a href="#try…catch" class="headerlink" title="try…catch"></a>try…catch</h3><p>try…catch 语句的语法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  语句组</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span>(异常类型) &#123;</span><br><span class="line">  异常处理代码</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="built_in">catch</span>(异常类型) &#123;</span><br><span class="line">  异常处理代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>catch 可以有多个，但至少要有一个。</p>
+<p>try…catch 语句的执行过程是：</p>
+<ul>
+<li>执行 try 块中的语句，如果执行的过程中没有异常拋出，那么执行完后就执行最后一个 catch 块后面的语句，所有 catch 块中的语句都不会被执行；</li>
+<li>如果 try 块执行的过程中拋出了异常，那么拋出异常后立即跳转到第一个和拋出的异常类型匹配的 catch 块中执行（称作异常被该 catch 块“捕获”），执行完后再跳转到最后一个 catch 块后面继续执行。</li>
+</ul>
+<h4 id="能够捕获任何异常的-catch-语句"><a href="#能够捕获任何异常的-catch-语句" class="headerlink" title="能够捕获任何异常的 catch 语句"></a>能够捕获任何异常的 catch 语句</h4><p>如果希望不论拋出哪种类型的异常都能捕获，可以编写如下 catch 块,这样的 catch 块能够捕获任何还没有被捕获的异常。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">catch</span>(...) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="异常再抛出"><a href="#异常再抛出" class="headerlink" title="异常再抛出"></a>异常再抛出</h4><p>有时，虽然在函数中对异常进行了处理，但是还是希望能够通知调用者，以便让调用者知道发生了异常，从而可以作进一步的处理。此时可以在 catch 块中继续拋出异常。如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">CountTax</span><span class="params">(<span class="type">int</span> salary)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">       <span class="keyword">if</span>( salary &lt; <span class="number">0</span> )</span><br><span class="line">           <span class="keyword">throw</span> <span class="built_in">string</span>(<span class="string">&quot;zero salary&quot;</span>);</span><br><span class="line">       cout &lt;&lt; <span class="string">&quot;counting tax&quot;</span> &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">catch</span> (string s ) &#123;</span><br><span class="line">       cout &lt;&lt; <span class="string">&quot;CountTax error : &quot;</span> &lt;&lt; s &lt;&lt; endl;</span><br><span class="line">       <span class="keyword">throw</span>; <span class="comment">//throw没有指明拋出什么样的异常，因此拋出的就是 catch 块捕获到的异常，即 string(&quot;zero salary&quot;)。</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数的异常声明列表"><a href="#函数的异常声明列表" class="headerlink" title="函数的异常声明列表"></a>函数的异常声明列表</h3><p>为了增强程序的可读性和可维护性，使程序员在使用一个函数时就能看出这个函数可能会拋出哪些异常，C++ 允许在函数声明和定义时，加上它所能拋出的异常的列表，具体写法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> <span class="title">throw</span> <span class="params">(<span class="type">int</span>, <span class="type">double</span>, A, B, C)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>上面的写法表明 func 可能拋出 int 型、double 型以及 A、B、C 三种类型的异常。异常声明列表可以在函数声明时写，也可以在函数定义时写。如果两处都写，则两处应一致。</p>
+<p>如果异常声明列表如下编写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> <span class="title">throw</span> <span class="params">()</span></span>;<span class="comment">//c++11后被noexcept关键字取代</span></span><br></pre></td></tr></table></figure>
+
+<p>则说明 func 函数不会拋出任何异常。</p>
+<h3 id="c-标准异常类"><a href="#c-标准异常类" class="headerlink" title="c++标准异常类"></a>c++标准异常类</h3><p><img src="C:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220411235618732.png" alt="image-20220411235618732"></p>
+<p>C++语言本身或者标准库抛出的异常都是 exception 的子类</p>
+<h2 id="用noexcept修饰函数"><a href="#用noexcept修饰函数" class="headerlink" title="用noexcept修饰函数"></a>用noexcept修饰函数</h2><ul>
+<li>noexcept对性能有帮助。</li>
+</ul>
+<p>因为在调用noexcept函数时不需要记录异常的错误处理所以编译器可以生成更高效的代码（但实际编译器是否优化noexcept不一定，但理论上noexcept给了编译器更多优化的机会）。编译器在编译一个非noexcept的函数时有可能会生成很多冗余的代码，这些代码虽然只在出错的时候执行，但还是会对instruction cache造成影响，进而影响程序整体的性能。发生异常时要退栈并返回，所以编译器要生成这部分的代码，如果是noexcept函数就不需要生成了。</p>
+<ul>
+<li>如果noexcept的函数执行时出了异常，程序会马上terminate。</li>
+</ul>
+<p><strong>请注意，这也包括所有noexcept函数调用的函数。</strong>比如f是noexcept，g不是，f调用了g，但g throw exception，程序会马上terminate。甚至你在f外面用了try catch也没用。</p>
+<ul>
+<li>noexcept最有用的地方是用在move constructor和move assignment上，你的move操作如果不是noexcept的，很多情况下即使逻辑上可以move，编译器也会执行copy。</li>
+</ul>
+<p><strong>对使用noexcept使用的建议</strong></p>
+<ul>
+<li>默认不使用。</li>
+</ul>
+<p>大部分情况下，你都很难避免bad_alloc的异常，即使这个函数不直接allocate，有可能编译器执行代码时还是需要allocate。比如最简单的a &#x3D; b，如果a和b是一个自定义的type，有可能这个type有类似vector，string这些需要allocate的member，那这个赋值语句就可能报错。而且即使这个type现在没有这样的member，以后说不定代码改来改去就加了一个这样的成员。如果你给a&#x3D;b加上了noexcept，那以后加这样一个member，你还得把noexcept去掉。不使用noexcept是最future-proof的。</p>
+<ul>
+<li><p>move constructor&#x2F;move assignment operator 如果不会抛出异常，一定用noexcept。</p>
+</li>
+<li><p>destructor一定用noexcept。(析构函数现在已经默认为noexcept，除非手动声明为noexcept(false))</p>
+</li>
+<li><p>简单的leaf function，像是int，pointer这类的getter，setter用noexcept。因为不可能出错。</p>
+</li>
+</ul>
+<h2 id="异常的好处"><a href="#异常的好处" class="headerlink" title="异常的好处"></a>异常的好处</h2><ol>
+<li>简化错误处理的过程，与检查函数返回的错误码相比，使用异常进行错误处理更加简洁。</li>
+<li>让错误处理逻辑从业务逻辑的代码中独立出来</li>
+<li>异常可以把库的提供者不能明确要怎么处理的情况抛出来，让能明确怎么处理的调用者自己去处理。比如，std::stoi，std::stoll等C++标准库函数，当参数为0时，就会抛异常，因为库的提供者并不知道调用者要怎么处理，有的人想返回0，有的调用者想返回-1，有的调用者想终止程序。所以此时应该抛异常，让调用者自行处理</li>
+</ol>
+<p>使用错误码意味着你每调用一个可能会出现错误的函数的时候，都要判断是否成功，然后再继续执行后面的语句。导致你的这段代码中充斥着大量的if else。特别的在函数调用层数过多时，很多情况下一层出的错，往上传十八层才能真正处理，其它函数都是在 if err !&#x3D; OK { return err }。</p>
+<p>在错误处理逻辑和正常的业务逻辑混杂的情况，使用异常处理可以让错误处理逻辑从业务逻辑的代码中独立出来，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">FileReader</span> <span class="variable">fr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (fr == <span class="literal">null</span>) &#123;    </span><br><span class="line"></span><br><span class="line">	System.err.println(<span class="string">&quot;Open File Error&quot;</span>); </span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;    </span><br><span class="line"></span><br><span class="line">	<span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(fr);    </span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (br.ready()) &#123;        </span><br><span class="line"></span><br><span class="line">		<span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> br.readLine();        </span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (line == <span class="literal">null</span>) &#123;            </span><br><span class="line"></span><br><span class="line">			System.err.println(<span class="string">&quot;Read Line Error&quot;</span>);        </span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;            </span><br><span class="line"></span><br><span class="line">			System.out.println(line);        </span><br><span class="line"></span><br><span class="line">		&#125;    </span><br><span class="line"></span><br><span class="line">	&#125; </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若使用异常进行处理,则明显简洁很多：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;   </span><br><span class="line"></span><br><span class="line">	<span class="type">FileReader</span> <span class="variable">fr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;path&quot;</span>);    </span><br><span class="line"></span><br><span class="line">	<span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(fr);   </span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (br.ready()) &#123;        </span><br><span class="line"></span><br><span class="line">		<span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> br.readLine();        </span><br><span class="line"></span><br><span class="line">		System.out.println(line);    </span><br><span class="line"></span><br><span class="line">	&#125; </span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span> (IOException e) &#123;    </span><br><span class="line"></span><br><span class="line">	e.printStackTrace(); </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用异常的建议"><a href="#使用异常的建议" class="headerlink" title="使用异常的建议"></a>使用异常的建议</h2><p>应该谨慎的使用异常处理，不可滥用。<strong>不要在任何地方 try-catch，除非你确定这是必要的</strong>。因为异常会影响性能，<strong>异常比函数调用要慢几十倍</strong>。并且很多时候没办法对异常进行有效的处理，不如让程序直接崩溃（如new不出来，或者碰到了预料之外的情况）。如果碰到预料之外的异常时不崩溃而是让程序继续执行，会导致难以排查出错误。</p>
+<p>首先，调用处<strong>针对异常有对策时才 catch</strong>，否则放行（继续向上抛）。</p>
+<p>其次，只有在针对某种异常有特殊对策时，才针对这种异常做特殊处理，否则统一处理。</p>
+<p>当然，<strong>对策是看需求的</strong>，没有银弹，不要指望一招鲜吃遍天。</p>
+<p>比如到了必须转换错误报告方法的地方：这个函数往上就不接受异常了（这个函数是个 C 接口、系统回调、noexcept 函数之类的），那么在这个函数里 catch，根据异常信息返回不同的错误码。</p>
+<p>比如 HTTP 服务器处理请求时，常见的对策是对任何异常都记录日志并向客户端返回状态码为 500 的响应。那么我们要做的就是把所有处理请求的代码 try 起来，catch 所有异常并处理。无所谓它是 MyCustomException 还是 std::bad_alloc。</p>
+<p>确有应对方案的时候也可以 catch：比如加载文本的时候 UTF-8 解码抛出异常发现不合法的字节，我们可以 catch 住去尝试 GBK 解码。</p>
+<p><strong>本质上就是看需求来定</strong>，而不是看程序代码来定。</p>
+<h2 id="异常安全"><a href="#异常安全" class="headerlink" title="异常安全"></a>异常安全</h2><p><em><strong>异常安全</strong></em>的意思就是，<em><strong>当程序在异常发生的时候，程序可以回退的很干净</strong></em>。什么是回退的很干净呢？其实就是函数在发生异常的时候<em><strong>不会泄露资源</strong></em>或者<em><strong>不会发生任何数据结构的破坏</strong></em>。如果说一个函数是异常安全的，那么它必须满足上面提到的两个条件。</p>
+<p><em>异常安全</em>分为三个级别：</p>
+<ul>
+<li>基本级别：可能发生异常，且在异常发生的时候代码保证做了任何必要的清理工作，即程序在合法阶段，但是一些数据结构可能已经被函数更改，不一定是调用之前的状态，但是基本是保证符合对象正常的要求的；</li>
+<li>强烈级别：可能发生异常，且在发生异常时代码保证函数对数据做的任何修改都可以被回滚。即如果调用成功，则完全成功；如果调用失败，则对象依旧是调用之前的状态；</li>
+<li>无异常：即函数保证不会抛出异常（比如标准库的swap函数等）。</li>
+</ul>
+<h3 id="异常安全的反例和处理方案"><a href="#异常安全的反例和处理方案" class="headerlink" title="异常安全的反例和处理方案"></a>异常安全的反例和处理方案</h3><p>一个函数如果是异常安全的，那么它必须满足两个条件：</p>
+<ul>
+<li>一是不泄露任何资源（已申请的资源被正确释放）</li>
+<li>二是不破坏任何数据结构（无野指针等）</li>
+</ul>
+<p>下面我们通过两个反例来说明这两个条件分别表示什么意思：</p>
+<ul>
+<li><strong>第一个是造成资源泄漏的例子：</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Type::Func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">Lock</span>(&amp;mutex);</span><br><span class="line">    <span class="built_in">DoSomething</span>();</span><br><span class="line">    <span class="built_in">UnLock</span>(&amp;mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码表示首先获得互斥锁，中间做一些其他事，最后释放互斥锁。我们从异常安全的角度分析，如果*DoSomething()<em>函数内部出现了异常，那么</em>UnLock(&amp;mutex)*将不会被执行，互斥锁就永远不会被释放，就造成了资源泄漏。</p>
+<ul>
+<li><strong>第二个是造成数据破坏的例子</strong></li>
+</ul>
+<p>假设一个类Type，其中一个成员是指向一块资源的指针，我们通过重载”&#x3D;”操作符来进行说明：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Type</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Type&amp; <span class="keyword">operator</span> = (<span class="type">const</span> Type&amp; t)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;t)</span><br><span class="line">            <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span> <span class="type">m_t</span>;</span><br><span class="line">            <span class="type">m_t</span> = <span class="keyword">new</span> <span class="built_in">T</span>(t-&gt;<span class="type">m_t</span>);</span><br><span class="line">            <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    T* <span class="type">m_t</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码首先判断是否是自我复制，如果是的话，直接返回this指针指向的对象；如果不是，则首先安全释放当前指向的资源，再创建一块与被复制的对象资源一样的资源并指向它，最后返回复制好的对象。从异常安全的角度分析，一旦*new T(t-&gt;m_t)*执行时抛出异常，m_t将指向一块已经被删除的资源，并没有真正指向一块与被复制的对象一样的资源，此时m_t数据遭到了破坏。</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li><strong>资源泄漏问题解决方案</strong></li>
+</ul>
+<p>对于<em>资源泄漏</em>问题，解决方案是我们可以用对象来管理资源(即RAII技术，对于指针变量，也可以使用RAII技术进行管理)。我们在函数中不直接对互斥锁进行操作，而是用到一个管理互斥锁的对象MutexLock ml：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Type::Func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLock <span class="title">ml</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line">    <span class="built_in">DoSomething</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对象ml在初始化之后，自动对mutex上锁，然后做其他事。最后我们不用负责释放互斥锁，即使在DoSomething()函数中抛出了异常，在退出函数的时候，也会对ml自动调用析构函数，就不用担心互斥锁未被正常释放的问题。</p>
+<ul>
+<li><strong>数据破坏问题解决方案</strong></li>
+</ul>
+<p>对于数据破坏问题，一个策略是<em><strong>copy and swap</strong></em>。就是：先对原对象作出一个副本，在副本上作必要的修改。如果出现任何异常，原对象仍然能保持不变。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Type&amp; Type::<span class="keyword">operator</span> = (<span class="type">const</span> Type&amp; t)</span><br><span class="line">&#123;</span><br><span class="line">    Type <span class="built_in">tmp</span>(t);</span><br><span class="line">    <span class="built_in">swap</span>(<span class="type">m_t</span>, tmp-&gt;<span class="type">m_t</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述函数首先创建一个被复制对象t的副本tmp，此时原对象尚未有任何修改，这样即使申请资源时有异常抛出，也不会影响到原对象。如果创建成功，则通过swap函数对临时对象的资源和原对象资源进行交换，标准库的swap函数承诺不抛出异常，这样原对象将成功便成对象t的复制副本。对于这个函数，我们可以认为其实强烈保证异常安全的。</p>
+<h3 id="构造函数中的异常处理"><a href="#构造函数中的异常处理" class="headerlink" title="构造函数中的异常处理"></a>构造函数中的异常处理</h3><p><strong>在构造函数内抛出异常需要格外小心</strong>，可能会导致内存泄漏</p>
+<p>在构造函数中抛出异常是C++中通知对象构造失败的唯一方法。</p>
+<p>但是<strong>C++仅能 delete 被完全构造的对象</strong>，只有一个对象的构造函数完全运行完毕，这个对象才被完全地构造。所以如果在构造函数中抛出一个异常而不在构造函数内捕获，这样对象就只是部分被构造，<strong>它的析构函数将不会被执行，即使你手动进行delete。</strong>如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        a=<span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">		b=<span class="keyword">new</span> <span class="built_in">B</span>();<span class="comment">//此时抛出异常</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;构造一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	~<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">delete</span> a;</span><br><span class="line">        <span class="keyword">delete</span> b;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;销毁一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    A* a;</span><br><span class="line">    B* b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">try</span> </span><br><span class="line">	&#123;</span><br><span class="line">		person p;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="built_in">catch</span>(exception e) </span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; endl;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若构造b的时候,b&#x3D;new B()抛出异常，此时person的析构函数将不会执行，并且会导致a对象内存泄漏。所以构造函数抛出异常可能会导致已申请的资源无法释放，从而造成内存泄漏</p>
+<p><strong>解决方法：</strong></p>
+<p>1.在构造函数内将可能发生异常的部分try catch，先释放资源再把异常抛到外界</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">        	a=<span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">			b=<span class="keyword">new</span> <span class="built_in">B</span>(); <span class="comment">//发生异常            </span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">catch</span>(...)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span> a;</span><br><span class="line">            <span class="keyword">delete</span> b;</span><br><span class="line">            <span class="keyword">throw</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	~<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">delete</span> a;</span><br><span class="line">        <span class="keyword">delete</span> b;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;销毁一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    A* a;</span><br><span class="line">    B* b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>2.使用二段式构造和工厂函数</p>
+<p>构造函数中只进行不会发生异常的操作，如基本类型的初始化，把可能发生异常的操作如资源申请放到另外的函数中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()&#123;&#125;;</span><br><span class="line">	~<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">delete</span> a;</span><br><span class="line">        <span class="keyword">delete</span> b;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;销毁一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        a = <span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">        b = <span class="keyword">new</span> <span class="built_in">B</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    A* a;</span><br><span class="line">    B* b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示将资源申请放到init函数中，这样即使发生异常也能正常的析构person对象。</p>
+<p>但是<strong>二段式构造不符合RAII</strong>，无法用智能指针管理二段式构造的对象，因此一般不考虑这种方法。</p>
+<p>并且二段式构造还有一个缺陷，就是构造之后忘记调用init，<strong>解决这个缺陷需要用工厂函数</strong>，工厂函数将new和init都封装起来，调用工厂函数就可以返回新的对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">person <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    person  p;</span><br><span class="line">    p.<span class="built_in">init</span>();</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.使用智能指针(推荐)</p>
+<p>将对象内的子对象都用智能指针管理，智能指针是栈对象，在发生异常时会发生stack unwinding，自动将栈上的对象析构，这样就可以把申请的资源自动释放了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        a = <span class="built_in">make_unique</span>&lt;A&gt;();</span><br><span class="line">        b = <span class="built_in">make_unique</span>&lt;B&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">	~<span class="built_in">person</span>()&#123;&#125;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    unique_ptr&lt;A&gt; a;</span><br><span class="line">    unique_ptr&lt;B&gt; b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="析构函数的异常处理"><a href="#析构函数的异常处理" class="headerlink" title="析构函数的异常处理"></a>析构函数的异常处理</h3><p>析构函数不允许抛出异常，所以如果析构函数中有可能会抛出异常的操作，必须手动将这部分操作try catch，保证析构函数不会向外抛出异常。</p>
+<p><strong>原因如下：</strong></p>
+<p>1.如果析构函数析构到一半抛出异常，剩下的资源释放无法进行，会导致内存泄漏。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~<span class="built_in">person</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> a;</span><br><span class="line">    <span class="keyword">throw</span>;</span><br><span class="line">    <span class="keyword">delete</span> b; <span class="comment">//无法进行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上在delete a和delete b之间抛出异常将导致b的内存无法释放。</p>
+<p>2.在异常没有catch前连续抛出两次异常是未定义行为，系统会直接终止程序，如果析构函数可以抛出异常就可能导致这种事情发生。</p>
+<p>想象一下一个对象的析构函数抛出了异常，然后程序会进行stack unwind直到被catch住为止，中间这部分的栈对象会全部析构掉，如果在析构这部分栈对象的时候又抛出了异常，那么就在异常没有catch前就连续抛出了两次异常，程序会直接终止。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E5%BC%82%E5%B8%B8/" data-id="cld6uiojm000lacsfahtm9vu0" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-线程池" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.912Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>建立一个线程数组，数组大小就是线程池线程数量。线程会不断从任务队列中取出任务执行，有新的任务时将任务塞入任务队列。</p>
+<h2 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h2><p><strong>执行任务队列中的任务时需要try catch</strong>，这是为了发生异常时快速找到错误。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::runInThread</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">try</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (threadInitCallback_)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">threadInitCallback_</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (running_)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="function">Task <span class="title">task</span><span class="params">(take())</span></span>;</span><br><span class="line">      <span class="keyword">if</span> (task)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">task</span>();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">catch</span> (<span class="type">const</span> Exception&amp; ex)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(stderr, <span class="string">&quot;exception caught in ThreadPool %s\n&quot;</span>, name_.<span class="built_in">c_str</span>());</span><br><span class="line">    <span class="built_in">fprintf</span>(stderr, <span class="string">&quot;reason: %s\n&quot;</span>, ex.<span class="built_in">what</span>());</span><br><span class="line">    <span class="built_in">fprintf</span>(stderr, <span class="string">&quot;stack trace: %s\n&quot;</span>, ex.<span class="built_in">stackTrace</span>());</span><br><span class="line">    <span class="built_in">abort</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">catch</span> (<span class="type">const</span> std::exception&amp; ex)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(stderr, <span class="string">&quot;exception caught in ThreadPool %s\n&quot;</span>, name_.<span class="built_in">c_str</span>());</span><br><span class="line">    <span class="built_in">fprintf</span>(stderr, <span class="string">&quot;reason: %s\n&quot;</span>, ex.<span class="built_in">what</span>());</span><br><span class="line">    <span class="built_in">abort</span>(); <span class="comment">// abort 函数用于终止 C++ 程序。 exit 与 abort 之间的差异在于，exit 允许执行 C++ 运行时终止处理（调用全局对象析构函数）。 abort 可立即终止程序。 abort 函数绕过初始化的全局静态对象的一般析构过程。 它还绕过使用 atexit 函数指定的任何特殊处理。</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">catch</span> (...)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(stderr, <span class="string">&quot;unknown exception caught in ThreadPool %s\n&quot;</span>, name_.<span class="built_in">c_str</span>());</span><br><span class="line">    <span class="keyword">throw</span>; <span class="comment">// rethrow</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>线程池停止运行时必须对所有线程调用join()，还需要唤醒所有阻塞的线程</strong>，这是为了防止线程池的线程还没有终止时线程池就析构了，这样会提前销毁线程资源，导致程序直接终止。线程池停止运行后，任务队列会禁止接收新的任务，被阻塞的线程会被唤醒并终止，已经在执行任务的线程在当前任务执行完成后会终止(尽管任务队列中还有任务也不会继续执行)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ThreadPool::stop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  &#123;</span><br><span class="line">  <span class="function">MutexLockGuard <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">  running_ = <span class="literal">false</span>;</span><br><span class="line">  notEmpty_.<span class="built_in">notifyAll</span>();</span><br><span class="line">  notFull_.<span class="built_in">notifyAll</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; thr : threads_)</span><br><span class="line">  &#123;</span><br><span class="line">    thr-&gt;<span class="built_in">join</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>用void()函数作为中std::function的模板参数</strong>，即匹配无返回值无形参的函数，如果要执行带形参的任务可以使用std::bind，如果要执行带返回值的任务可以使用std::future。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> std::function&lt;<span class="type">void</span> ()&gt; Task;</span><br></pre></td></tr></table></figure>
+
+<p><strong>需要限制任务队列大小</strong>，否则qps过高或者任务用时过长时，会造成任务堆积在任务队列，导致cpu和内存飙升服务器挂掉。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" data-id="cld6uiojw000uacsf34fndgdz" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-线程安全的多线程队列" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%98%9F%E5%88%97/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.910Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="线程安全的多线程队列"><a href="#线程安全的多线程队列" class="headerlink" title="线程安全的多线程队列"></a>线程安全的多线程队列</h1><h2 id="队列类型"><a href="#队列类型" class="headerlink" title="队列类型"></a>队列类型</h2><p>在并发编程中，有时候需要使用线程安全的队列。如果要实现一个线程安全的队列有两种方式：一种是使用阻塞算法，另一种是使用非阻塞算法。</p>
+<p>使用阻塞算法的队列可以用一个锁（入队和出队用同一把锁）或两个锁（入队和出队用不同的锁）等方式来实现。非阻塞的实现方式则可以使用自旋+CAS的方式来实现。</p>
+<p><strong>阻塞队列与非阻塞队列</strong></p>
+<p>阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作支持阻塞的插入和移除方法。</p>
+<p>支持阻塞的插入方法put：当队列满时，队列会阻塞插入元素的线程，直到队列不满。</p>
+<p>支持阻塞的移除方法take：在队列为空时，获取元素的线程会等待队列变为非空。</p>
+<p>阻塞队列常用于生产者和消费者的场景，生产者是向队列里添加元素的线程，消费者是从队列里取元素的线程。阻塞队列就是生产者用来存放元素、消费者用来获取元素的容器。</p>
+<p>非阻塞队列：若队列为空从中获取元素则会返回空，若队列满了插入元素则会抛出异常。</p>
+<p><strong>有界队列与无界队列</strong></p>
+<p>有界队列：就是有固定大小的队列。比如设定了固定大小的ArrayBlockingQueue，又或者大小为0，只是在生产者和消费者中做中转用的SynchronousQueue。</p>
+<p>无界队列：指的是没有设置固定大小的队列。这些队列的特点是可以直接入列，直到溢出。当然现实几乎不会有到这么大的容量（超过 Integer.MAX_VALUE），所以从使用者的体验上，就相当于 “无界”。线程池中一般使用有界队列，防止任务堆积导致内存满载。</p>
+<h3 id="阻塞无界队列的实现"><a href="#阻塞无界队列的实现" class="headerlink" title="阻塞无界队列的实现"></a>阻塞无界队列的实现</h3><p>使用deque作为基本数据结构，无界队列可以一直生产，所以不用等待队列中有位置才生产，每生产一个产品就notify一个消费者。消费take时要判断有无产品。</p>
+<p>所以<strong>只需要一个mutex锁，一个条件变量notEmpty</strong>，消费者用来等待notEmpty有产品可以消费</p>
+<h3 id="阻塞有界队列的实现"><a href="#阻塞有界队列的实现" class="headerlink" title="阻塞有界队列的实现"></a>阻塞有界队列的实现</h3><p>使用循环队列作为基本数据结构，用front和tail存储队列首部和尾部的下标，front指向队列的第一个元素，tail指向队列插入的下一个元素，入队时queue[tail] &#x3D; data，出队时 data &#x3D; queue[front]。为了区分空队和满队的情况，队列必须空出一个位置，空队时tail等于front，满队时front &#x3D; (tail + 1)%size。</p>
+<h2 id="多线程队列算法优化"><a href="#多线程队列算法优化" class="headerlink" title="多线程队列算法优化"></a>多线程队列算法优化</h2><p>对于一个队列来说有两个最主要的动作：添加（enqueue）和删除（dequeue）节点。</p>
+<p>在一个（或多个）线程在对一个队列进行enqueue操作的同时可能会有一个（或多个）线程对这个队列进行dequeue操作。因为enqueue和dequeue都是对同一个队列里的节点进行操作，为了保证线程安全，一般在实现中都会在队列的结构体中加入一个队列锁，在进行enqueue和dequeue时都会先锁住整个队列然后再进行相关的操作。</p>
+<p>但是，这其中其实有一个潜在的性能瓶颈：enqueue和dequeue操作都要锁住整个队列，这在线程少的时候可能没什么问题，但是只要线程数一多，这个锁竞争所产生的性能瓶颈就会越来越严重。</p>
+<p>如果我们仔细想一想enqueue和dequeue的具体操作就会发现他们的操作其实不一定是冲突的。例如：如果所有的enqueue操作都是往队列的尾部插入新节点，而所有的dequeue操作都是从队列的头部删除节点，那么enqueue和dequeue大部分时候都是相互独立的，我们大部分时候根本不需要锁住整个队列，白白损失性能！那么一个很自然就能想到的算法优化方案就呼之欲出了：**我们可以把那个队列锁拆成两个：一个队列头部锁（head lock)和一个队列尾部锁(tail lock)**。设计思路是对了，但是如果再仔细思考一下它的实现的话我们会发现其实不太容易，因为有两个特殊情况：第一种就是往空队列里插入第一个节点的时候，第二种就是从只剩最后一个节点的队列中删除的时候。</p>
+<p>当我们向空队列中插入第一个节点的时候，我们需要同时修改队列的head和tail指针，使他们同时指向这个新插入的节点，换句话说，我们此时即需要拿到head lock又需要拿到tail lock。而另一种情况是对只剩一个节点的队列进行dequeue的时候，我们也是需要同时修改head和tail指针使他们指向NULL，亦即我们需要同时获得head和tail lock。有经验的同学会立刻发现我们进入危险区了！是什么危险呢？死锁！多线程编程中最臭名昭著的一种bug就是死锁了。例如，如果线程A在锁住了资源1后还想要获取资源2，而线程B在锁住了资源2后还想要获取资源1，这时两个线程谁都不能获得自己想要的那个资源，两个线程就死锁了。所以我们要小心奕奕的设计这个算法以避免死锁，例如保证enqueue和dequeue对head lock和tail lock的请求顺序（lock ordering）是一致的。但是这样设计出来的算法很容易就会包含多次的加锁&#x2F;解锁操作，这些都会造成不必要的开销，尤其是在线程数很多的情况下反而可能导致性能的下降。</p>
+<p>好在有聪明人早在96年就想到了一个更妙的算法。这个算法也是用了head和tail两个锁，但是它有一个关键的地方是它在队列初始化的时候head和tail指针不为空，而是指向一个空节点。在enqueue的时候只要向队列尾部添加新节点就好了。而dequeue的情况稍微复杂点，它要返回的不是头节点，而是head-&gt;next，即头节点的下一个节点。先来看伪代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">node_t</span> &#123;</span><br><span class="line">    TYPE value; </span><br><span class="line">    <span class="type">node_t</span> *next</span><br><span class="line">&#125; NODE;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">queue_t</span> &#123;</span><br><span class="line">    NODE *head; </span><br><span class="line">    NODE *tail;</span><br><span class="line">    LOCK q_h_lock;</span><br><span class="line">    LOCK q_t_lock;</span><br><span class="line">&#125; Q;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">initialize</span>(Q *q) &#123;</span><br><span class="line">   node = <span class="built_in">new_node</span>()   <span class="comment">// Allocate a free node</span></span><br><span class="line">   node-&gt;next = <span class="literal">NULL</span>   <span class="comment">// Make it the only node in the linked list</span></span><br><span class="line">   q-&gt;head = q-&gt;tail = node   <span class="comment">// Both head and tail point to it</span></span><br><span class="line">   q-&gt;q_h_lock = q-&gt;q_t_lock = FREE   <span class="comment">// Locks are initially free</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">enqueue</span>(Q *q, TYPE value) &#123;</span><br><span class="line">   node = <span class="built_in">new_node</span>()       <span class="comment">// Allocate a new node from the free list</span></span><br><span class="line">   node-&gt;value = value     <span class="comment">// Copy enqueued value into node</span></span><br><span class="line">   node-&gt;next = <span class="literal">NULL</span>       <span class="comment">// Set next pointer of node to NULL</span></span><br><span class="line">   <span class="built_in">lock</span>(&amp;q-&gt;q_t_lock)      <span class="comment">// Acquire t_lock in order to access Tail</span></span><br><span class="line">      q-&gt;tail-&gt;next = node <span class="comment">// Link node at the end of the queue</span></span><br><span class="line">      q-&gt;tail = node       <span class="comment">// Swing Tail to node</span></span><br><span class="line">   <span class="built_in">unlock</span>(&amp;q-&gt;q_t_lock)    <span class="comment">// Release t_lock</span></span><br><span class="line">｝</span><br><span class="line"> </span><br><span class="line"><span class="built_in">dequeue</span>(Q *q, TYPE *pvalue) &#123;</span><br><span class="line">   <span class="built_in">lock</span>(&amp;q-&gt;q_h_lock)   <span class="comment">// Acquire h_lock in order to access Head</span></span><br><span class="line">      node = q-&gt;head    <span class="comment">// Read Head</span></span><br><span class="line">      new_head = node-&gt;next       <span class="comment">// Read next pointer</span></span><br><span class="line">      <span class="keyword">if</span> new_head == <span class="literal">NULL</span>         <span class="comment">// Is queue empty?</span></span><br><span class="line">         <span class="built_in">unlock</span>(&amp;q-&gt;q_h_lock)     <span class="comment">// Release h_lock before return</span></span><br><span class="line">         <span class="keyword">return</span> FALSE             <span class="comment">// Queue was empty</span></span><br><span class="line">      endif</span><br><span class="line">      *pvalue = new_head-&gt;value   <span class="comment">// Queue not empty, read value</span></span><br><span class="line">      q-&gt;head = new_head  <span class="comment">// Swing Head to next node</span></span><br><span class="line">   <span class="built_in">unlock</span>(&amp;q-&gt;q_h_lock)   <span class="comment">// Release h_lock</span></span><br><span class="line">   <span class="built_in">free</span>(node)             <span class="comment">// Free node</span></span><br><span class="line">   <span class="keyword">return</span> TRUE            <span class="comment">// Queue was not empty, dequeue succeeded</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现玄机了么？是的，这个算法中队列总会包含至少一个节点。dequeue每次返回的不是头节点，而是头节点的下一个节点中的数据：如果head-&gt;next不为空的话就把这个节点的数据取出来作为返回值，同时再把head指针指向这个节点，此时旧的头节点就可以被free掉了。这个在队列初始化时插入空节点的技巧使得enqueue和dequeue彻底相互独立了。但是，还有一个小地方在实现的时候需要注意：对第一个空节点的next指针的读写。想象一下，当一个线程对一个空队列进行第一次enqueue操作时刚刚运行完第25行的代码（对该空节点的next指针进行写操作）；而此时另一个线程对这个队列进行第一次dequeue操作时恰好运行到第33行（对该空节点的next指针进行读操作），它们其实还是有冲突！不过，好在一般来讲next指针是32位数据，而现代的CPU已经能保证多线程程序中内存对齐了的32位数据读写操作的原子性，而一般来讲编译器会自动帮你对齐32位数据，所以这个不是问题。唯一需要注意的是我们要确保enqueue线程是先让要添加的新节点包含好数据再把新节点插入链表（也就是不能先插入空节点，再往节点中填入数据），那么dequeue线程就不会拿到空的节点。其实我们也可以把q_t_lock理解成生产者的锁，q_h_lock理解成消费者的锁，这样生产者（们）和消费者（们）的操作就相互独立了，只有在多个生产者对同一队列进行添加操作时，以及多个消费者对同一队列进行删除操作时才需要加锁以使访问互斥。</p>
+<p>通过使用这个算法，我成功的把一个32线程程序的性能提升了11%！可见多线程中的锁竞争对性能影响之大！此算法出自一篇著名的论文：M. Michael and M. Scott. Simple, Fast, and Practical Non-Blocking and Blocking Concurren Queue Algorithms </p>
+<p>如果还想做更多优化的话可以参考这篇论文实现相应的Non Blocking版本的算法，性能还能有更多提升。当然了，这个算法早已被集成到java.util.concurrent里了（即LinkedBlockingQueue），其他的并行库例如Intel的TBB多半也有类似的算法，如果大家能用上现成的库的话就不要再重复造轮子了。为什么别造并行算法的轮子呢？因为高性能的并行算法实在太难正确地实现了，尤其是Non Blocking，Lock Free之类的“火箭工程”。有多难呢？Doug Lea提到java.util.concurrent中一个Non Blocking的算法的实现大概需要1年的时间，总共约500行代码。所以，对最广大的程序员来说，别去写Non Blocking, Lock Free的代码，只管用就行了。</p>
+<p>多线程队列算法有很多种，大家应根据不同的应用场合选取最优算法（例如是CPU密集型还是IO密集型）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%98%9F%E5%88%97/" data-id="cld6uiojw000wacsfah08cgi2" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-线程安全" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.907Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>多线程安全问题：</p>
+<p>当一个对象能被多个线程同时看到时，那么对象的销毁时机就会变得模糊不清，可能出现多种竞态条件（race condition）：</p>
+<ul>
+<li>在即将析构一个对象时，从何而知此刻是否有别的线程正在执行该对象的成员函数？</li>
+<li>如何保证在执行成员函数期间，对象不会在另一个线程被析构？</li>
+<li>在调用某个对象的成员函数之前，如何得知这个对象还活着？它的析构函数会不会碰巧执行到一半</li>
+</ul>
+<p>而当成员变量包含指针时，<strong>判断一个指针是不是合法指针没有高效的办法，这是C&#x2F;C++ 指针问题的根源。</strong></p>
+<h2 id="对象构造的线程安全"><a href="#对象构造的线程安全" class="headerlink" title="对象构造的线程安全"></a>对象构造的线程安全</h2><p>对象构造要做到线程安全，唯一的要求是在构造期间不要泄露 this 指针，即</p>
+<ul>
+<li>不要在构造函数中注册任何回调；</li>
+<li>也不要在构造函数中把 this 传给跨线程的对象，即使是构造函数的最后一行也不能传给其他对象。</li>
+</ul>
+<p>之所以这样规定，是因为在构造函数执行期间对象还没有完成初始化，如果this被泄露给了其他对象（其自身创建的子对象除外），那么别的线程有可能访问这个半成品对象，这会造成难以预料的后果。  </p>
+<p>即使构造函数的最后一行也不要泄露 this，因为 Foo 有可能是个基类，基类先于派生类构造，执行完 Foo::Foo() 的最后一行代码还会继续执行派生类的构造函数，这时 派生类的对象还处于构造中，仍然不安全。  </p>
+<h2 id="对象析构的线程安全"><a href="#对象析构的线程安全" class="headerlink" title="对象析构的线程安全"></a>对象析构的线程安全</h2><p>析构函数中不宜使用锁：</p>
+<ul>
+<li>调用析构函数的时候，正常逻辑来说这个对象已经没有其他线程在使用了，用锁也没有效果；</li>
+<li>即使使用了锁，析构函数抢到了锁，其他线程还在等待这个锁，析构函数中锁被析构掉了，其他线程就是未定义行为。</li>
+</ul>
+<p><strong>使用指针时该如何判断指针是否还存活</strong></p>
+<p>我们无法保证执行一个对象的成员函数时这个对象没有被析构，即使在析构后将对象指针置nullptr也一样。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//线程A</span></span><br><span class="line">~<span class="built_in">P</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> xxx;</span><br><span class="line">    <span class="keyword">this</span> = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程B</span></span><br><span class="line"><span class="keyword">if</span>(p != <span class="literal">nullptr</span>) <span class="comment">//执行完这一步后去执行线程A</span></span><br><span class="line">&#123;</span><br><span class="line">    p-&gt;<span class="built_in">update</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上完全可以在线程B执行完判空语句进入循环后，转而执行线程A的析构函数，从而导致线程B对空指针操作。</p>
+<p>以观察者模式为例，observer对象注册自己到Observable，后者保存有前者的指针，一旦某个事件发生，Observable就通过observer指针调用其成员方法。多线程情况下，Observable无法得知当前调用的observer指针是否还有效，即使使用锁也不行。</p>
+<p>解决方法：使用智能指针。使用weak_ptr保存指针，可以清楚的知道指针是否存活：如果weak_ptr可以转化为shared_ptr，证明指针还有效，否则无效。不打算决定对象的生死，就使用weak_ptr管理对象指针；否则使用shared_ptr。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" data-id="cld6uiojv000tacsf7o4l0xy0" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-现代CMake" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E7%8E%B0%E4%BB%A3CMake/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.903Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="现代CMake"><a href="#现代CMake" class="headerlink" title="现代CMake"></a>现代CMake</h1><h2 id="为什么要使用现代CMake"><a href="#为什么要使用现代CMake" class="headerlink" title="为什么要使用现代CMake"></a>为什么要使用现代CMake</h2><p>现代 CMake 指的是 CMake 3.x，古代 CMake 指的是 CMake 2.x。许多人认识的 CMake 都是古代 CMake，现代 CMake 和古代 CMake 相比，使用更方便，功能更强大。</p>
+<p>例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//古代CMake构建步骤复杂</span></span><br><span class="line">mkdir build	<span class="comment">//需要先创建 build 目录      </span></span><br><span class="line">cd build	<span class="comment">//切换到 build 目录	</span></span><br><span class="line">cmake ..	<span class="comment">//在 build 目录运行 cmake &lt;源码目录&gt; 生成 Makefile</span></span><br><span class="line">make -j4	<span class="comment">//执行本地的构建系统 make 真正开始构建（4进程并行）</span></span><br><span class="line">sudo make install	<span class="comment">//让本地的构建系统执行安装步骤</span></span><br><span class="line">cd ..	<span class="comment">//回到源码目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//现代CMake提供了更方便的 -B 和 --build 指令，不同平台，统一命令</span></span><br><span class="line">cmake -B build	<span class="comment">// 在源码目录用 -B 直接创建 build 目录并生成 build/Makefile</span></span><br><span class="line">cmake --build build -j4	<span class="comment">// 自动调用本地的构建系统在 build 里构建，即：make -C build -j4</span></span><br><span class="line">sudo cmake --build build --target install	<span class="comment">// 调用本地的构建系统执行 install 这个目标，即安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//cmake -B build 免去了先创建 build 目录再切换进去再指定源码目录的麻烦。</span></span><br><span class="line"><span class="comment">//cmake --build build 统一了不同平台（Linux 上会调用 make，Windows 上调用 devenv.exe）</span></span><br><span class="line"><span class="comment">//结论：从现在开始，如果在命令行操作 cmake，请使用更方便的 -B 和 --build 命令。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="CMake命令行选项"><a href="#CMake命令行选项" class="headerlink" title="CMake命令行选项"></a>CMake命令行选项</h2><p>CMake 项目的构建分为两步：</p>
+<ul>
+<li>第一步是 cmake -B build，称为配置阶段（configure），这时只检测环境并生成构建规则，会在 build 目录下生成本地构建系统能识别的项目文件（Makefile 或是 .sln）</li>
+<li>第二步是 cmake –build build，称为构建阶段（build），这时才实际调用编译器来编译代码，生成可执行文件</li>
+</ul>
+<p><strong>-B和–build</strong></p>
+<p>-B用来生成构建系统文件(makefile,ninja)，而–build则用来调用本地的构建系统生成可执行文件。</p>
+<p>-B免去了先创建 build 目录再切换进去再指定源码目录的麻烦。–build统一了不同平台，<strong>如果没有–build这条命令，就需要根据底层构建系统的不同调用不同的构建命令</strong>，比如make或者ninja。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmake -B build	<span class="comment">// 在源码目录用 -B 直接创建 build 目录并生成 build/Makefile</span></span><br><span class="line">cmake --build build -j4	<span class="comment">// 自动调用本地的构建系统在 build 里构建，即：make -C build -j4</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>-D</strong></p>
+<p>-D用于指定配置变量（又称缓存变量）。</p>
+<p>在配置阶段(生成makefile的阶段)可以通过 -D 设置缓存变量。第二次配置时，之前的 -D 添加仍然会被保留。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置安装路径为 /opt/openvdb-8.0（会安装到 /opt/openvdb-8.0/lib/libopenvdb.so）</span></span><br><span class="line">make -B build -DCMAKE_INSTALL_PREFIX=/opt/openvdb<span class="number">-8.0</span></span><br><span class="line"><span class="comment">//设置构建模式为Release（编译期会开启全部优化，区别于Debug模式）</span></span><br><span class="line">cmake -B build -DCMAKE_BUILD_TYPE=Release</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二次配置时没有 -D 参数，但是之前的 -D 设置的变量都会被保留</span></span><br><span class="line">cmake -B build	<span class="comment">//（此时缓存里仍有你之前定义的 CMAKE_BUILD_TYPE 和 CMAKE_INSTALL_PREFIX）</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>-G</strong></p>
+<p>-G用于指定要用的生成器。</p>
+<p><strong>CMake 是一个跨平台的构建系统，可以从 CMakeLists.txt 生成不同类型的构建系统</strong>（比如 Linux 的 make，Windows 的 MSBuild），从而让构建规则可以只写一份，跨平台使用。过去的软件（例如 TBB）要跨平台，只好 Makefile 的构建规则写一份，MSBuild 也写一份。</p>
+<p>现在只需要写一次 CMakeLists.txt，他会视不同的操作系统，生成不同构建系统的规则文件。那个和操作系统绑定的构建系统（make、MSBuild）称为本地构建系统（native buildsystem）。负责从 CMakeLists.txt 生成本地构建系统构建规则文件的，称为生成器（generator）。</p>
+<p>Linux 系统上的 CMake 默认用是 Unix Makefiles 生成器；Windows 系统默认是 Visual Studio 2019 生成器；MacOS 系统默认是 Xcode 生成器。可以用 -G 参数改用别的生成器，例如 cmake -GNinja 会生成 Ninja 这个构建系统的构建规则。Ninja 是一个高性能，跨平台的构建系统，Linux、Windows、MacOS 上都可以用。</p>
+<p>事实上，MSBuild 是单核心的构建系统，Makefile 虽然多核心但因历史兼容原因效率一般。而 Ninja 则是专为性能优化的构建系统，他和 CMake 结合都是行业标准了。</p>
+<p>性能上：Ninja &gt; Makefile &gt; MSBuild。Makefile 启动时会把每个文件都检测一遍，浪费很多时间。特别是有很多文件，但是实际需要构建的只有一小部分，从而是 I&#x2F;O Bound 的时候，Ninja 的速度提升就很明显。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定生成ninja的构建规则</span></span><br><span class="line">cmake -Gninja -B build</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加源文件"><a href="#添加源文件" class="headerlink" title="添加源文件"></a>添加源文件</h2><h3 id="单个源文件处理"><a href="#单个源文件处理" class="headerlink" title="单个源文件处理"></a>单个源文件处理</h3><p>1.<strong>add_executable添加源文件</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>2.<strong>先创建目标，稍后再添加源文件</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC main.cpp)</span><br></pre></td></tr></table></figure>
+
+<h3 id="多个源文件处理"><a href="#多个源文件处理" class="headerlink" title="多个源文件处理"></a>多个源文件处理</h3><p>1.<strong>逐个文件添加即可</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC main.cpp other.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>2.<strong>使用变量存储文件名</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#set设置变量，$&#123;var&#125;引用</span></span><br><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">set</span>(sources main.cpp other.cpp)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>TIP</strong>:可以在添加时加上.h头文件，这样在 VS 里可以出现在“Header Files”一栏</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">set</span>(sources main.cpp other.cpp other.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="GLOB批量添加源文件"><a href="#GLOB批量添加源文件" class="headerlink" title="GLOB批量添加源文件"></a>GLOB批量添加源文件</h3><p>使用 <strong>GLOB</strong> 自动查找当前目录下指定扩展名的文件，实现批量添加源文件</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>缺陷和改进</strong>：set设置的变量在第一次配置后会缓存在文件中，后续多次构建不会更新。启用 <strong>CONFIGURE_DEPENDS</strong> 选项，当添加新文件时，自动更新变量(<strong>推荐</strong>)</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources CONFIGURE_DEPENDS *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加子目录源文件"><a href="#添加子目录源文件" class="headerlink" title="添加子目录源文件"></a>添加子目录源文件</h3><p>上述方法添加子目录源文件必须把路径名和后缀名的排列组合全部写出来，过于麻烦。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources CONFIGURE_DEPENDS *.cpp *.h mylib/*.cpp mylib/*.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>改进</strong>：</p>
+<p>1.用 <strong>aux_source_directory</strong>，自动搜集需要的文件后缀名</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">aux_source_directory</span>(. sources) <span class="comment">#搜索当前目录</span></span><br><span class="line"><span class="keyword">aux_source_directory</span>(mylib sources) <span class="comment">#搜索mylib目录</span></span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2.使用 <strong>GLOB_RECURSE</strong> 自动包含所有子文件夹下的文件</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE sources CONFIGURE_DEPENDS *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>缺陷</strong>：因为<strong>GLOB_RECURSE</strong>自动包含所有子文件夹的文件，所以它会把 <strong>build</strong> 目录里生成的临时 .cpp 文件也加进来</p>
+<p><strong>解决方案</strong>：要么把源码统一放到 src 目录下，要么要求使用者不要把 build 放到和源码同一个目录里，建议把源码放到 src 目录下，然后在文件名前面添加src路径(<strong>推荐</strong>)</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE sources CONFIGURE_DEPENDS src/*.cpp src/*.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="项目配置变量"><a href="#项目配置变量" class="headerlink" title="项目配置变量"></a>项目配置变量</h2><h3 id="CMAKE-BUILD-TYPE"><a href="#CMAKE-BUILD-TYPE" class="headerlink" title="CMAKE_BUILD_TYPE"></a><strong>CMAKE_BUILD_TYPE</strong></h3><p>CMAKE_BUILD_TYPE 是 CMake 中一个特殊的变量，用于控制构建类型，他的值可以是：</p>
+<ul>
+<li>Debug 调试模式，完全不优化，生成调试信息，方便调试程序</li>
+<li>Release 发布模式，优化程度最高，性能最佳，但是编译比 Debug 慢</li>
+<li>MinSizeRel 最小体积发布，生成的文件比 Release 更小，不完全优化，减少二进制体积</li>
+<li>RelWithDebInfo 带调试信息发布，生成的文件比 Release 更大，因为带有调试的符号信息</li>
+</ul>
+<p>默认情况下 CMAKE_BUILD_TYPE 为空字符串，这时相当于 Debug</p>
+<p><strong>各种构建模式在编译器选项上的区别</strong></p>
+<ul>
+<li>Debug: <code>-O0 -g</code></li>
+<li>Release: <code>-O3 -DNDEBUG</code></li>
+<li>MinSizeRel: <code>-Os -DNDEBUG</code></li>
+<li>RelWithDebInfo: <code>-O2 -g -DNDEBUG</code></li>
+</ul>
+<p>注意定义了 NDEBUG 宏会使 assert 被去除掉。</p>
+<p><strong>修改变量的默认值</strong></p>
+<p>如何让 CMAKE_BUILD_TYPE 在用户没有指定的时候为 Release，指定的时候保持用户指定的值不变呢。通过 if (NOT CMAKE_BUILD_TYPE) 判断是否为空，如果空则自动设为 Release 模式。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">NOT</span> CMAKE_BUILD_TYPE)</span><br><span class="line">	<span class="keyword">set</span>(CMAKE_BUILD_TYPE Release)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="project"><a href="#project" class="headerlink" title="project"></a>project</h3><p>project会初始化项目信息，并把当前 <strong>CMakeLists.txt</strong>所在位置作为根目录，设置了project后会初始化一系列跟project相关的变量。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_NAME: $&#123;PROJECT_NAME&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_SOURCE_DIR: $&#123;PROJECT_SOURCE_DIR&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_BINARY_DIR: $&#123;PROJECT_BINARY_DIR&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;CMAKE_CURRENT_SOURCE_DIR: $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>) <span class="comment">#表示当前源码目录的位置，如~/hellocmake</span></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;CMAKE_CURRENT_BINARY_DIR: $&#123;CMAKE_CURRENT_BINARY_DIR&#125;&quot;</span>) <span class="comment">#表示当前输出目录的位置，如~/hellocmake/build</span></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p><strong>PROJECT_x_DIR</strong> <strong>和</strong> <strong>CMAKE_CURRENT_x_DIR</strong> <strong>的区别</strong></p>
+<ul>
+<li>PROJECT_SOURCE_DIR 表示最近一次调用 project 的 CMakeLists.txt 所在的源码目录。</li>
+<li>CMAKE_CURRENT_SOURCE_DIR 表示当前 CMakeLists.txt 所在的源码目录。</li>
+<li>CMAKE_SOURCE_DIR 表示最为外层 CMakeLists.txt 的源码根目录。</li>
+</ul>
+<p>利用 PROJECT_SOURCE_DIR 可以实现从子模块里直接获得项目最外层目录的路径。<strong>不建议用</strong> CMAKE_SOURCE_DIR，那样会让你的项目无法被人作为子模块使用。</p>
+<p><strong>其他相关变量</strong></p>
+<ul>
+<li>PROJECT_SOURCE_DIR：当前项目源码路径（存放main.cpp的地方）</li>
+<li>PROJECT_BINARY_DIR：当前项目输出路径（存放main.exe的地方）</li>
+<li>CMAKE_SOURCE_DIR：根项目源码路径（存放main.cpp的地方）</li>
+<li>CMAKE_BINARY_DIR：根项目输出路径（存放main.exe的地方）</li>
+<li>PROJECT_IS_TOP_LEVEL：BOOL类型，表示当前项目是否是（最顶层的）根项目</li>
+<li>PROJECT_NAME：当前项目名</li>
+<li>CMAKE_PROJECT_NAME：根项目的项目名</li>
+</ul>
+<p><strong>用项目名代替PROJECT_NAME</strong></p>
+<p>可以用项目名代替PROJECT_NAME。除此之外CMake 的 <strong>${}</strong> 表达式还可以嵌套使用</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake VERSION <span class="number">0.2</span>.<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_NAME: $&#123;PROJECT_NAME&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_VERSION: $&#123;PROJECT_VERSION&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_SOURCE_DIR: $&#123;PROJECT_SOURCE_DIR&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_BINARY_DIR: $&#123;PROJECT_BINARY_DIR&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;hellocmake_VERSION: $&#123;hellocmake_VERSION&#125;&quot;</span>) <span class="comment">#直接用hellocmake拼接_VERSION也可以使用</span></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;hellocmake_SOURCE_DIR: $&#123;hellocmake_SOURCE_DIR&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;hellocmake_BINARY_DIR: $&#123;hellocmake_BINARY_DIR&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;hellocmake_SOURCE_DIR: $&#123;$&#123;PROJECT_NAME&#125;_SOURCE_DIR&#125;&quot;</span>) <span class="comment">#在表达式内嵌套project_name，效果一样</span></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p><strong>设置子模块为project</strong></p>
+<p>子模块里也可以用 <strong>project</strong>命令，将当前目录作为一个独立的子项目。</p>
+<p>这样一来 PROJECT_SOURCE_DIR <strong>就会是子模块的源码目录而不是外层了</strong>。这时候 CMake 会认为这个子模块是个独立的项目，会额外做一些初始化。他的构建目录 PROJECT_BINARY_DIR 也会变成 build&#x2F;&lt;源码相对路径&gt;。这样在 MSVC 上也会看见子项目的生成。</p>
+<p><strong>project的LANGUAGES字段</strong></p>
+<p>project(项目名 LANGUAGES 使用的语言列表…) 指定了该项目使用了哪些编程语言。</p>
+<p>目前支持的语言包括：</p>
+<ul>
+<li>C：C语言</li>
+<li>CXX：C++语言</li>
+<li>ASM：汇编语言</li>
+<li>Fortran：老年人的编程语言</li>
+<li>CUDA：英伟达的 CUDA（3.8 版本新增）</li>
+<li>OBJC：苹果的 Objective-C（3.16 版本新增）</li>
+<li>OBJCXX：苹果的 Objective-C++（3.16 版本新增）</li>
+<li>ISPC：一种因特尔的自动 SIMD 编程语言（3.18 版本新增）</li>
+</ul>
+<p>如果不指定 LANGUAGES，默认为 C 和 CXX。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_BUILD_TYPE Release)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>也可以先设置 <strong>LANGUAGES NONE</strong>，之后再调用 **enable_language(CXX)**。这样可以把 enable_language 放到 if 语句里，从而只有某些选项开启才启用某语言之类的</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake LANGUAGES NONE)</span><br><span class="line"><span class="keyword">enable_language</span>(CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p><strong>project的version字段</strong></p>
+<p>project(项目名 VERSION x.y.z) 可以把当前项目的版本号设定为 x.y.z。之后可以通过 PROJECT_VERSION 来获取当前项目的版本号。</p>
+<ul>
+<li>PROJECT_VERSION_MAJOR 获取 x（主版本号）。</li>
+<li>PROJECT_VERSION_MINOR 获取 y（次版本号）。</li>
+<li>PROJECT_VERSION_PATCH 获取 z（补丁版本号）。</li>
+</ul>
+<p><strong>其他的一些项目字段</strong></p>
+<p>CMake 官方还提供了一些project字段，但用的较少。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake</span><br><span class="line">    DESCRIPTION <span class="string">&quot;A free, open-source, online modern C++ course&quot;</span></span><br><span class="line">    HOMEPAGE_URL https://github.com/parallel101/course</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_NAME: $&#123;PROJECT_NAME&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_DESCRIPTION: $&#123;PROJECT_DESCRIPTION&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PROJECT_HOMEPAGE_URL: $&#123;PROJECT_HOMEPAGE_URL&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<h3 id="CMAKE-CXX-STANDARD"><a href="#CMAKE-CXX-STANDARD" class="headerlink" title="CMAKE_CXX_STANDARD"></a>CMAKE_CXX_STANDARD</h3><p>CMAKE_CXX_STANDARD 是一个整数，表示要用的 C++ 标准。比如需要 C++17 那就设为 17，需要 C++23 就设为 23。</p>
+<p>CMAKE_CXX_STANDARD_REQUIRED 是 BOOL 类型，可以为 ON 或 OFF，默认 OFF。他表示是否一定要支持你指定的 C++ 标准：如果为 OFF 则 CMake 检测到编译器不支持 C++17 时不报错，而是默默调低到 C++14 给你用；为 ON 则发现不支持报错，更安全。</p>
+<p>CMAKE_CXX_EXTENSIONS 也是 BOOL 类型，默认为 ON。设为 ON 表示启用 GCC 特有的一些扩展功能；OFF 则关闭 GCC 的扩展功能，只使用标准的 C++。<strong>要兼容其他编译器（如 MSVC）的项目，都会设为 OFF 防止不小心用了 GCC 才有的特性。</strong></p>
+<p>此外，<strong>最好是在 project 指令前设置 CMAKE_CXX_STANDARD 这一系列变量</strong>，这样 CMake 可以在 project 函数里对编译器进行一些检测，看看他能不能支持 C++17 的特性。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_EXTENSIONS <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(hellocmake LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p><strong>TIP</strong>:请勿直接修改 CMAKE_CXX_FLAGS 来添加 -std&#x3D;c++17，因为这并不能兼容所有的编译器(如MSVC)；此外如果 CMake 已经自动根据 CMAKE_CXX_STANDARD 的默认值 11 添加 -std&#x3D;c++11 选项了，手动添加 -std&#x3D;c++17 选项会造成冲突。</p>
+<h3 id="cmake-minimum-required"><a href="#cmake-minimum-required" class="headerlink" title="cmake_minimum_required"></a><strong>cmake_minimum_required</strong></h3><p><strong>cmake_minimum_required</strong> 指定最低所需的 CMake 版本。</p>
+<p>假如你写的 CMakeLists.txt 包含了 3.15 版本才有的特性，如果用户在老版本上使用，就会出现各种奇怪的错误。因此最好在第一行加个 cmake_minimum_required(VERSION 3.15)，表示本 CMakeLists.txt 至少需要 CMake 版本 3.15 以上才能运行。如果用户的 CMake 版本小于 3.15，会正常报错提示版本过低，而不是等到某处用到 3.15 版本才有的特性时才出错。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>...<span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;CMAKE_VERSION: $&#123;CMAKE_VERSION&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;CMAKE_MINIMUM_REQUIRED_VERSION: $&#123;CMAKE_MINIMUM_REQUIRED_VERSION&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p><strong>TIP</strong>:虽然名字叫 minimum_required，实际上不光是 &gt;&#x3D; 3.15 就不出错这么简单。根据你指定的不同的版本号，还会决定接下来一系列 CMake 指令的行为。此外，你还可以通过 3.15…3.20 来表示最高版本不超过 3.20。这会对 cmake_policy 有所影响，稍后再提。</p>
+<h3 id="其他变量"><a href="#其他变量" class="headerlink" title="其他变量"></a>其他变量</h3><ul>
+<li>CMAKE_BUILD_TOOL: 执行构建过程的工具。该变量设置为CMake构建时输出所需的程序。对于VS 6， CMAKE_BUILD_TOOL设置为msdev， 对于Unix，它被设置为make 或 gmake。 对于 VS 7， 它被设置为devenv. 对于Nmake构建文件，它的值为nmake。</li>
+<li>CMAKE_DL_LIBS: 包含dlopen和dlclose的库的名称。</li>
+<li>CMAKE_COMMAND: 指向cmake可执行程序的全路径。</li>
+<li>CMAKE_CTEST_COMMAND: 指向ctest可执行程序的全路径。</li>
+<li>CMAKE_EDIT_COMMAND: cmake-gui或ccmake的全路径。</li>
+<li>CMAKE_EXECUTABLE_SUFFIX: 该平台上可执行程序的后缀。</li>
+<li>CMAKE_SIZEOF_VOID_P: void指针的大小。</li>
+<li>CMAKE_SKIP_RPATH: 如果为真，将不添加运行时路径信息。默认情况下是如果平台支持运行时信息，将会添加运行时信息到可执行程序当中。这样从构建树中运行程序将很容易。为了在安装过程中忽略掉RPATH，使用CMAKE_SKIP_INSTALL_RPATH。</li>
+<li>CMAKE_GENERATOR: 构建工程的产生器。它将产生构建文件 (e.g. “Unix Makefiles”, “Visual Studio 2019”, etc.)</li>
+</ul>
+<h2 id="添加子模块"><a href="#添加子模块" class="headerlink" title="添加子模块"></a>添加子模块</h2><p>大型的项目，往往会划分为几个子项目。即使你只有一个子项目，也建议你先创建一个子目录，方便以后追加新的子项目。</p>
+<img src="https://raw.githubusercontent.com/hufei96/Image/main/project_dirctory.png" alt="image-20221215015212928" style="zoom: 33%;" />
+
+<p>上图的案例中，我们在根目录下，创建了两个子项目 biology 和 pybmain，他们分别在各自的目录下有自己的 CMakeLists.txt。</p>
+<h3 id="子项目的头文件怎么处理"><a href="#子项目的头文件怎么处理" class="headerlink" title="子项目的头文件怎么处理"></a>子项目的头文件怎么处理</h3><p>可以通过 target_include_directories 指定目标文件的头文件搜索目录，将搜索目录指定为子项目的include文件夹，这样甚至可以用 &lt;xx.h&gt; 来引用子项目的头文件了，因为<strong>通过 target_include_directories 指定的路径会被视为与系统路径等价</strong>，</p>
+<blockquote>
+<p>TIP:&lt;cstdio&gt; 这种形式表示<strong>不要在当前目录下搜索</strong>，只在系统目录里搜索，”hello.h” 这种形式则<strong>优先搜索当前目录</strong>下有没有这个文件，找不到再搜索系统目录。</p>
+</blockquote>
+<p>难道每个目标文件用到子项目的库时都得再指定一遍搜索路径吗？</p>
+<p>不需要，<strong>我们只需要在子项目的CMakeLists.txt中指定自身的头文件搜索路径</strong>，链接他的可执行文件会<strong>自动添加这个路径作为头文件目录</strong>：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#biology下的CMakeLists.txt</span></span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE srcs CONFIGURE_DEPENDS src/*.cpp <span class="keyword">include</span>/*.h)</span><br><span class="line"><span class="keyword">add_library</span>(biology STATIC <span class="variable">$&#123;srcs&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这条语句让链接 biology 的目标文件也能够共享/biology/include 这个头文件搜索路径</span></span><br><span class="line"><span class="keyword">target_include_directories</span>(biology PUBLIC <span class="keyword">include</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此外，如果不希望让引用biology的可执行文件自动添加这个路径，把 <strong>PUBLIC</strong> 改成 <strong>PRIVATE</strong> 即可。这就是他们的用途：决定一个属性要不要在被 link 的时候传播。</p>
+<h3 id="根项目和子项目的CMakeLists-txt配置"><a href="#根项目和子项目的CMakeLists-txt配置" class="headerlink" title="根项目和子项目的CMakeLists.txt配置"></a>根项目和子项目的CMakeLists.txt配置</h3><p>根项目的 CMakeLists.txt 负责处理全局有效的设定。而子项目的 CMakeLists.txt 则仅考虑该子项目自身的设定，比如他的头文件目录，要链接的库等等。</p>
+<p><strong>根项目的CMakeLists.txt配置</strong></p>
+<p>在根项目的 CMakeLists.txt 中，设置了默认的构建模式，设置了统一的 C++ 版本等各种选项。然后通过 project 命令初始化了根项目。(<strong>这些设置应该放在project命令之前</strong>)</p>
+<p>随后通过 add_subdirectory 把两个子项目 pybmain 和 biology 添加进来（顺序无关紧要），这会调用 pybmain&#x2F;CMakeLists.txt 和 biology&#x2F;CMakeLists.txt。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.18</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">NOT</span> CMAKE_BUILD_TYPE)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_BUILD_TYPE Release)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">20</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_EXTENSIONS <span class="keyword">OFF</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_MODULE_PATH <span class="string">&quot;$&#123;CMAKE_CURRENT_LIST_DIR&#125;/cmake;$&#123;CMAKE_MODULE_PATH&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(CppCMakeDemo LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(MyUsefulFuncs)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(pybmain)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(biology)</span><br></pre></td></tr></table></figure>
+
+<p><strong>子项目的CMakeLists.txt配置</strong></p>
+<p>子项目的 CMakeLists.txt 就干净许多，只是创建了 biology 这个静态库对象，并通过 GLOB_RECRUSE 为他批量添加了所有位于 src 和 include 下源码和头文件。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span>(GLOB_RECURSE srcs CONFIGURE_DEPENDS src/*.cpp <span class="keyword">include</span>/*.h)</span><br><span class="line"><span class="keyword">add_library</span>(biology STATIC <span class="variable">$&#123;srcs&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这条语句让链接 biology 的目标文件也能够共享/biology/include 这个头文件搜索路径</span></span><br><span class="line"><span class="keyword">target_include_directories</span>(biology PUBLIC <span class="keyword">include</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="依赖子项目"><a href="#依赖子项目" class="headerlink" title="依赖子项目"></a>依赖子项目</h3><p>依赖另一个子项目，则需要链接他</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span>(GLOB_RECURSE srcs CONFIGURE_DEPENDS src/*.cpp <span class="keyword">include</span>/*.h)</span><br><span class="line"><span class="keyword">add_executable</span>(pybmain <span class="variable">$&#123;srcs&#125;</span>)</span><br><span class="line"><span class="keyword">target_include_directories</span>(pybmain PUBLIC <span class="keyword">include</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(pybmain PUBLIC biology)</span><br></pre></td></tr></table></figure>
+
+<p>由于 PUBLIC 属性具有传染性，根&#x2F;biology&#x2F;include 现在也加入 pybmain 的头文件搜索路径了，因此 pybmain 里可以 #include 到 biology 的头文件。</p>
+<p>同理如果又有一个 target_link_libraries(zxxpig PUBLIC pybmain) 那么 zxxpig 也有 pybmain 和 biology 的所有头文件搜索路径了。</p>
+<h2 id="链接库"><a href="#链接库" class="headerlink" title="链接库"></a>链接库</h2><h3 id="生成和链接静态库"><a href="#生成和链接静态库" class="headerlink" title="生成和链接静态库"></a><strong>生成和链接静态库</strong></h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(mylib STATIC mylib.cpp) <span class="comment"># mylib.cpp编译为静态库libmylib.a</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC mylib) <span class="comment"># 链接mylib</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="生成和链接动态库"><a href="#生成和链接动态库" class="headerlink" title="生成和链接动态库"></a><strong>生成和链接动态库</strong></h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(mylib SHARED mylib.cpp) <span class="comment"># mylib.cpp编译成动态库 libmylib.so文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC mylib)</span><br></pre></td></tr></table></figure>
+
+<p>windows对动态库很不友好，如果一定要使用的话，需要在实现处加上__declspec(dllexport)用于导出符号，也就是定义该函数的dll；在声明处加上__declspec(dllimport)用于导入，也就是使用该函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mylib.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> _MSC_VER</span></span><br><span class="line">__declspec(dllexport)</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">say_hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//mylib.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> _MSC_VER</span></span><br><span class="line">__declspec(dllimport)</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">say_hello</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成和链接对象库"><a href="#生成和链接对象库" class="headerlink" title="生成和链接对象库"></a><strong>生成和链接对象库</strong></h3><p>大型项目经常将源文件分为组，可能在单独的子目录中，分别需要不同的包含目录和预处理器定义。为此CMake 开发了对象库的概念。</p>
+<p>对象库类似于静态库，但不生成 .a 文件，只由 CMake 记住该库生成了哪些对象文件, <strong>对象库是 CMake 自创的，绕开了编译器和操作系统的各种繁琐规则，保证了跨平台统一性。</strong>在自己的项目中，<strong>推荐全部用对象库(OBJECT)替代静态库(STATIC)避免跨平台的麻烦。</strong>对象库仅仅作为组织代码的方式，而实际生成的可执行文件只有一个，减轻了部署的困难。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(mylib OBJECT mylib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC mylib)</span><br></pre></td></tr></table></figure>
+
+<h3 id="静态库的麻烦"><a href="#静态库的麻烦" class="headerlink" title="静态库的麻烦"></a><strong>静态库的麻烦</strong></h3><p><strong>GCC</strong> 编译器自作聪明，会自动剔除没有引用符号的那些对象。也就是说如果没有用到引用的库，那么这个库可能不会进行链接，在库中定义的全局变量也会失效，如果我们想用静态库在执行main函数之前做一些全局初始化的操作，那么很可能会失败。</p>
+<p>使用对象库或动态库可以避免这个问题。也可以设置对象属性告诉编译器不要自动剔除没有引用符号的链接库。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mylib.cpp</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> unused = <span class="built_in">printf</span>(<span class="string">&quot;mylib initialized&quot;</span>); <span class="comment">//未执行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//main.cpp</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;main function&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="add-library无参数时，是静态库还是动态库"><a href="#add-library无参数时，是静态库还是动态库" class="headerlink" title="add_library无参数时，是静态库还是动态库"></a><strong>add_library无参数时，是静态库还是动态库</strong></h3><p>会根据 <strong>BUILD_SHARED_LIBS 这个变量的值决定是动态库还是静态库</strong>。ON 则相当于 SHARED，OFF 则相当于 STATIC。</p>
+<p>如果未指定 BUILD_SHARED_LIBS 变量，则<strong>默认为 STATIC。</strong>因此，如果发现一个项目里的 add_library 都是无参数的，意味着你可以用：cmake -B build -DBUILD_SHARED_LIBS:BOOL&#x3D;ON 来让他全部生成为动态库。</p>
+<p>要让 BUILD_SHARED_LIBS 默认为 ON，可以用下图这个方法：如果该变量没有定义，则设为 ON，否则保持用户指定的值不变。这样当用户没有指定 BUILD_SHARED_LIBS 这个变量时，会默认变成 ON。也就是说除非用户指定了 -DBUILD_SHARED_LIBS:BOOL&#x3D;OFF 才会生成静态库，否则默认是生成动态库。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">NOT</span> <span class="keyword">DEFINED</span> BUILD_SHARED_LIBS)</span><br><span class="line">    <span class="keyword">set</span>(BUILD_SHARED_LIBS <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(mylib mylib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC mylib)</span><br></pre></td></tr></table></figure>
+
+<h3 id="动态库无法链接静态库解决方法"><a href="#动态库无法链接静态库解决方法" class="headerlink" title="动态库无法链接静态库解决方法"></a><strong>动态库无法链接静态库解决方法</strong></h3><p>我们一般使用动态库链接动态库时，可以这样处理:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(otherlib STATIC otherlib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(mylib SHARED mylib.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(mylib PUBLIC otherlib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC mylib)</span><br></pre></td></tr></table></figure>
+
+<p>但是会报错，解决: <strong>让静态库编译时也生成位置无关的代码(PIC)，这样才能装在动态库里</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(otherlib STATIC otherlib.cpp)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> otherlib PROPERTY POSITION_INDEPENDENT_CODE <span class="keyword">ON</span>) <span class="comment"># 只针对otherlib库</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(mylib SHARED mylib.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(mylib PUBLIC otherlib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC mylib)</span><br></pre></td></tr></table></figure>
+
+<p>或者全局设置</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_POSITION_INDEPENDENT_CODE <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">add_library</span>(otherlib STATIC otherlib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(mylib SHARED mylib.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(mylib PUBLIC otherlib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC mylib)</span><br></pre></td></tr></table></figure>
+
+<h3 id="找不到dll解决办法"><a href="#找不到dll解决办法" class="headerlink" title="找不到dll解决办法"></a>找不到dll解决办法</h3><p>这是因为你的 dll 和 exe 不在同一目录。Windows 比较蠢，他只会找当前 exe 所在目录，然后查找 PATH，找不到就报错。而你的 dll 在其他目录，因此 Windows 会找不到 dll。</p>
+<ul>
+<li><p>解决1：把 dll 所在位置加到你的 PATH 环境变量里去，一劳永逸。</p>
+</li>
+<li><p>解决2：把这个 dll，以及这个 dll 所依赖的其他 dll，全部拷贝到和 exe 文件同一目录下。</p>
+</li>
+<li><p>解决3：设置CMake让 CMake 把 dll 自动生成在 exe 同一目录</p>
+<p>归根到底还是因为 CMake 把定义在顶层模块里的 main 放在 build&#x2F;main.exe。而 mylib 因为是定义在 mylib 这个子模块里的，因此被放到了 build&#x2F;mylib&#x2F;mylib.dll。所以，可以设置 mylib 的这些属性，让 mylib.dll 文件输出到 PROJECT_BINARY_DIR，也就是项目根目录（main 所在的位置）。这样 main.exe 在运行时就能找到 mylib.dll 了。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(mylib SHARED mylib.h mylib.cpp)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY ARCHIVE_OUTPUT_DIRECTORY <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY LIBRARY_OUTPUT_DIRECTORY_DEBUG <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY ARCHIVE_OUTPUT_DIRECTORY_DEBUG <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY RUNTIME_OUTPUT_DIRECTORY_DEBUG <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY LIBRARY_OUTPUT_DIRECTORY_RELEASE <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY ARCHIVE_OUTPUT_DIRECTORY_RELEASE <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> mylib PROPERTY RUNTIME_OUTPUT_DIRECTORY_RELEASE <span class="variable">$&#123;PROJECT_BINARY_DIR&#125;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>所以在windows下使用动态链接库要设置6个属性，非常麻烦。而 Linux 系统支持 RPATH，CMake 会让生成出来可执行文件的 RPATH 字段指向他链接了的 .so 文件所在目录，运行时会优先从 RPATH 里找链接库，所以即使不在同目录也能找到。</p>
+<p>需要手动修改或查看一个 ELF 文件的 RPATH，可以用 chrpath 或 patchelf 命令。</p>
+<h2 id="对象的属性"><a href="#对象的属性" class="headerlink" title="对象的属性"></a>对象的属性</h2><p>许多 CMake 中的对象比如目标，目录和源文件都拥有属性。属性是一个特定对象所拥有的的键值对。访问属性最通用的方法是通过 <code>set_property</code>和 <code>get_property</code>命令。这些命令可以让你设置和获取一个 CMake 对象的属性。你可以查看 <code>cmake-properties</code>手册，其中列出了所有支持的属性。</p>
+<h3 id="目标的一些选项"><a href="#目标的一些选项" class="headerlink" title="目标的一些选项"></a>目标的一些选项</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#除了头文件搜索目录以外，还有这些选项，PUBLIC 和 PRIVATE 对他们同理：</span></span><br><span class="line"><span class="keyword">target_include_directories</span>(myapp PUBLIC /usr/<span class="keyword">include</span>/eigen3)  <span class="comment"># 添加头文件搜索目录</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(myapp PUBLIC hellolib)                               <span class="comment"># 添加要链接的库</span></span><br><span class="line">target_add_definitions(myapp PUBLIC MY_MACRO=<span class="number">1</span>)             <span class="comment"># 添加一个宏定义</span></span><br><span class="line">target_add_definitions(myapp PUBLIC -DMY_MACRO=<span class="number">1</span>)         <span class="comment"># 与 MY_MACRO=1 等价</span></span><br><span class="line"><span class="keyword">target_compile_options</span>(myapp PUBLIC -fopenmp)                     <span class="comment"># 添加编译器命令行选项</span></span><br><span class="line"><span class="keyword">target_sources</span>(myapp PUBLIC hello.cpp other.cpp)                    <span class="comment"># 添加要编译的源文件</span></span><br><span class="line"><span class="comment">#以及可以通过下列指令（不推荐使用），把选项加到所有接下来的目标去：</span></span><br><span class="line"><span class="keyword">include_directories</span>(/opt/cuda/<span class="keyword">include</span>)     <span class="comment"># 添加头文件搜索目录</span></span><br><span class="line"><span class="keyword">link_directories</span>(/opt/cuda)                       <span class="comment"># 添加库文件的搜索路径</span></span><br><span class="line"><span class="keyword">add_definitions</span>(MY_MACRO=<span class="number">1</span>)             <span class="comment"># 添加一个宏定义</span></span><br><span class="line"><span class="keyword">add_compile_options</span>(-fopenmp)             <span class="comment"># 添加编译器命令行选项</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用set-property设置属性"><a href="#使用set-property设置属性" class="headerlink" title="使用set_property设置属性"></a>使用set_property设置属性</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#采用 C++17 标准进行编译（默认 11）</span></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#如果编译器不支持 C++17，则直接报错（默认 OFF）</span></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#在 Windows 系统中，运行时不启动控制台窗口，只有 GUI 界面（默认 OFF）</span></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY WIN32_EXECUTABLE <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#告诉编译器不要自动剔除没有引用符号的链接库（默认 OFF）</span></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY LINK_WHAT_YOU_USE <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置动态链接库的输出路径（默认 $&#123;CMAKE_BINARY_DIR&#125;）</span></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/lib)</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置静态链接库的输出路径（默认 $&#123;CMAKE_BINARY_DIR&#125;）</span></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY ARCHIVE_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/lib)</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置可执行文件的输出路径（默认 $&#123;CMAKE_BINARY_DIR&#125;）</span></span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin)</span><br></pre></td></tr></table></figure>
+
+<h3 id="批量设置多个属性"><a href="#批量设置多个属性" class="headerlink" title="批量设置多个属性"></a>批量设置多个属性</h3><p>使用<code>set_target_properties</code>批量设置多个属性</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set_target_properties</span>(main PROPERTIES</span><br><span class="line">    CXX_STANDARD <span class="number">17</span>           <span class="comment"># 采用 C++17 标准进行编译（默认 11）</span></span><br><span class="line">    CXX_STANDARD_REQUIRED <span class="keyword">ON</span>  <span class="comment"># 如果编译器不支持 C++17，则直接报错（默认 OFF）</span></span><br><span class="line">    WIN32_EXECUTABLE <span class="keyword">ON</span>       <span class="comment"># 在 Windows 系统中，运行时不启动控制台窗口，只有 GUI 界面（默认 OFF）</span></span><br><span class="line">    LINK_WHAT_YOU_USE <span class="keyword">ON</span>      <span class="comment"># 告诉编译器不要自动剔除没有引用符号的链接库（默认 OFF）</span></span><br><span class="line">    LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/lib   <span class="comment"># 设置动态链接库的输出路径（默认 $&#123;CMAKE_BINARY_DIR&#125;）</span></span><br><span class="line">    ARCHIVE_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/lib   <span class="comment"># 设置静态链接库的输出路径（默认 $&#123;CMAKE_BINARY_DIR&#125;）</span></span><br><span class="line">    RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin   <span class="comment"># 设置可执行文件的输出路径（默认 $&#123;CMAKE_BINARY_DIR&#125;）</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置变量和设置属性的区别"><a href="#设置变量和设置属性的区别" class="headerlink" title="设置变量和设置属性的区别"></a>设置变量和设置属性的区别</h3><p>通过set设置的变量全局有效，会让之后创建的所有对象都享有同样的属性；而set_property只对单个对象有效。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#相当于改变了各个属性的初始默认值。要注意此时 set(CMAKE_xxx) 必须在 add_executable 之前才有效。</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_WIN32_EXECUTABLE <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_LINK_WHAT_YOU_USE <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/lib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/lib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>注意使用set时记得加引号，否则用空格隔开的会变成分号分割的列表，这可能会造成严重的后果(如在message中列表中的字符串可能视为message的关键字)</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(myvar hello world)</span><br><span class="line"><span class="comment">#其实等价于：</span></span><br><span class="line"><span class="keyword">set</span>(myvar “hello;world”)</span><br><span class="line"></span><br><span class="line"><span class="comment">#正确的写法</span></span><br><span class="line"><span class="keyword">set</span>(myvar <span class="string">&quot;hello world&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="链接第三方库"><a href="#链接第三方库" class="headerlink" title="链接第三方库"></a>链接第三方库</h2><p>以使用tbb库为例</p>
+<h3 id="直接链接"><a href="#直接链接" class="headerlink" title="直接链接"></a>直接链接</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC tbb)</span><br></pre></td></tr></table></figure>
+
+<p>如果这样直接指定 tbb，CMake 会让链接器在<strong>系统的库目录</strong>里查找 tbb，他会找到 &#x2F;usr&#x2F;lib&#x2F;libtbb.so 这个系统自带的，但这<strong>对于没有一个固定库安装位置的 Windows 系统并不适用</strong>。</p>
+<p>此外，他还要求 tbb 的头文件就在 &#x2F;usr&#x2F;include 这个系统默认的头文件目录，这样才能 #include &lt;tbb&#x2F;parallel_for.h&gt; 不出错，<strong>如果 tbb 的头文件在其他地方就需要再加一个 target_include_directories</strong> 设置额外的头文件查找目录。</p>
+<h3 id="写出完整路径"><a href="#写出完整路径" class="headerlink" title="写出完整路径"></a>写出完整路径</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC c:/Users/archibate/installed/tbb/tbb.dll)</span><br></pre></td></tr></table></figure>
+
+<p>也可以直接写出全部路径，这样也可以让没有默认系统路径的 Windows 找到安装在奇怪位置的 tbb……不过这样根本不跨平台，你这样改了别人如果装在不同地方就出错了。(<strong>不推荐</strong>)</p>
+<p>顺便一提，**CMake 的路径分割符始终是 &#x2F;。即使在 Windows 上，也要把所有的 \ 改成 &#x2F;**，这是出于跨平台的考虑。请放心，CMake 会自动在调用 MSVC 的时候转换成 \，你可以放心的用 ${x}&#x2F;bin 来实现和 Python 的 os.path.join(x, ‘bin’) 一样的效果。</p>
+<h3 id="使用find-package"><a href="#使用find-package" class="headerlink" title="使用find_package"></a><strong>使用find_package</strong></h3><p>更好的做法是用 CMake 的 find_package 命令。</p>
+<p>find_package(TBB REQUIRED) 会查找 &#x2F;usr&#x2F;lib&#x2F;cmake&#x2F;TBB&#x2F;TBBConfig.cmake 这个配置文件，并根据里面的配置信息创建 TBB::tbb 这个伪对象（他实际指向真正的 tbb 库文件路径 &#x2F;usr&#x2F;lib&#x2F;libtbb.so），之后通过 target_link_libraries 链接 TBB::tbb 就可以正常工作了。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(TBB REQUIRED)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC TBB::tbb)</span><br></pre></td></tr></table></figure>
+
+<p>TBB::tbb 是一个伪对象(imported)，除了他会指向 &#x2F;usr&#x2F;lib&#x2F;libtbb.so 之外，TBBConfig.cmake 还会给 TBB::tbb 添加一些 PUBLIC 属性，用于让链接了他的对象带上一些 flag 之类的。</p>
+<p>比如，TBB 安装在 &#x2F;opt&#x2F;tbb 目录下，头文件在 &#x2F;opt&#x2F;tbb&#x2F;include 里，那么这时 TBBConfig.cmake 里就会有：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">target_include_directories</span>(TBB::tbb PUBLIC /opt/tbb/<span class="keyword">include</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这样 main 在链接了 TBB::tbb 的时候也会被“传染”上 &#x2F;opt&#x2F;tbb&#x2F;include 这个目录，不用调用者手动添加了。再比如，TBB::tbb 链接了另一个库 Blosc::blosc，那这个库也会自动链接到 main 上，无需调用者手动添加。</p>
+<p>比如 spdlog 的 spdlog-config.cmake 就会定义 SPDLOG_NOT_HEADER_ONLY 这个宏为 PUBLIC。从而实现直接 #include &lt;spdlog&#x2F;spdlog.h&gt; 时候是纯头文件，而 find_package(spdlog REQUIRED) 时却变成预编译链接库的版本。（其实不是 PUBLIC 而是 INTERFACE，因为伪对象没有实体）</p>
+<p><strong>TBBConfig.cmake 这个配置文件的由来</strong></p>
+<p>不论是 TBBConfig.cmake 还是 FindTBB.cmake，这个文件通常由库的作者提供，在 Linux 的包管理器安装 tbb 后也会自动安装这个文件。<strong>少部分对 CMake 不友好的第三方库，需要自己写FindXXX.cmake 才能使用。</strong></p>
+<p>一些老年项目作者喜欢在项目里自己塞几个 FindXXX.cmake，然而版本可能和系统里的不一样，比如用 3.0 的 finder 去找 2.0 的包，容易出现一些奇奇怪怪的错误。<strong>不建议大家这样用自己创建一个 cmake&#x2F; 目录来存用到的所有库的 finder</strong>，尽量用系统自带的，可以保证用的是系统自带库的那个配置。</p>
+<p><strong>和find_package(TBB CONFIG REQUIRED)的区别</strong> </p>
+<p>通过 find_package(TBB CONFIG REQUIRED)，添加了一个 CONFIG 选项。这样他会优先查找 TBBConfig.cmake（系统自带的）而不是 FindTBB.cmake（项目作者常把他塞在 cmake&#x2F; 目录里并添加到 CMAKE_MODULE_PATH）。这样能保证寻找包的这个 .cmake 脚本是和系统自带的 tbb 版本是适配的，而不是项目作者当年下载的那个版本的 .cmake 脚本。</p>
+<p>当然，如果你坚持要用 find_package(TBB REQUIRED) 也是可以的。</p>
+<p>没有 CONFIG 选项：先找 FindTBB.cmake，再找 TBBConfig.cmake，找不到则报错</p>
+<p><strong>有 CONFIG 选项：只会找 TBBConfig.cmake，找不到则报错</strong></p>
+<p>此外，一些老年项目（例如 OpenVDB）只提供 Find 而没有 Config 文件，这时候就必须用 find_package(OpenVDB REQUIRED) 而不能带 CONFIG 选项。</p>
+<p><strong>find_package()不加REQUIRED</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(TBB)</span><br><span class="line"><span class="comment">#TBB_FOUND也可以换成TARGET TBB:tbb。还可以复合操作例如NOT TARGET TBB::tbb AND TARGET Eigen3::eigen表示找得到 TBB 但是找不到 Eigen3 的情况</span></span><br><span class="line"><span class="keyword">if</span> (TBB_FOUND)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;TBB found at: $&#123;TBB_DIR&#125;&quot;</span>)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(main PUBLIC TBB::tbb)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC WITH_TBB) <span class="comment">#在可执行程序中定义 WITH_TBB 宏</span></span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">message</span>(WARNING <span class="string">&quot;TBB not found! using serial for&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<p>如果没有 REQUIRED 选项，找不到时将不会报错。只会设置 xx_FOUND 变量为flase，这样可以根据这个变量的值进行一些处理。如上</p>
+<p>找到了会把 TBB_FOUND 设为 TRUE，TBB_DIR 设为 TBBConfig.cmake 所在路径。</p>
+<p>找不到会把 TBB_FOUND 设为 FALSE，TBB_DIR 为空。</p>
+<p>这里我们在找到 TBB 时定义 WITH_TBB 宏，稍后 .cpp 里就可以根据有没有宏进行判断，在有宏和没宏时分别进行不同的处理。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> WITH_TBB</span></span><br><span class="line"><span class="comment">//进行找到TBB库时的操作</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> WITH_TBB</span></span><br><span class="line"><span class="comment">//进行没找到库时的操作</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="指定find-package的组件"><a href="#指定find-package的组件" class="headerlink" title="指定find_package的组件"></a>指定find_package的组件</h3><p>有多个组件的库直接find_package会出错(如Qt5)，此时需要指定用到的组件。</p>
+<p>find_package 生成的伪对象(imported target)都按照“包名::组件名”的格式命名。你可以在 find_package 中通过 COMPONENTS 选项，后面跟随一个列表表示需要用的组件。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.10</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(TBB COMPONENTS tbb tbbmalloc tbbmalloc_proxy REQUIRED)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC TBB::tbb TBB::tbbmalloc TBB::tbbmalloc_proxy)</span><br></pre></td></tr></table></figure>
+
+<h3 id="在windows上找包"><a href="#在windows上找包" class="headerlink" title="在windows上找包"></a>在windows上找包</h3><p>Windows没有固定的安装路径，假设你的 Qt5 安装在 C:\Qt\Qt5.14.2，则你去找找这个目录：C:\Qt\Qt5.14.2\msvc2019_64\lib\cmake\</p>
+<p>你会看到里面有个 Qt5Config.cmake 。现在，有四种方法让 CMake 找得到他。</p>
+<p>1.第一种是设置 CMAKE_MODULE_PATH 变量，添加一下包含 Qt5Config.cmake 这个文件的目录路径 </p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(TBB REQUIRED)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC TBB::tbb)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_MODULE_PATH <span class="variable">$&#123;CMAKE_MODULE_PATH&#125;</span> C:/Qt/Qt5.<span class="number">14.2</span>/msvc2019_64/lib/cmake)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(Qt5 REQUIRED COMPONENTS Widgets Gui REQUIRED)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC Qt5::Widgets Qt5::Gui)</span><br></pre></td></tr></table></figure>
+
+<p>2.第二种是设置 Qt5_DIR 这个变量为 C:\Qt\Qt5.14.2\msvc2019_64\lib\cmake。这样只有 Qt5 这个包会去这个目录里搜索 Qt5Config.cmake，更有针对性。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(Qt5_DIR C:/Qt/Qt5.<span class="number">14.2</span>/msvc2019_64/lib/cmake)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(Qt5 REQUIRED COMPONENTS Widgets Gui REQUIRED)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PUBLIC Qt5::Widgets Qt5::Gui)</span><br></pre></td></tr></table></figure>
+
+<p>3.**第三种(推荐)**，直接在命令行通过 -DQt5_DIR&#x3D;”xxx” 指定，这样不用修改 CMakeLists.txt。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -B build -DQt5_DIR=&quot;C:/Qt/Qt5.14.2/msvc2019_64/lib/cmake&quot; </span><br></pre></td></tr></table></figure>
+
+<p>4.第四种，通过设置环境变量 Qt5_DIR 也是可以的，但是对 Windows 用户设置环境变量比较麻烦。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export Qt5_DIR=&quot;C:/Qt/Qt5.14.2/msvc2019_64/lib/cmake&quot; </span><br><span class="line">cmake -B build</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出和变量"><a href="#输出和变量" class="headerlink" title="输出和变量"></a>输出和变量</h2><p>使用message在运行 <strong>cmake -B build</strong> 时打印字符串（用于调试）</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message</span>(<span class="string">&quot;Hello, world!&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出如下</span></span><br><span class="line">Hello, world!</span><br></pre></td></tr></table></figure>
+
+<p>message(STATUS “…”) 表示信息类型是状态信息，打印出来有 <strong>–</strong> 前缀</p>
+<p>message(WARNING “…”) 表示是警告信息</p>
+<p>message(AUTHOR_WARNING “…”)表示是仅仅给项目作者看的警告信息</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;Hello, world!&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(WARNING <span class="string">&quot;This is a warning sign!&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(AUTHOR_WARNING <span class="string">&quot;This is a warning sign for author!&quot;</span>)</span><br><span class="line"><span class="comment">#输出如下</span></span><br><span class="line">--Hello, world!</span><br><span class="line"></span><br><span class="line"><span class="comment">#waring的颜色不同,不是普通的白色</span></span><br><span class="line">CMake Warning at CMakeList.txt:<span class="number">2</span> (<span class="keyword">message</span>):</span><br><span class="line">This is a warning sign!</span><br><span class="line"></span><br><span class="line"><span class="comment">#AUTHOR_WARNING 的不同之处：可以通过 -Wno-dev 关闭，在命令行加上即可cmake -B build -Wno-dev</span></span><br><span class="line">CMake Warning at CMakeList.txt:<span class="number">3</span> (<span class="keyword">message</span>):</span><br><span class="line">This is a warning sign for author!</span><br></pre></td></tr></table></figure>
+
+<p>message(FATAL_ERROR “…”) 表示是错误信息，会终止 CMake 的运行</p>
+<p>message(SEND_ERROR “…”) 表示是错误信息，但会继续运行</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;Hello, world!&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(FATAL_ERROR <span class="string">&quot;This is an error message!&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;After error...&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出</span></span><br><span class="line">--Hello, world!</span><br><span class="line">CMake Error at CMakeList.txt:<span class="number">2</span> (<span class="keyword">message</span>):</span><br><span class="line">This is an error <span class="keyword">message</span>!</span><br><span class="line"><span class="comment">#注意后续After error...不会再打印，因为终止运行了，若是SEND_ERROR则会继续运行</span></span><br></pre></td></tr></table></figure>
+
+<p>message还可以打印变量的值</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(myvar hello world)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;myvar is: $&#123;myvar&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量和缓存"><a href="#变量和缓存" class="headerlink" title="变量和缓存"></a>变量和缓存</h2><p>重复执行 <strong>cmake -B build</strong> 会发现第二次执行要快很多。</p>
+<p>这是因为 CMake 第一遍需要检测编译器和 C++ 特性等比较耗时，检测完会把结果存储到缓存中，这样第二遍运行cmake -B build 时就可以直接用缓存的值，就不需要再检测一遍了。</p>
+<p>find_package 就用到了缓存机制。变量缓存的意义在于能够把 find_package 找到的库文件位置等信息，储存起来。这样下次执行 find_package 时，就会利用上次缓存的变量，直接返回。避免重复执行 cmake -B 时速度变慢的问题。</p>
+<p>然而有时候外部的情况有所更新(如变量改动)，这时候 CMake 里缓存的却是旧的值，会导致一系列问题。缓存是很多 CMake 出错的根源，因此如果出现诡异的错误，可以试试清除缓存。</p>
+<h3 id="清除缓存的方法"><a href="#清除缓存的方法" class="headerlink" title="清除缓存的方法"></a>清除缓存的方法</h3><p>1.最简单的办法就是删除 build 文件夹，然后重新运行 cmake -B build。经典 CMake 笑话：”99%的cmake错误可以用删build解决”。</p>
+<p>2.删除 build&#x2F;CMakeCache.txt 。删 build 虽然彻底，也会导致编译的中间结果（.o文件）都没了，重新编译要花费很长时间。如果只想清除缓存，不想从头重新编译，可以只删除 build&#x2F;CMakeCache.txt 这个文件。这文件里面装的就是缓存的变量，删了他就可以让 CMake 强制重新检测一遍所有库和编译器。</p>
+<h3 id="设置缓存变量"><a href="#设置缓存变量" class="headerlink" title="设置缓存变量"></a>设置缓存变量</h3><p>set(变量名 “变量值” CACHE 变量类型 “注释”)可以设置缓存变量。这样变量的值就会在build&#x2F;CMakeCache.txt中缓存。</p>
+<p>缓存变量有以下类型：</p>
+<ul>
+<li>STRING 字符串，例如 “hello, world”</li>
+<li>FILEPATH 文件路径，例如 “C:&#x2F;vcpkg&#x2F;scripts&#x2F;buildsystems&#x2F;vcpkg.cmake”</li>
+<li>PATH 目录路径，例如 “C:&#x2F;Qt&#x2F;Qt5.14.2&#x2F;msvc2019_64&#x2F;lib&#x2F;cmake&#x2F;”</li>
+<li>BOOL 布尔值，只有两个取值：ON 或 OFF。</li>
+</ul>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(myvar <span class="string">&quot;hello&quot;</span> CACHE <span class="keyword">STRING</span> <span class="string">&quot;this is the docstring.&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;myvar is: $&#123;myvar&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>缓存bool变量的例子，设置WITH_TBB变量控制是否链接这个库。CMake 对 BOOL 类型缓存的 set 指令提供了一个简写：option</p>
+<p>option(变量名 “描述” 变量值) 等价于：set(变量名 CACHE BOOL 变量值 “描述”)</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"><span class="keyword">project</span>(hellocmake LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment">#等价于option(WITH_TBB &quot;set to ON to enable TBB, OFF to disable TBB.&quot; ON)</span></span><br><span class="line"><span class="keyword">set</span>(WITH_TBB <span class="keyword">ON</span> CACHE BOOL <span class="string">&quot;set to ON to enable TBB, OFF to disable TBB.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (WITH_TBB)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC WITH_TBB)</span><br><span class="line">    <span class="keyword">find_package</span>(TBB REQUIRED)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(main PUBLIC TBB::tbb)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新缓存变量"><a href="#更新缓存变量" class="headerlink" title="更新缓存变量"></a>更新缓存变量</h3><p>1.直接在CMakeList.txt中更新，然后使用上述清除缓存的方法删除缓存。</p>
+<p>2.通过命令行参数，在cmake -B时指定变量的值，如更改myvar变量的值：cmake -B build -Dmyvar&#x3D;world</p>
+<p>3.命令行参数太麻烦，直接可视化编辑变量的值(推荐)</p>
+<p>在 Linux 中，可以运行 ccmake -B build 来启动基于终端的可视化缓存编辑菜单。</p>
+<p>在 Windows 则可以 cmake-gui -B build 来启动图形界面编辑各个缓存选项。</p>
+<p>当然，直接用编辑器打开 build&#x2F;CMakeCache.txt 修改后保存也是可以的。</p>
+<p>4.set 可以在后面加一个 FORCE 选项，表示不论缓存是否存在，都强制更新缓存。不过这样会导致没办法用 -Dmyvar&#x3D;othervalue 来更新缓存变量。set(myvar “hello” CACHE STRING “this is the docstring.” FORCE)</p>
+<h2 id="跨平台与编译器"><a href="#跨平台与编译器" class="headerlink" title="跨平台与编译器"></a>跨平台与编译器</h2><h3 id="检测操作系统和编译器"><a href="#检测操作系统和编译器" class="headerlink" title="检测操作系统和编译器"></a>检测操作系统和编译器</h3><p><strong>检测操作系统</strong></p>
+<p>CMAKE_SYSTEM_NAME变量指示主机操作系统，根据不同的操作系统定义不同的宏</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources CONFIGURE_DEPENDS *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (CMAKE_SYSTEM_NAME <span class="keyword">MATCHES</span> <span class="string">&quot;Windows&quot;</span>)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;Bill Gates&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (CMAKE_SYSTEM_NAME <span class="keyword">MATCHES</span> <span class="string">&quot;Linux&quot;</span>)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;Linus Torvalds&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (CMAKE_SYSTEM_NAME <span class="keyword">MATCHES</span> <span class="string">&quot;Darwin&quot;</span>)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;Steve Jobs&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<p>CMake还提供了一些简写变量：WIN32, APPLE, UNIX, ANDROID, IOS等</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources CONFIGURE_DEPENDS *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (WIN32)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;Bill Gates&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (UNIX <span class="keyword">AND</span> <span class="keyword">NOT</span> APPLE)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;Linus Torvalds&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (APPLE)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;Steve Jobs&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<p><strong>检测编译器</strong></p>
+<p>CMAKE_CXX_COMPILER_ID变量指示编译器，根据不同的编译器定义不同的宏。可以设置这个变量的值来指定使用编译器(修改环境变量或设置配置变量)。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources CONFIGURE_DEPENDS *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (CMAKE_CXX_COMPILER_ID <span class="keyword">MATCHES</span> <span class="string">&quot;GNU&quot;</span>)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;gcc&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (CMAKE_CXX_COMPILER_ID <span class="keyword">MATCHES</span> <span class="string">&quot;NVIDIA&quot;</span>)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;nvcc&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (CMAKE_CXX_COMPILER_ID <span class="keyword">MATCHES</span> <span class="string">&quot;Clang&quot;</span>)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;clang&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (CMAKE_CXX_COMPILER_ID <span class="keyword">MATCHES</span> <span class="string">&quot;MSVC&quot;</span>)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;msvc&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<p>CMake 还提供了一些简写变量：MSVC, CMAKE_COMPILER_IS_GNUCC</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (MSVC)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;MSVC&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span> (CMAKE_COMPILER_IS_GNUCC)</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;GCC&quot;</span>)</span><br><span class="line"><span class="keyword">else</span> ()</span><br><span class="line">    <span class="keyword">target_compile_definitions</span>(main PUBLIC MY_NAME=<span class="string">&quot;other compiler&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用生成器表达式简化操作"><a href="#使用生成器表达式简化操作" class="headerlink" title="使用生成器表达式简化操作"></a>使用生成器表达式简化操作</h3><p>语法：<code>$&lt;$&lt;类型:值&gt;:为真时的表达式&gt;</code></p>
+<p>比如 <code>$&lt;$&lt;PLATFORM_ID:Windows&gt;:MY_NAME=”Bill Gates”&gt;</code></p>
+<p>如果平台为WINDOWS，字符串会变为 MY_NAME&#x3D;”Bill Gates”</p>
+<p>其他平台上则表现为空字符串</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources CONFIGURE_DEPENDS *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_compile_definitions</span>(main PUBLIC</span><br><span class="line">    $&lt;$&lt;PLATFORM_ID:Windows&gt;:MY_NAME=<span class="string">&quot;Bill Gates&quot;</span>&gt;</span><br><span class="line">    $&lt;$&lt;PLATFORM_ID:Linux&gt;:MY_NAME=<span class="string">&quot;Linus Torvalds&quot;</span>&gt;</span><br><span class="line">    $&lt;$&lt;PLATFORM_ID:Darwin&gt;:MY_NAME=<span class="string">&quot;Steve Jobs&quot;</span>&gt;</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>生成器表达式要匹配多个类型的值时，可以用逗号分割</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main)</span><br><span class="line"><span class="keyword">file</span>(GLOB sources CONFIGURE_DEPENDS *.cpp *.h)</span><br><span class="line"><span class="keyword">target_sources</span>(main PUBLIC <span class="variable">$&#123;sources&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_compile_definitions</span>(main PUBLIC</span><br><span class="line">    $&lt;$&lt;PLATFORM_ID:Windows&gt;:MY_NAME=<span class="string">&quot;DOS-like&quot;</span>&gt;</span><br><span class="line">    $&lt;$&lt;PLATFORM_ID:Linux,Darwin,FreeBSD&gt;:MY_NAME=<span class="string">&quot;Unix-like&quot;</span>&gt;</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<h2 id="分支和判断"><a href="#分支和判断" class="headerlink" title="分支和判断"></a>分支和判断</h2><p>通常来说 BOOL 类型的变量只有 ON&#x2F;OFF 两种取值。但是由于历史原因，TRUE&#x2F;FALSE 和 YES&#x2F;NO 也可以表示 BOOL 类型。</p>
+<p>if 的特点：**不要给if中的变量加 ${}**，CMake会自动把没加引号的字符串当作变量名求值</p>
+<p>由于历史原因，if 的括号中有着特殊的语法，如果是一个字符串，比如 MYVAR，则他会先看是否有 ${MYVAR} 这个变量。如果有这个变量则会被替换为变量的值来进行接下来的比较，否则保持原来字符串不变。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="keyword">ON</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_EXTENSIONS <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(hellocmake LANGUAGES C CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(MYVAR <span class="keyword">OFF</span>)</span><br><span class="line"><span class="keyword">if</span> (MYVAR)</span><br><span class="line">    <span class="keyword">message</span>(<span class="string">&quot;MYVAR is true&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">message</span>(<span class="string">&quot;MYVAR is false&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>如果加了${} ，if (${MYVAR} MATCHES “Hello”) 会被翻译成 if (Hello MATCHES “Hello”)，但是因为找不到名为 Hello 的变量，所以会被直接当成普通的字符串来处理。也就是 if (“Hello” MATCHES “Hello”) 从而会执行真分支，结果正常。</p>
+<p>但是如果定义了Hello的变量，那么就会出错，所以不要给变量加${}。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(Hello <span class="string">&quot;world&quot;</span>)</span><br><span class="line"><span class="keyword">set</span>(MYVAR Hello)</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$&#123;MYVAR&#125;</span> <span class="keyword">MATCHES</span> <span class="string">&quot;Hello&quot;</span>)</span><br><span class="line">    <span class="keyword">message</span>(<span class="string">&quot;MYVAR is Hello&quot;</span>) <span class="comment">#$&#123;MYVAR&#125;会被替换成world，所以不会执行这条语句</span></span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">message</span>(<span class="string">&quot;MYVAR is not Hello&quot;</span>) <span class="comment">#执行</span></span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<p>初学者如果搞不明白，可以把所有不确定的地方都套上一层引号，例如”${MYVAR}”，这样就可以避免被 if 当做变量名来求值了。</p>
+<h2 id="变量与作用域"><a href="#变量与作用域" class="headerlink" title="变量与作用域"></a>变量与作用域</h2><h3 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h3><p>变量分为普通变量，缓存变量，环境变量。普通变量有着作用域，而<strong>缓存变量和环境变量是不论父子模块都共用的，没有作用域一说。</strong></p>
+<p>普通变量的传播规则：父模块会传给子模块， 子模块不传给父模块(也就是父模块变量在子模块可见，子模块变量在父不可见)</p>
+<p>如果子模块需要向父模块传变量，可以用 set 的 PARENT_SCOPE 选项，把一个变量传递到上一层作用域（也就是父模块）。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#子模块</span></span><br><span class="line"><span class="keyword">set</span>(MYVAR <span class="keyword">ON</span> PARENT_SCOPE)</span><br><span class="line"></span><br><span class="line"><span class="comment">#父模块</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.15</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(MYVAR <span class="keyword">OFF</span>)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(mylib) <span class="comment">#这条语句之后，变量MYVAR被子模块修改为ON</span></span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;MYVAR: $&#123;MYVAR&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>如果父模块里没有定义 MYVAR 的话，也可以在子模块中设置缓存变量向外部传变量（不推荐）。但是这样就不光父模块可见了，父模块的父模块，到处都可见。</p>
+<p><strong>除了父子模块之外还有哪些是带独立作用域的</strong></p>
+<ul>
+<li>include 的 XXX.cmake <strong>没有</strong>独立作用域</li>
+<li>add_subdirectory 的 CMakeLists.txt <strong>有</strong>独立作用域</li>
+<li>macro <strong>没有</strong>独立作用域</li>
+<li>function <strong>有</strong>独立作用域（因此 PARENT_SCORE 也可以用于 function 的返回值）</li>
+</ul>
+<h3 id="访问变量"><a href="#访问变量" class="headerlink" title="访问变量"></a>访问变量</h3><p><strong>环境变量的访问方式：$ENV{xx}</strong></p>
+<p>用 ${xx} 访问的是局部变量，局部变量服从刚刚所说的父子模块传播规则。而还有一种特殊的方式可以访问到系统的环境变量（environment variable）：$ENV{xx}。比如 $ENV{PATH} 就是获取 PATH 这个环境变量的值。</p>
+<p><strong>缓存变量的访问方式：$CACHE{xx}</strong></p>
+<p>此外，还可以用 $CACHE{xx} 来访问缓存里的 xx 变量。</p>
+<p><strong>${xx}</strong> <strong>找不到局部变量时，会自动去找缓存变量</strong></p>
+<p>${xx} 当找不到名为 xx 的局部变量时，就会去在缓存里查找名为 xx 的缓存变量。因此很多变量虽然在代码里没被 set，但是他被-D参数固定在缓存里了，所以依然可以找到。</p>
+<h3 id="判断变量是否存在"><a href="#判断变量是否存在" class="headerlink" title="判断变量是否存在"></a>判断变量是否存在</h3><p><strong>if (DEFINED xx)</strong> <strong>判断某变量是否存在</strong></p>
+<p>if (DEFINED MYVAR) 可以判断是否存在 MYVAR 这个局部变量或缓存变量。</p>
+<p>值得注意的是：空字符串（即””）不代表变量不存在。因此即使是空字符串 DEFINED 也认为存在。</p>
+<p><strong>if (xx)</strong> <strong>可以判断某变量是否存在且不为空字符串</strong></p>
+<p>可以直接用 if (xx) 来判断是否为空字符串，因为空字符串等价于 FALSE。</p>
+<p><strong>if (DEFINED ENV{xx})</strong> <strong>判断某环境变量是否存在</strong></p>
+<p>因为 $ENV{xx} 代表环境变量，因此在 set 和 if 中也可以用 ENV{xx} 来表示环境变量。因为 set 的第一参数和 if 的参数都是不加 $ 的，所以要设置 ${x} 就变成了 set(x …)。而设置 $ENV{x} 自然就是 set(ENV{x} …) 咯。</p>
+<p>同理还可以用 if (DEFINED CACHE{x}) 判断是否存在这个缓存变量，但是 set(CACHE{x} …) 就不行。</p>
+<h2 id="其他建议"><a href="#其他建议" class="headerlink" title="其他建议"></a>其他建议</h2><h3 id="CCache：编译加速缓存"><a href="#CCache：编译加速缓存" class="headerlink" title="CCache：编译加速缓存"></a>CCache：编译加速缓存</h3><p>用法：把 gcc -c main.cpp -o main 换成 ccache gcc -c main.cpp -o main 即可</p>
+<p>在 CMake 中可以这样来启用 ccache（就是给每个编译和链接命令前面加上 ccache）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.15)</span><br><span class="line">project(hellocmake)</span><br><span class="line"></span><br><span class="line">find_program(CCACHE_PROGRAM ccache)</span><br><span class="line">if (CCACHE_PROGRAM)</span><br><span class="line">    message(STATUS &quot;Found CCache: $&#123;CCACHE_PROGRAM&#125;&quot;)</span><br><span class="line">    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE $&#123;CCACHE_PROGRAM&#125;)</span><br><span class="line">    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK $&#123;CCACHE_PROGRAM&#125;)</span><br><span class="line">endif()</span><br><span class="line"></span><br><span class="line">add_executable(main main.cpp)</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速启动主程序"><a href="#快速启动主程序" class="headerlink" title="快速启动主程序"></a>快速启动主程序</h3><p>创建一个 run 伪目标，其执行 main 的可执行文件。</p>
+<p>这里用了生成器表达式 $&lt;TARGET_FILE:main&gt;，会自动让 run 依赖于 main。如果不放心有没有自动依赖上，手动加一个 add_dependencies(run main) 也是可以的。</p>
+<p>这样就可以在命令行运行 cmake –build build –target run 来启动 main.exe 运行了。而不必根据不同的平台，手动写出 build&#x2F;main 或是 build\main.exe。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"><span class="keyword">add_custom_target</span>(run <span class="keyword">COMMAND</span> $&lt;TARGET_FILE:main&gt;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#命令行输入下列命令启动</span></span><br><span class="line">cmake --build build --<span class="keyword">target</span> run</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E7%8E%B0%E4%BB%A3CMake/" data-id="cld6uiojv000sacsf0o9oc1qb" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/21/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2023-01-21T15:44:22.371Z" itemprop="datePublished">2023-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/01/21/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/21/hello-world/" data-id="cld6uioj40004acsf1pfcbxly" data-title="Hello World" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

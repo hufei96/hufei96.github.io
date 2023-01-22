@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="智能指针在传统 C++ 中，『记得』手动释放资源，总不是最佳实践。因为我们很有可能就忘记了去释放资源而导致泄露。 所以通常的做法是对于一个对象而言，我们在构造函数的时候申请空间，而在析构函数（在离开作用域时调用）的时候释放空间， 也就是我们常说的 RAII 资源获取即初始化技术。 C++11 引入了智能指针的概念，使用了引用计数的想法，让程序员不再需要关心手动释放内存。 这些智能指针包括 std:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="智能指针在传统 C++ 中，『记得』手动释放资源，总不是最佳实践。因为我们很有可能就忘记了去释放资源而导致泄露。 所以通常的做法是对于一个对象而言，我们在构造函数的时候申请空间，而在析构函数（在离开作用域时调用）的时候释放空间， 也就是我们常说的 RAII 资源获取即初始化技术。 C++11 引入了智能指针的概念，使用了引用计数的想法，让程序员不再需要关心手动释放内存。 这些智能指针包括 std:">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/make_shared.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/pointers1.png">
+<meta property="article:published_time" content="2023-01-22T03:54:01.917Z">
+<meta property="article:modified_time" content="2022-11-14T18:53:53.505Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-智能指针" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.917Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h1><p>在传统 C++ 中，『记得』手动释放资源，总不是最佳实践。因为我们很有可能就忘记了去释放资源而导致泄露。 所以通常的做法是对于一个对象而言，我们在构造函数的时候申请空间，而在析构函数（在离开作用域时调用）的时候释放空间， 也就是我们常说的 RAII 资源获取即初始化技术。</p>
+<p>C++11 引入了智能指针的概念，使用了引用计数的想法，让程序员不再需要关心手动释放内存。 这些智能指针包括 <code>std::shared_ptr</code>&#x2F;<code>std::unique_ptr</code>&#x2F;<code>std::weak_ptr</code>，使用它们需要包含头文件 <code>&lt;memory&gt;</code>。</p>
+<p>智能指针解决了忘记释放资源而导致内存泄露的问题，还解决了多线程编程中资源共享的问题(shared_ptr保证线程使用资源时，这个资源没有被其他线程析构)</p>
+<h2 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h2><p><code>std::unique_ptr</code> 是一种独占的智能指针，它禁止其他智能指针与其共享同一个对象，从而保证代码的安全：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">std::unique_ptr&lt;int&gt; pointer = std::make_unique&lt;int&gt;(10); // make_unique 从 C++14 引入</span><br><span class="line">std::unique_ptr&lt;int&gt; pointer2 = pointer; // 非法</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>make_unique</code> 并不复杂，C++11 没有提供 <code>std::make_unique</code>，可以自行实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T, typename ...Args&gt;</span><br><span class="line">std::unique_ptr&lt;T&gt; make_unique( Args&amp;&amp; ...args ) &#123;</span><br><span class="line">  return std::unique_ptr&lt;T&gt;( new T( std::forward&lt;Args&gt;(args)... ) );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至于为什么没有提供，C++ 标准委员会主席 Herb Sutter 在他的<a target="_blank" rel="noopener" href="https://herbsutter.com/gotw/_102/">博客</a>中提到原因是因为『被他们忘记了』。</p>
+</blockquote>
+<p>既然是独占，换句话说就是不可复制。<strong>unique_ptr禁用了拷贝构造和赋值运算符，但是实现了移动拷贝和移动赋值</strong>，需要转移资源控制权时我们可以利用 <code>std::move</code> 将其转移给其他的 <code>unique_ptr</code></p>
+<h2 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h2><p><code>std::shared_ptr</code> 是一种智能指针，它能够记录多少个 <code>shared_ptr</code> 共同指向一个对象，从而消除显式的调用 <code>delete</code>，当引用计数变为零的时候就会将对象自动删除。shared_ptr可以延长对象的生命周期，解决了多线程编程中资源共享的问题(shared_ptr保证线程使用资源时，这个资源没有被其他线程析构)</p>
+<p>shared_ptr 有两个数据成员，读写操作不能原子化，shared_ptr 的引用计数本身是线程安全且无锁的，但 shared_ptr 管理的对象本身的读写则不是。</p>
+<p><strong>shared_ptr 是引用计数型智能指针，计数值保存在堆上动态分配的内存中</strong>。具体而言，<code>shared_ptr&lt;Foo&gt;</code>包含两个成员，一个是 Foo 类型的指针，指向被管理的对象；一个 ref_count 指针，指向堆上的控制块：</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png" alt="shared_ptr"></p>
+<p>由于 shared_ptr 间的拷贝涉及两个成员的复制，而这两步拷贝不会原子性地发生：</p>
+<ul>
+<li>步骤 1：复制 ptr 指针</li>
+<li>步骤 2：复制 ref_count 指针，并递增引用计数（此递增为线程安全的）</li>
+</ul>
+<p>因为使用 <code>std::shared_ptr</code> 仍然需要使用 <code>new</code> 来调用，这使得代码出现了某种程度上的不对称。</p>
+<p><code>std::make_shared</code> 就能够用来消除显式的使用 <code>new</code>，所以<code>std::make_shared</code> 会分配创建传入参数中的对象， 并返回这个对象类型的<code>std::shared_ptr</code>指针。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// auto pointer = new int(10); // illegal, no direct assignment</span></span><br><span class="line">    <span class="comment">// Constructed a std::shared_ptr</span></span><br><span class="line">    <span class="keyword">auto</span> pointer = std::<span class="built_in">make_shared</span>&lt;<span class="type">int</span>&gt;(<span class="number">10</span>);</span><br><span class="line">    <span class="comment">// The shared_ptr will be destructed before leaving the scope</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>std::shared_ptr</code> 可以通过 <code>get()</code> 方法来获取原始指针，通过 <code>reset()</code> 来减少一个引用计数， 并通过<code>use_count()</code>来查看一个对象的引用计数。</p>
+<p><strong>为什么要尽量使用 make_shared()</strong></p>
+<p>为了节省一次内存分配，原来 shared_ptr<Foo> x(new Foo); 需要为 Foo 和 ref_count 各分配一次内存，现在用 make_shared() 的话，可以一次分配一块足够大的内存，供 Foo 和 ref_count 对象容身。</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/make_shared.png" alt="img"></p>
+<p>不过 Foo 的构造函数参数要传给 make_shared()，后者再传给 Foo::Foo()，这只有在 C++11 里通过 perfect forwarding 才能完美解决。</p>
+<h2 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h2><p><code>std::shared_ptr</code>在对象互相引用时依然存在着资源无法释放的问题。看下面这个例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    std::shared_ptr&lt;B&gt; pointer;</span><br><span class="line">    ~<span class="built_in">A</span>() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;A 被销毁&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span> &#123;</span><br><span class="line">    std::shared_ptr&lt;A&gt; pointer;</span><br><span class="line">    ~<span class="built_in">B</span>() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;B 被销毁&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> a = std::<span class="built_in">make_shared</span>&lt;A&gt;();</span><br><span class="line">    <span class="keyword">auto</span> b = std::<span class="built_in">make_shared</span>&lt;B&gt;();</span><br><span class="line">    a-&gt;pointer = b;</span><br><span class="line">    b-&gt;pointer = a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果是 A, B 都不会被销毁，这是因为 a,b 内部的 pointer 同时又引用了 <code>a,b</code>，这使得 <code>a,b</code> 的引用计数均变为了 2，而离开作用域时，<code>a,b</code> 智能指针被析构，却只能造成这块区域的引用计数减一，这样就导致了 <code>a,b</code> 对象指向的内存区域引用计数不为零，而外部已经没有办法找到这块区域了，也就造成了内存泄露，如图：</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/pointers1.png"></p>
+<p>根本原因在于A中持有B对象的shared_ptr，这保证了B一定比A晚析构（shared_ptr保证你在使用资源时一定没有析构）。而B中持有A对象的shared_ptr，这保证了A一定比B晚析构。这构成了矛盾，从而导致A，B都无法析构。</p>
+<p>解决这个问题的办法就是使用弱引用指针 <code>std::weak_ptr</code>，<code>std::weak_ptr</code>是一种弱引用（相比较而言 <code>std::shared_ptr</code> 就是一种强引用）。弱引用不会引起引用计数增加。<strong>weak_ptr需要用shared_ptr进行初始化</strong>。<strong>weak_ptr无法保证资源一定更晚析构，它只能检测资源是否析构</strong>。在使用时需要提升到shared_ptr再进行使用，这一步操作是原子的。</p>
+<p><code>std::weak_ptr</code> 没有 <code>*</code> 运算符和 <code>-&gt;</code> 运算符，<strong>所以不能够对资源进行操作</strong>，它可以用于检查 <code>std::shared_ptr</code> 是否存在，其 <code>expired()</code> 方法能在资源未被释放时，会返回 <code>false</code>，否则返回 <code>true</code>；除此之外，它也可以用于获取指向原始对象的 <code>std::shared_ptr</code> 指针，其 <code>lock()</code> 方法在原始对象未被释放时，返回一个指向原始对象的 <code>std::shared_ptr</code> 指针，进而访问原始对象的资源，否则返回<code>nullptr</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" data-id="cld6uiojt000oacsfdyltaeps" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E5%BC%82%E5%B8%B8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

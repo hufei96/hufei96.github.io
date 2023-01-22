@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="如何处理非法输入以及构造异常情况非法输入假设我们要设计一个关于people的class，并进行如下约定:  age 小于 0 的baby不在我们的考虑范围之内. age 大于 200 的people我们认为是不存在的.  如果我们以非法的参数构造People并进行相关的函数调用，如下: 12People p(-1);p.Sing();  那么这样实在是太糟糕了，因为在调用Sing()时我们甚至不知">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如何处理非法输入以及构造异常情况非法输入假设我们要设计一个关于people的class，并进行如下约定:  age 小于 0 的baby不在我们的考虑范围之内. age 大于 200 的people我们认为是不存在的.  如果我们以非法的参数构造People并进行相关的函数调用，如下: 12People p(-1);p.Sing();  那么这样实在是太糟糕了，因为在调用Sing()时我们甚至不知">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.998Z">
+<meta property="article:modified_time" content="2022-10-18T17:52:49.923Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-如何处理非法输入以及构造异常情况" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.998Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="如何处理非法输入以及构造异常情况"><a href="#如何处理非法输入以及构造异常情况" class="headerlink" title="如何处理非法输入以及构造异常情况"></a>如何处理非法输入以及构造异常情况</h1><h2 id="非法输入"><a href="#非法输入" class="headerlink" title="非法输入"></a>非法输入</h2><p>假设我们要设计一个关于people的class，并进行如下约定:</p>
+<ol>
+<li>age 小于 0 的baby不在我们的考虑范围之内.</li>
+<li>age 大于 200 的people我们认为是不存在的.</li>
+</ol>
+<p>如果我们以非法的参数构造People并进行相关的函数调用，如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">People <span class="title">p</span><span class="params">(<span class="number">-1</span>)</span></span>;</span><br><span class="line">p.<span class="built_in">Sing</span>();</span><br></pre></td></tr></table></figure>
+
+<p>那么这样实在是太糟糕了，因为在调用Sing()时我们甚至不知道调用的对象的内部状态是非法的，这也就成为bug的一个源泉.</p>
+<p>总结一下上面的例子中遇到的问题:<strong>在以特定的参数构造一个对象时，如果参数非法或构造失败，我们应当向调用者反馈这一信息</strong>.</p>
+<p>对于一般的成员函数，如果能够有返回值，那么我们可以通过返回值来标识传递给函数的参数非法或内部运行失败这种情况.<br>但是对于构造函数，因为它不能有返回值，所以，我们必须使用其它的方法来向调用者反馈”传递给构造函数的参数非法或构造失败”.</p>
+<p>针对于这一问题有三种解决方案:</p>
+<p><strong>第一种方案:在构造函数的参数中传递一个额外的参数用于标识构造是否成功.</strong><br>在这种方案的指导下，代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">People</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">People</span>( <span class="type">int</span> iAge , <span class="type">bool</span> &amp;bInitStatus )</span><br><span class="line">        : <span class="built_in">m_iAge</span>( iAge )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>( ( iAge &lt; <span class="number">0</span> ) || ( iAge &gt; <span class="number">200</span> ) )</span><br><span class="line">            &#123;</span><br><span class="line">                bInitStatus = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                bInitStatus = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> bInitStatus = <span class="literal">false</span>;</span><br><span class="line"><span class="function">People <span class="title">p</span><span class="params">( <span class="number">-1</span> , bInitStatus )</span></span>;</span><br><span class="line"><span class="keyword">if</span>( <span class="literal">false</span> == bInitStatus )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// handle error</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    p.<span class="built_in">Sing</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种方法是可行的，但是代码看起来过于丑陋且不够直观</p>
+<p><strong>第二种方案:使用两段构造的形式.</strong><br>所谓的两段构造是指一个对象的内部状态的初始化分两步完成，将构造函数中的部分初始化操作转移到一个辅助初始化的成员函数中:<br>第一步是通过构造函数来完成部分内部状态的初始化.<br>第二步是通过类似于 Initialize 之类的成员函数来完成对象内部状态的最终初始化.</p>
+<p>两段构造的形式在 MFC 中广泛使用.在MFC中我们经常看到类似于 Initialize , Create 之类的函数.<br>基于两段构造的形式，代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">People</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">People</span>( <span class="type">void</span> )</span><br><span class="line">        : <span class="built_in">m_iAge</span>( INVALID_AGE )</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="type">bool</span> <span class="title">Initialize</span><span class="params">( <span class="type">int</span> iAge )</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>( ( iAge &lt; <span class="number">0</span> ) || ( iAge &gt; <span class="number">200</span> ) )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                m_iAge = iAge;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;            </span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">People hebe;</span><br><span class="line"><span class="type">const</span> <span class="type">bool</span> bStatus = hebe.<span class="built_in">Initialize</span>( <span class="number">20</span> );</span><br><span class="line"><span class="keyword">if</span>( <span class="literal">false</span> == bInitStatus )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// handle error</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    hebe.<span class="built_in">Sing</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种方案似乎比第一种方案更优，但是仍有一个潜在的问题:对象是以两步构造完成的。第一步构造是由构造函数来完的，OK，这一点我们不用担心，编译器帮我们保证。但是第二步是由类似于 Initialize 之类的成员函数来完成的，如果我们在构造一个People对象之后忘记了调用 Initialize ，那么这个对象的内部状态仍然是非法的，后续的操作也将由此引发bug.这也是”两段构造”这种形式受到诟病的原因之一。<br>另一方面，”两段构造”的形式与C++的”RAII”，Resource Acquisition Is Initialization(资源获取即初始化)，这一原则相违背.</p>
+<p><strong>第三种方案:使用异常</strong></p>
+<p>即是当用于构造 People 对象的参数非法时，我们选择在构造函数中抛出一个异常来反馈给调用者”参数非法,构造失败”的相关信息.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">People</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="function"><span class="keyword">explicit</span> <span class="title">People</span><span class="params">( <span class="type">int</span> iAge )</span> <span class="title">throw</span><span class="params">( std::invalid_arguement )</span></span></span><br><span class="line"><span class="function">        : m_iAge( iAge )</span></span><br><span class="line"><span class="function">        &#123;</span></span><br><span class="line">            <span class="keyword">if</span>( ( iAge &lt; <span class="number">0</span> ) || ( iAge &gt; <span class="number">200</span> ) )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">throw</span> std::<span class="built_in">invalid_arguement</span>( <span class="string">&quot;invalid argument&quot;</span> );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">People <span class="title">hebe</span><span class="params">( <span class="number">20</span> )</span></span>;</span><br><span class="line">    hebe.<span class="built_in">Sing</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span>( <span class="type">const</span> std::invalid_arguement &amp;refExcept )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// handle exception here.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="构造异常"><a href="#构造异常" class="headerlink" title="构造异常"></a>构造异常</h2><p><strong>C++规定:如果执行构造函数的过程中产生异常，那么这个未被成功构造的对象的析构函数将不会被调用.</strong></p>
+<p><strong>第一种方案：二段式构造</strong></p>
+<p>将对象的构造过程，分为两类。</p>
+<ul>
+<li>资源无关的初始化，比如赋值</li>
+<li>调用系统资源的操作，比如内存申请，访问文件</li>
+</ul>
+<p>对于第一类，可以认为是安全的，放在第一阶段构造，但是第二类是有可能会出异常的，放在第二阶段构造。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> mi;</span><br><span class="line">    <span class="type">int</span>* array;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Test</span>(<span class="type">int</span> i)  <span class="comment">//第一阶段构造，完成基本的赋值操作</span></span><br><span class="line">    &#123;</span><br><span class="line">        mi = i;</span><br><span class="line">        array = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">construct</span><span class="params">()</span> <span class="comment">//第二阶段构造，申请内存</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">bool</span> ret = <span class="literal">true</span>;</span><br><span class="line">        array = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>];</span><br><span class="line">        <span class="keyword">if</span>(array)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; ++ i)</span><br><span class="line">            &#123;</span><br><span class="line">                array[i] = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ret = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">static</span> Test* <span class="title">NewInstance</span><span class="params">(<span class="type">int</span> i)</span>	<span class="comment">//对象创建函数</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Test* ret = <span class="keyword">new</span> <span class="built_in">Test</span>(i); <span class="comment">//调用第一阶构造</span></span><br><span class="line">        <span class="keyword">if</span>(!(ret &amp;&amp; ret-&gt;<span class="built_in">construct</span>()))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span> ret;</span><br><span class="line">            ret = <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">Test</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(array)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span>[] array;</span><br><span class="line">	    std::cout &lt;&lt; <span class="string">&quot;destroy&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Test* t = Test::<span class="built_in">NewInstance</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上若二阶段构造失败的处理方式和正常析构不同。</p>
+<p><strong>第二种方案：在构造函数内catch异常或者使用智能指针管理资源</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">person::<span class="built_in">person</span>(<span class="type">const</span> string&amp; name):</span><br><span class="line">	<span class="built_in">a</span>(<span class="literal">NULL</span>),   <span class="comment">// 初始化为空指针是必须的</span></span><br><span class="line">	<span class="built_in">b</span>(<span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">try</span> </span><br><span class="line">	&#123;</span><br><span class="line">		a = <span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">		b = <span class="keyword">new</span> <span class="built_in">B</span>();  </span><br><span class="line">	&#125; </span><br><span class="line">	<span class="built_in">catch</span>(...)   <span class="comment">// 捕获所有异常</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">delete</span> a;</span><br><span class="line">		<span class="keyword">delete</span> b;</span><br><span class="line">		<span class="keyword">throw</span>;   <span class="comment">// 继续传递异常</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/" data-id="cld6uiojj000iacsfh3f773ad" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B%E5%92%8CPOD%E7%B1%BB%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

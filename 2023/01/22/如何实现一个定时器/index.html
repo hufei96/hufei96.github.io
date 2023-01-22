@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="如何实现一个定时器使用linux信号触发定时任务可以使用操作系统API预订一个 SIGALRM 信号，在指定的时间后程序就能收到信号，在信号的处理函数中就能实现定时任务。具体的系统API如下： 12#include &lt;unistd.h&gt;unsigned int alarm(unsigned int seconds);  这里值得一提的是另一个信号 SIGVTALRM ，可以使用 set">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如何实现一个定时器使用linux信号触发定时任务可以使用操作系统API预订一个 SIGALRM 信号，在指定的时间后程序就能收到信号，在信号的处理函数中就能实现定时任务。具体的系统API如下： 12#include &lt;unistd.h&gt;unsigned int alarm(unsigned int seconds);  这里值得一提的是另一个信号 SIGVTALRM ，可以使用 set">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:02.001Z">
+<meta property="article:modified_time" content="2022-12-31T16:01:50.922Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-如何实现一个定时器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:02.001Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="如何实现一个定时器"><a href="#如何实现一个定时器" class="headerlink" title="如何实现一个定时器"></a>如何实现一个定时器</h1><h2 id="使用linux信号触发定时任务"><a href="#使用linux信号触发定时任务" class="headerlink" title="使用linux信号触发定时任务"></a>使用linux信号触发定时任务</h2><p>可以使用操作系统API预订一个 <code>SIGALRM</code> 信号，在指定的时间后程序就能收到信号，在信号的处理函数中就能实现定时任务。具体的系统API如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">unsigned</span> <span class="type">int</span> <span class="title">alarm</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> seconds)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里值得一提的是另一个信号 <code>SIGVTALRM</code> ，可以使用 <code>setitimer</code> 系统接口进行设置。这个定时器计算的是程序在用户模式（user mode）消耗的时间。另外，这个定时器还可以通过传入的 <code>struct itimerval</code> 设置为循环触发。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">setitimer</span><span class="params">(<span class="type">int</span> which, <span class="type">const</span> <span class="keyword">struct</span> itimerval *new_value,</span></span></span><br><span class="line"><span class="params"><span class="function">	      <span class="keyword">struct</span> itimerval *old_value)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>需要 <strong>注意</strong> 的是这两个API在同时使用时可能会相互干扰，它们可能会共用同一个定时器。</p>
+<h2 id="通过timerfd实现定时任务"><a href="#通过timerfd实现定时任务" class="headerlink" title="通过timerfd实现定时任务"></a>通过timerfd实现定时任务</h2><p>timerfd是linux独有的接口，可以在定时器超时后通过一个文件描述符通知程序。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/timerfd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">timerfd_create</span><span class="params">(<span class="type">int</span> clockid, <span class="type">int</span> flags)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">timerfd_settime</span><span class="params">(<span class="type">int</span> fd, <span class="type">int</span> flags,</span></span></span><br><span class="line"><span class="params"><span class="function">		    <span class="type">const</span> <span class="keyword">struct</span> itimerspec *new_value,</span></span></span><br><span class="line"><span class="params"><span class="function">		    <span class="keyword">struct</span> itimerspec *old_value)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">timerfd_gettime</span><span class="params">(<span class="type">int</span> fd, <span class="keyword">struct</span> itimerspec *curr_value)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>当这个文件描述符变为可读（readable）时，说明定时器超时了。最方便的是，这个文件描述符可以通过类似select的多路复用接口管理，这样我们就能同时设置并等待多个定时器了。</p>
+<h2 id="在网络编程中借助epoll的等待间隔执行定时任务"><a href="#在网络编程中借助epoll的等待间隔执行定时任务" class="headerlink" title="在网络编程中借助epoll的等待间隔执行定时任务"></a>在网络编程中借助epoll的等待间隔执行定时任务</h2><p>在网络编程中，通常都会用到IO复用，如select&#x2F;poll&#x2F;epoll等，它们会帮你同时检查多个socket上是否有读写操作。这些接口都有一个等待时间，在这个指定时间是最大等待时间，即使在没有需要处理的IO操作时也会返回。这个时间是一般是个固定值，如10ms&#x2F;20ms&#x2F;50ms，它被称作网络库的基准频率。在这段空余时间中可以检查定时器是否超时，并执行超时定时器的回调函数。</p>
+<p>伪代码示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">update_events</span><span class="params">(milisec = <span class="number">10</span>)</span>:</span></span><br><span class="line"><span class="function">    result =</span> selector.<span class="built_in">select</span>(milisec)</span><br><span class="line">    <span class="keyword">for</span> fd, event in result:</span><br><span class="line">	<span class="keyword">do</span> something with socket event</span><br><span class="line">    current = time.<span class="built_in">time</span>()</span><br><span class="line">    <span class="built_in">update_timer</span>(current)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    WAIT_MILLISEC = <span class="number">10</span></span><br><span class="line">    <span class="built_in">update_events</span>(WAIT_MILLISEC)</span><br></pre></td></tr></table></figure>
+
+<p>在两次select的间隔中可以进行一些定时操作，关键就在 <code>update_timer</code> 中的实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">update_timer</span> <span class="params">(current)</span>:</span></span><br><span class="line"><span class="function">    for timer in available_timers:</span></span><br><span class="line"><span class="function">	 while current &gt;=</span> timer.expires:</span><br><span class="line">	     timer.<span class="built_in">callback</span>(current)</span><br><span class="line">	     timer.expires += timer.period</span><br></pre></td></tr></table></figure>
+
+<p><code>available_timers</code> 记录着当前所有的定时器， <code>timer.expires</code> 是他们需要被触发的时间，如果当前时间大于等于这个 <code>timer.expires</code> ，认为该定时器触发了。 <strong>注意</strong> <code>timer.expires</code> 更新的时候是 <code>+= period</code> ，而不是 <code>= current + period</code> ，后者会导致误差积累，长时间运行后偏差会越来越大。同时这里需要 <code>while</code> ，因为定时器的回调函数在执行时可能跨越两个以上周期，当然只触发一次的就不需要了。</p>
+<p>可以将定时器存在一个优先队列中，每次从队列的前面取出定时器进行超时判断，直到出现了一个没超时的就终止判断，这样可以避免每次都扫描全部定时器。</p>
+<p>在所有定时器的超时时间都相同时，可以将它们存放在一个单向队列中，每次增加时都放在最后，并从前面开始检查超时，这样只需要检查队列头部的那部分定时器了。</p>
+<p>另一种思路是动态调整等待的间隔，每次选出最先需要超时的定时器，计算它的超时时间，将这个时间作为select的等待时间。这样每次时间都不一样，每次都基本准确，同时不会占用多余的CPU，这种模式叫做 <code>TICKLESS</code> 。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="cld6uiojl000jacsfefodfgcs" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

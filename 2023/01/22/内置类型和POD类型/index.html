@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="内置类型和POD类型内置类型内置类型（也称基本类型）由 C++ 语言标准指定，内置于编译器中。 内置类型未在任何头文件中定义。 内置类型分为以下几个类别：    类型 关键字    布尔类型 bool   字符型 char，wchar_t，char8_t(c++20)，char16_t(c++11)，char32_t(c++11)   整型 int   浮点型 float，double，long">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B%E5%92%8CPOD%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="内置类型和POD类型内置类型内置类型（也称基本类型）由 C++ 语言标准指定，内置于编译器中。 内置类型未在任何头文件中定义。 内置类型分为以下几个类别：    类型 关键字    布尔类型 bool   字符型 char，wchar_t，char8_t(c++20)，char16_t(c++11)，char32_t(c++11)   整型 int   浮点型 float，double，long">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/typechart.png">
+<meta property="article:published_time" content="2023-01-22T03:54:01.995Z">
+<meta property="article:modified_time" content="2022-11-03T20:06:25.676Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/hufei96/Image/main/typechart.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-内置类型和POD类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B%E5%92%8CPOD%E7%B1%BB%E5%9E%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.995Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="内置类型和POD类型"><a href="#内置类型和POD类型" class="headerlink" title="内置类型和POD类型"></a>内置类型和POD类型</h1><h2 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h2><p>内置类型（也称基本类型）由 C++ 语言标准指定，内置于编译器中。 内置类型未在任何头文件中定义。 内置类型分为以下几个类别：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>布尔类型</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>字符型</td>
+<td>char，wchar_t，char8_t(c++20)，char16_t(c++11)，char32_t(c++11)</td>
+</tr>
+<tr>
+<td>整型</td>
+<td>int</td>
+</tr>
+<tr>
+<td>浮点型</td>
+<td>float，double，long double</td>
+</tr>
+<tr>
+<td>无类型</td>
+<td>void，nullptr(c++11)</td>
+</tr>
+</tbody></table>
+<h3 id="C-类型修饰符"><a href="#C-类型修饰符" class="headerlink" title="C ++类型修饰符"></a>C ++类型修饰符</h3><p>我们可以使用类型修饰符来进一步修改一些基本数据类型。C ++中有5种类型修饰符。他们是：</p>
+<ul>
+<li>signed</li>
+<li>unsigned</li>
+<li>short</li>
+<li>long</li>
+<li>long long(c++11)</li>
+</ul>
+<p><strong>所以long和short不是类型，而是修饰符</strong></p>
+<p>其中char只能用signed和unsigned修饰，int可以用所有修饰符修饰。</p>
+<h3 id="字符型详解"><a href="#字符型详解" class="headerlink" title="字符型详解"></a>字符型详解</h3><p>类型 <strong><code>char</code><strong>、</strong><code>wchar_t</code><strong>、</strong><code>char8_t</code><strong>、</strong><code>char16_t</code></strong> 和 <strong><code>char32_t</code></strong> 是内置类型，可表示字母数字字符，非字母数字字形和非打印字符。</p>
+<p><strong><code>char</code></strong> 类型是 C 和 C++ 中的原始字符类型。 <strong><code>char</code></strong> 类型可用于存储 ASCII 字符集或任何 ISO-8859 字符集中的字符，以及多字节字符的单个字节，例如 Shift-JIS 或 Unicode 字符集的 UTF-8 编码。 在 Microsoft 编译器中，**<code>char</code>** 是 8 位类型。 它是与 <strong><code>signed char</code></strong> 和 <strong><code>unsigned char</code></strong> 都不同的类型。 默认情况下，**<code>char</code>** 类型的变量将提升到 **<code>int</code>**，就像是从 <strong><code>signed char</code></strong> 类型一样，除非使用 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/cpp/build/reference/j-default-char-type-is-unsigned?view=msvc-170"><code>/J</code></a> 编译器选项。 在 <strong><code>/J</code></strong> 的情况下，它们被视为 <strong><code>unsigned char</code></strong> 类型并提升为 <strong><code>int</code></strong> （没有符号扩展）。</p>
+<p>类型 <strong><code>unsigned char</code></strong> 通常用于表示 byte，它不是 C++ 中的内置类型。</p>
+<p><strong><code>wchar_t</code></strong> 类型是实现定义的宽字符类型。 在 Microsoft 编译器中，它表示一个 16 位宽字符，用于存储编码为 UTF-16LE 的 Unicode（Windows 操作系统上的本机字符类型）。通用 C 运行时 (UCRT) 库函数的宽字符版本使用 <strong><code>wchar_t</code></strong> 及其指针和数组类型作为参数和返回值，本机 Windows API 的宽字符版本也是如此。</p>
+<p><strong><code>char8_t</code><strong>、</strong><code>char16_t</code></strong> 和 <strong><code>char32_t</code></strong> 类型分别表示 8 位、16 位和 32 位宽字符。 （**<code>char8_t</code>** 是 C++20 中的新增功能，需要 <code>/std:c++20</code>或 <strong><code>/std:c++latest</code></strong> 编译器选项。）编码为 UTF-8 的 Unicode 可以存储在 <strong><code>char8_t</code></strong> 类型中。 <strong><code>char8_t</code></strong> 和 <strong><code>char</code></strong> 类型的字符串称为“窄”字符串，即使用于编码 Unicode 或多字节字符。 编码为 UTF-16 的 Unicode 可以存储在 <strong><code>char16_t</code></strong> 类型中，而编码为 UTF-32 的 Unicode 可以存储在 <strong><code>char32_t</code></strong> 类型中。 这些类型和 <strong><code>wchar_t</code></strong> 类型的字符串都称为“宽”字符串，但该术语通常特指 <strong><code>wchar_t</code></strong> 类型的字符串。</p>
+<p>在 C++ 标准库中，<code>basic_string</code> 类型专用于窄字符串和宽字符串。 字符的类型为 <strong><code>char</code></strong> 时，使用 <code>std::string</code>；字符的类型为 <strong><code>char8_t</code></strong> 时，使用 <code>std::u8string</code>；字符的类型为 <strong><code>char16_t</code></strong> 时，使用 <code>std::u16string</code>；字符的类型为 <strong><code>char32_t</code></strong> 时，使用 <code>std::u32string</code>；而字符的类型为 <strong><code>wchar_t</code></strong> 时，使用 <code>std::wstring</code>。 其他表示文本的类型（包括 <code>std::stringstream</code> 和 <code>std::cout</code>）均可专用于窄字符串和宽字符串。</p>
+<h3 id="数据类型大小"><a href="#数据类型大小" class="headerlink" title="数据类型大小"></a>数据类型大小</h3><p><img src="https://raw.githubusercontent.com/hufei96/Image/main/typechart.png" alt="image-20221104034339597"></p>
+<p>在这张表中，LP64，ILP64，LLP64是64位平台上的字长模型，ILP32和LP32是32位平台上的字长模型。</p>
+<p>LP64意思是long和pointer是64位，</p>
+<p>ILP64指int，long，pointer是64位，</p>
+<p>LLP64指long long和pointer是64-bit的。</p>
+<p>ILP32指int，long和pointer是32位的，</p>
+<p>LP32指long和pointer是32位的。</p>
+<p><strong>现今所有64位的类Unix平台均使用LP64数据模型，而64位Windows使用LLP64数据模型，除了指针是64位，其他基本类型都没有变</strong></p>
+<h2 id="POD类型"><a href="#POD类型" class="headerlink" title="POD类型"></a>POD类型</h2><p>POD（Plain Old Data）是C++中非常重要的一个概念，用来描述一个类型的属性其中Plain表示这个类型是个平凡的类型，Old表示其与C的兼容性。C++11中将POD划分为两个基本概念：平凡的（trival）和标准布局（standardlayout）。</p>
+<p>粗略地说，POD 类型是一种与 C 兼容的类型，也许同样重要的是与某些 ABI（Application Binary Interface） 优化兼容。为了与 C 兼容，我们需要满足两个约束：</p>
+<ul>
+<li>布局必须与对应的 C 类型相同。</li>
+<li>类型必须以与相应的 C 类型相同的方式传递给函数和从函数返回。</li>
+</ul>
+<p>虚函数要求编译器插入一个或多个指向虚函数表的指针，这在 C 中是不存在的。</p>
+<p>用户定义的拷贝构造函数、移动构造函数、复制赋值和析构函数对参数传递和返回有影响。 许多 C ABI 在寄存器中传递和返回小参数，但传递给用户定义的构造函数&#x2F;赋值&#x2F;析构函数的引用只能使用内存位置。</p>
+<h3 id="平凡性（trivial）"><a href="#平凡性（trivial）" class="headerlink" title="平凡性（trivial）"></a>平凡性（trivial）</h3><p>什么是平凡性呢？通常一个平凡的类或者结构体具有以下特征：</p>
+<ul>
+<li>没有自定义构造函数和析构函数。</li>
+<li>没有自定义拷贝构造函数和移动构造函数。即拥有编译器自动生成的拷贝、移动构造函数。</li>
+<li>没有自定义拷贝赋值运算符和移动赋值运算符。</li>
+<li>不能包含虚函数和虚基类。</li>
+</ul>
+<p>C++11提供了一个类模板来帮我们识别一个类是否是平凡的：template <typename T>struct std::is_trival</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">   <span class="type">int</span> a;</span><br><span class="line">   <span class="type">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   cout&lt;&lt;is_trivial&lt;Base&gt;::value&lt;&lt;endl ;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="标准布局"><a href="#标准布局" class="headerlink" title="标准布局"></a>标准布局</h3><p>满足以下条件的类或结构体是标准布局的</p>
+<ul>
+<li><p>所有非静态成员有相同的访问权限，比如都是private的，或者都是public，或者都是protected</p>
+</li>
+<li><p>在类或结构体的继承时，满足以下两种情况之一：</p>
+<ol>
+<li>派生类中有非静态成员，且只有仅包含静态成员的基类。。</li>
+<li>基类有非静态成员，而派生类没有非静态成员。</li>
+<li>这两条综合起来，意即：<strong>继承树中最多只能有一个类有非静态数据成员。</strong></li>
+</ol>
+</li>
+<li><p>类中第一个非静态成员的类型与其基类不同。</p>
+</li>
+<li><p>没有虚函数和虚基类。</p>
+</li>
+<li><p>所有非静态成员都符合标准布局类型，其父类也符合标准布局。</p>
+</li>
+</ul>
+<p>C++11提供了如下模板来判断一个类或结构体对象是否是标准布局</p>
+<p>template <typename T> structstd::is_standard_layout; &#x2F;&#x2F;头文件为<type_traits><br>template <typename T> struct std::is_pod &#x2F;&#x2F;判断一个类型是否是POD，头文件为<type_traits></p>
+<h3 id="POD的好处"><a href="#POD的好处" class="headerlink" title="POD的好处"></a>POD的好处</h3><ul>
+<li>字节赋值，我们可以放心的使用memset和memcpy对POD类型进行初始化和拷贝。</li>
+<li>提供对C内存的兼容。POD类型的数据在C与C++间的操作总是安全的。</li>
+<li>保证了静态初始化的安全有效。POD类型的对象初始化往往更简单</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B%E5%92%8CPOD%E7%B1%BB%E5%9E%8B/" data-id="cld6uiojj000gacsf4ornamv9" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

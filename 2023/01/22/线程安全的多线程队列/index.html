@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="线程安全的多线程队列队列类型在并发编程中，有时候需要使用线程安全的队列。如果要实现一个线程安全的队列有两种方式：一种是使用阻塞算法，另一种是使用非阻塞算法。 使用阻塞算法的队列可以用一个锁（入队和出队用同一把锁）或两个锁（入队和出队用不同的锁）等方式来实现。非阻塞的实现方式则可以使用自旋+CAS的方式来实现。 阻塞队列与非阻塞队列 阻塞队列（BlockingQueue）是一个支持两个附加操作的队列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%98%9F%E5%88%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="线程安全的多线程队列队列类型在并发编程中，有时候需要使用线程安全的队列。如果要实现一个线程安全的队列有两种方式：一种是使用阻塞算法，另一种是使用非阻塞算法。 使用阻塞算法的队列可以用一个锁（入队和出队用同一把锁）或两个锁（入队和出队用不同的锁）等方式来实现。非阻塞的实现方式则可以使用自旋+CAS的方式来实现。 阻塞队列与非阻塞队列 阻塞队列（BlockingQueue）是一个支持两个附加操作的队列">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.910Z">
+<meta property="article:modified_time" content="2022-12-04T21:13:36.000Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-线程安全的多线程队列" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%98%9F%E5%88%97/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.910Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="线程安全的多线程队列"><a href="#线程安全的多线程队列" class="headerlink" title="线程安全的多线程队列"></a>线程安全的多线程队列</h1><h2 id="队列类型"><a href="#队列类型" class="headerlink" title="队列类型"></a>队列类型</h2><p>在并发编程中，有时候需要使用线程安全的队列。如果要实现一个线程安全的队列有两种方式：一种是使用阻塞算法，另一种是使用非阻塞算法。</p>
+<p>使用阻塞算法的队列可以用一个锁（入队和出队用同一把锁）或两个锁（入队和出队用不同的锁）等方式来实现。非阻塞的实现方式则可以使用自旋+CAS的方式来实现。</p>
+<p><strong>阻塞队列与非阻塞队列</strong></p>
+<p>阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作支持阻塞的插入和移除方法。</p>
+<p>支持阻塞的插入方法put：当队列满时，队列会阻塞插入元素的线程，直到队列不满。</p>
+<p>支持阻塞的移除方法take：在队列为空时，获取元素的线程会等待队列变为非空。</p>
+<p>阻塞队列常用于生产者和消费者的场景，生产者是向队列里添加元素的线程，消费者是从队列里取元素的线程。阻塞队列就是生产者用来存放元素、消费者用来获取元素的容器。</p>
+<p>非阻塞队列：若队列为空从中获取元素则会返回空，若队列满了插入元素则会抛出异常。</p>
+<p><strong>有界队列与无界队列</strong></p>
+<p>有界队列：就是有固定大小的队列。比如设定了固定大小的ArrayBlockingQueue，又或者大小为0，只是在生产者和消费者中做中转用的SynchronousQueue。</p>
+<p>无界队列：指的是没有设置固定大小的队列。这些队列的特点是可以直接入列，直到溢出。当然现实几乎不会有到这么大的容量（超过 Integer.MAX_VALUE），所以从使用者的体验上，就相当于 “无界”。线程池中一般使用有界队列，防止任务堆积导致内存满载。</p>
+<h3 id="阻塞无界队列的实现"><a href="#阻塞无界队列的实现" class="headerlink" title="阻塞无界队列的实现"></a>阻塞无界队列的实现</h3><p>使用deque作为基本数据结构，无界队列可以一直生产，所以不用等待队列中有位置才生产，每生产一个产品就notify一个消费者。消费take时要判断有无产品。</p>
+<p>所以<strong>只需要一个mutex锁，一个条件变量notEmpty</strong>，消费者用来等待notEmpty有产品可以消费</p>
+<h3 id="阻塞有界队列的实现"><a href="#阻塞有界队列的实现" class="headerlink" title="阻塞有界队列的实现"></a>阻塞有界队列的实现</h3><p>使用循环队列作为基本数据结构，用front和tail存储队列首部和尾部的下标，front指向队列的第一个元素，tail指向队列插入的下一个元素，入队时queue[tail] &#x3D; data，出队时 data &#x3D; queue[front]。为了区分空队和满队的情况，队列必须空出一个位置，空队时tail等于front，满队时front &#x3D; (tail + 1)%size。</p>
+<h2 id="多线程队列算法优化"><a href="#多线程队列算法优化" class="headerlink" title="多线程队列算法优化"></a>多线程队列算法优化</h2><p>对于一个队列来说有两个最主要的动作：添加（enqueue）和删除（dequeue）节点。</p>
+<p>在一个（或多个）线程在对一个队列进行enqueue操作的同时可能会有一个（或多个）线程对这个队列进行dequeue操作。因为enqueue和dequeue都是对同一个队列里的节点进行操作，为了保证线程安全，一般在实现中都会在队列的结构体中加入一个队列锁，在进行enqueue和dequeue时都会先锁住整个队列然后再进行相关的操作。</p>
+<p>但是，这其中其实有一个潜在的性能瓶颈：enqueue和dequeue操作都要锁住整个队列，这在线程少的时候可能没什么问题，但是只要线程数一多，这个锁竞争所产生的性能瓶颈就会越来越严重。</p>
+<p>如果我们仔细想一想enqueue和dequeue的具体操作就会发现他们的操作其实不一定是冲突的。例如：如果所有的enqueue操作都是往队列的尾部插入新节点，而所有的dequeue操作都是从队列的头部删除节点，那么enqueue和dequeue大部分时候都是相互独立的，我们大部分时候根本不需要锁住整个队列，白白损失性能！那么一个很自然就能想到的算法优化方案就呼之欲出了：**我们可以把那个队列锁拆成两个：一个队列头部锁（head lock)和一个队列尾部锁(tail lock)**。设计思路是对了，但是如果再仔细思考一下它的实现的话我们会发现其实不太容易，因为有两个特殊情况：第一种就是往空队列里插入第一个节点的时候，第二种就是从只剩最后一个节点的队列中删除的时候。</p>
+<p>当我们向空队列中插入第一个节点的时候，我们需要同时修改队列的head和tail指针，使他们同时指向这个新插入的节点，换句话说，我们此时即需要拿到head lock又需要拿到tail lock。而另一种情况是对只剩一个节点的队列进行dequeue的时候，我们也是需要同时修改head和tail指针使他们指向NULL，亦即我们需要同时获得head和tail lock。有经验的同学会立刻发现我们进入危险区了！是什么危险呢？死锁！多线程编程中最臭名昭著的一种bug就是死锁了。例如，如果线程A在锁住了资源1后还想要获取资源2，而线程B在锁住了资源2后还想要获取资源1，这时两个线程谁都不能获得自己想要的那个资源，两个线程就死锁了。所以我们要小心奕奕的设计这个算法以避免死锁，例如保证enqueue和dequeue对head lock和tail lock的请求顺序（lock ordering）是一致的。但是这样设计出来的算法很容易就会包含多次的加锁&#x2F;解锁操作，这些都会造成不必要的开销，尤其是在线程数很多的情况下反而可能导致性能的下降。</p>
+<p>好在有聪明人早在96年就想到了一个更妙的算法。这个算法也是用了head和tail两个锁，但是它有一个关键的地方是它在队列初始化的时候head和tail指针不为空，而是指向一个空节点。在enqueue的时候只要向队列尾部添加新节点就好了。而dequeue的情况稍微复杂点，它要返回的不是头节点，而是head-&gt;next，即头节点的下一个节点。先来看伪代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">node_t</span> &#123;</span><br><span class="line">    TYPE value; </span><br><span class="line">    <span class="type">node_t</span> *next</span><br><span class="line">&#125; NODE;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">queue_t</span> &#123;</span><br><span class="line">    NODE *head; </span><br><span class="line">    NODE *tail;</span><br><span class="line">    LOCK q_h_lock;</span><br><span class="line">    LOCK q_t_lock;</span><br><span class="line">&#125; Q;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">initialize</span>(Q *q) &#123;</span><br><span class="line">   node = <span class="built_in">new_node</span>()   <span class="comment">// Allocate a free node</span></span><br><span class="line">   node-&gt;next = <span class="literal">NULL</span>   <span class="comment">// Make it the only node in the linked list</span></span><br><span class="line">   q-&gt;head = q-&gt;tail = node   <span class="comment">// Both head and tail point to it</span></span><br><span class="line">   q-&gt;q_h_lock = q-&gt;q_t_lock = FREE   <span class="comment">// Locks are initially free</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="built_in">enqueue</span>(Q *q, TYPE value) &#123;</span><br><span class="line">   node = <span class="built_in">new_node</span>()       <span class="comment">// Allocate a new node from the free list</span></span><br><span class="line">   node-&gt;value = value     <span class="comment">// Copy enqueued value into node</span></span><br><span class="line">   node-&gt;next = <span class="literal">NULL</span>       <span class="comment">// Set next pointer of node to NULL</span></span><br><span class="line">   <span class="built_in">lock</span>(&amp;q-&gt;q_t_lock)      <span class="comment">// Acquire t_lock in order to access Tail</span></span><br><span class="line">      q-&gt;tail-&gt;next = node <span class="comment">// Link node at the end of the queue</span></span><br><span class="line">      q-&gt;tail = node       <span class="comment">// Swing Tail to node</span></span><br><span class="line">   <span class="built_in">unlock</span>(&amp;q-&gt;q_t_lock)    <span class="comment">// Release t_lock</span></span><br><span class="line">｝</span><br><span class="line"> </span><br><span class="line"><span class="built_in">dequeue</span>(Q *q, TYPE *pvalue) &#123;</span><br><span class="line">   <span class="built_in">lock</span>(&amp;q-&gt;q_h_lock)   <span class="comment">// Acquire h_lock in order to access Head</span></span><br><span class="line">      node = q-&gt;head    <span class="comment">// Read Head</span></span><br><span class="line">      new_head = node-&gt;next       <span class="comment">// Read next pointer</span></span><br><span class="line">      <span class="keyword">if</span> new_head == <span class="literal">NULL</span>         <span class="comment">// Is queue empty?</span></span><br><span class="line">         <span class="built_in">unlock</span>(&amp;q-&gt;q_h_lock)     <span class="comment">// Release h_lock before return</span></span><br><span class="line">         <span class="keyword">return</span> FALSE             <span class="comment">// Queue was empty</span></span><br><span class="line">      endif</span><br><span class="line">      *pvalue = new_head-&gt;value   <span class="comment">// Queue not empty, read value</span></span><br><span class="line">      q-&gt;head = new_head  <span class="comment">// Swing Head to next node</span></span><br><span class="line">   <span class="built_in">unlock</span>(&amp;q-&gt;q_h_lock)   <span class="comment">// Release h_lock</span></span><br><span class="line">   <span class="built_in">free</span>(node)             <span class="comment">// Free node</span></span><br><span class="line">   <span class="keyword">return</span> TRUE            <span class="comment">// Queue was not empty, dequeue succeeded</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现玄机了么？是的，这个算法中队列总会包含至少一个节点。dequeue每次返回的不是头节点，而是头节点的下一个节点中的数据：如果head-&gt;next不为空的话就把这个节点的数据取出来作为返回值，同时再把head指针指向这个节点，此时旧的头节点就可以被free掉了。这个在队列初始化时插入空节点的技巧使得enqueue和dequeue彻底相互独立了。但是，还有一个小地方在实现的时候需要注意：对第一个空节点的next指针的读写。想象一下，当一个线程对一个空队列进行第一次enqueue操作时刚刚运行完第25行的代码（对该空节点的next指针进行写操作）；而此时另一个线程对这个队列进行第一次dequeue操作时恰好运行到第33行（对该空节点的next指针进行读操作），它们其实还是有冲突！不过，好在一般来讲next指针是32位数据，而现代的CPU已经能保证多线程程序中内存对齐了的32位数据读写操作的原子性，而一般来讲编译器会自动帮你对齐32位数据，所以这个不是问题。唯一需要注意的是我们要确保enqueue线程是先让要添加的新节点包含好数据再把新节点插入链表（也就是不能先插入空节点，再往节点中填入数据），那么dequeue线程就不会拿到空的节点。其实我们也可以把q_t_lock理解成生产者的锁，q_h_lock理解成消费者的锁，这样生产者（们）和消费者（们）的操作就相互独立了，只有在多个生产者对同一队列进行添加操作时，以及多个消费者对同一队列进行删除操作时才需要加锁以使访问互斥。</p>
+<p>通过使用这个算法，我成功的把一个32线程程序的性能提升了11%！可见多线程中的锁竞争对性能影响之大！此算法出自一篇著名的论文：M. Michael and M. Scott. Simple, Fast, and Practical Non-Blocking and Blocking Concurren Queue Algorithms </p>
+<p>如果还想做更多优化的话可以参考这篇论文实现相应的Non Blocking版本的算法，性能还能有更多提升。当然了，这个算法早已被集成到java.util.concurrent里了（即LinkedBlockingQueue），其他的并行库例如Intel的TBB多半也有类似的算法，如果大家能用上现成的库的话就不要再重复造轮子了。为什么别造并行算法的轮子呢？因为高性能的并行算法实在太难正确地实现了，尤其是Non Blocking，Lock Free之类的“火箭工程”。有多难呢？Doug Lea提到java.util.concurrent中一个Non Blocking的算法的实现大概需要1年的时间，总共约500行代码。所以，对最广大的程序员来说，别去写Non Blocking, Lock Free的代码，只管用就行了。</p>
+<p>多线程队列算法有很多种，大家应根据不同的应用场合选取最优算法（例如是CPU密集型还是IO密集型）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%98%9F%E5%88%97/" data-id="cld6uiojw000wacsfah08cgi2" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

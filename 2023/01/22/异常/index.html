@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="异常和异常安全程序运行时常会碰到一些异常情况，例如：  做除法的时候除数为 0；（c++无法捕获除0异常，需要自行提前判断） 用户输入年龄时输入了一个负数； 用 new 运算符动态分配空间时，空间不够导致无法分配； 访问数组元素时，下标越界；打开文件读取时，文件不存在。  这些异常情况，如果不能catch处理，则会不断向上抛出，直到程序崩溃。 所谓“处理”，可以是让程序沿一条不会出错的路径继续执行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E5%BC%82%E5%B8%B8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="异常和异常安全程序运行时常会碰到一些异常情况，例如：  做除法的时候除数为 0；（c++无法捕获除0异常，需要自行提前判断） 用户输入年龄时输入了一个负数； 用 new 运算符动态分配空间时，空间不够导致无法分配； 访问数组元素时，下标越界；打开文件读取时，文件不存在。  这些异常情况，如果不能catch处理，则会不断向上抛出，直到程序崩溃。 所谓“处理”，可以是让程序沿一条不会出错的路径继续执行">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220411235618732.png">
+<meta property="article:published_time" content="2023-01-22T03:54:01.914Z">
+<meta property="article:modified_time" content="2022-11-04T20:11:20.243Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220411235618732.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-异常" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E5%BC%82%E5%B8%B8/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.914Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="异常和异常安全"><a href="#异常和异常安全" class="headerlink" title="异常和异常安全"></a>异常和异常安全</h1><p>程序运行时常会碰到一些异常情况，例如：</p>
+<ul>
+<li>做除法的时候除数为 0；（<strong>c++无法捕获除0异常</strong>，需要自行提前判断）</li>
+<li>用户输入年龄时输入了一个负数；</li>
+<li>用 new 运算符动态分配空间时，空间不够导致无法分配；</li>
+<li>访问数组元素时，下标越界；打开文件读取时，文件不存在。</li>
+</ul>
+<p>这些异常情况，如果不能catch处理，则会不断向上抛出，直到程序崩溃。</p>
+<p>所谓“处理”，可以是让程序沿一条不会出错的路径继续执行；也可能是不得不结束程序，但在结束前做一些必要的工作，如记录错误到文件中、将内存中的数据写入文件、关闭打开的文件等。</p>
+<p><strong>进程崩溃是一种保护机制</strong>，是为了防止继续犯下更大的错误。比如说用户原本有10块钱，消费了1块钱，但是扣减一块钱的过程失败了，如果继续执行下去，就会按照用户仍然拥有10块钱处理，可能会造成严重的损失。</p>
+<p><strong>是操作系统决定让进程崩溃的</strong>，而不是CPU。当操作系统实在不知道如何让一个线程继续执行下去了，就会让它所在的整个进程崩溃。</p>
+<h2 id="异常处理基本语法"><a href="#异常处理基本语法" class="headerlink" title="异常处理基本语法"></a>异常处理基本语法</h2><h3 id="throw"><a href="#throw" class="headerlink" title="throw"></a>throw</h3><p>C++ 通过 throw 语句和 try…catch 语句实现对异常的处理。throw 语句的语法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span> 表达式;</span><br></pre></td></tr></table></figure>
+
+<p>该语句拋出一个异常。异常是一个表达式，其值的类型可以是基本类型，也可以是类。</p>
+<p>函数 A 在执行过程中发现异常时可以不加处理，而只是“拋出一个异常”给 A 的调用者，假定为函数 B。拋出异常而不加处理会导致函数 A 立即中止，在这种情况下，函数 B 可以选择捕获 A 拋出的异常进行处理，也可以选择置之不理。如果置之不理，这个异常就会被拋给 B 的调用者，以此类推,直到main函数，若main函数也不处理，则程序崩溃。</p>
+<h3 id="try…catch"><a href="#try…catch" class="headerlink" title="try…catch"></a>try…catch</h3><p>try…catch 语句的语法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  语句组</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">catch</span>(异常类型) &#123;</span><br><span class="line">  异常处理代码</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="built_in">catch</span>(异常类型) &#123;</span><br><span class="line">  异常处理代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>catch 可以有多个，但至少要有一个。</p>
+<p>try…catch 语句的执行过程是：</p>
+<ul>
+<li>执行 try 块中的语句，如果执行的过程中没有异常拋出，那么执行完后就执行最后一个 catch 块后面的语句，所有 catch 块中的语句都不会被执行；</li>
+<li>如果 try 块执行的过程中拋出了异常，那么拋出异常后立即跳转到第一个和拋出的异常类型匹配的 catch 块中执行（称作异常被该 catch 块“捕获”），执行完后再跳转到最后一个 catch 块后面继续执行。</li>
+</ul>
+<h4 id="能够捕获任何异常的-catch-语句"><a href="#能够捕获任何异常的-catch-语句" class="headerlink" title="能够捕获任何异常的 catch 语句"></a>能够捕获任何异常的 catch 语句</h4><p>如果希望不论拋出哪种类型的异常都能捕获，可以编写如下 catch 块,这样的 catch 块能够捕获任何还没有被捕获的异常。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">catch</span>(...) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="异常再抛出"><a href="#异常再抛出" class="headerlink" title="异常再抛出"></a>异常再抛出</h4><p>有时，虽然在函数中对异常进行了处理，但是还是希望能够通知调用者，以便让调用者知道发生了异常，从而可以作进一步的处理。此时可以在 catch 块中继续拋出异常。如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">CountTax</span><span class="params">(<span class="type">int</span> salary)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">       <span class="keyword">if</span>( salary &lt; <span class="number">0</span> )</span><br><span class="line">           <span class="keyword">throw</span> <span class="built_in">string</span>(<span class="string">&quot;zero salary&quot;</span>);</span><br><span class="line">       cout &lt;&lt; <span class="string">&quot;counting tax&quot;</span> &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">catch</span> (string s ) &#123;</span><br><span class="line">       cout &lt;&lt; <span class="string">&quot;CountTax error : &quot;</span> &lt;&lt; s &lt;&lt; endl;</span><br><span class="line">       <span class="keyword">throw</span>; <span class="comment">//throw没有指明拋出什么样的异常，因此拋出的就是 catch 块捕获到的异常，即 string(&quot;zero salary&quot;)。</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数的异常声明列表"><a href="#函数的异常声明列表" class="headerlink" title="函数的异常声明列表"></a>函数的异常声明列表</h3><p>为了增强程序的可读性和可维护性，使程序员在使用一个函数时就能看出这个函数可能会拋出哪些异常，C++ 允许在函数声明和定义时，加上它所能拋出的异常的列表，具体写法如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> <span class="title">throw</span> <span class="params">(<span class="type">int</span>, <span class="type">double</span>, A, B, C)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>上面的写法表明 func 可能拋出 int 型、double 型以及 A、B、C 三种类型的异常。异常声明列表可以在函数声明时写，也可以在函数定义时写。如果两处都写，则两处应一致。</p>
+<p>如果异常声明列表如下编写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span> <span class="title">throw</span> <span class="params">()</span></span>;<span class="comment">//c++11后被noexcept关键字取代</span></span><br></pre></td></tr></table></figure>
+
+<p>则说明 func 函数不会拋出任何异常。</p>
+<h3 id="c-标准异常类"><a href="#c-标准异常类" class="headerlink" title="c++标准异常类"></a>c++标准异常类</h3><p><img src="C:\Users\hufei\AppData\Roaming\Typora\typora-user-images\image-20220411235618732.png" alt="image-20220411235618732"></p>
+<p>C++语言本身或者标准库抛出的异常都是 exception 的子类</p>
+<h2 id="用noexcept修饰函数"><a href="#用noexcept修饰函数" class="headerlink" title="用noexcept修饰函数"></a>用noexcept修饰函数</h2><ul>
+<li>noexcept对性能有帮助。</li>
+</ul>
+<p>因为在调用noexcept函数时不需要记录异常的错误处理所以编译器可以生成更高效的代码（但实际编译器是否优化noexcept不一定，但理论上noexcept给了编译器更多优化的机会）。编译器在编译一个非noexcept的函数时有可能会生成很多冗余的代码，这些代码虽然只在出错的时候执行，但还是会对instruction cache造成影响，进而影响程序整体的性能。发生异常时要退栈并返回，所以编译器要生成这部分的代码，如果是noexcept函数就不需要生成了。</p>
+<ul>
+<li>如果noexcept的函数执行时出了异常，程序会马上terminate。</li>
+</ul>
+<p><strong>请注意，这也包括所有noexcept函数调用的函数。</strong>比如f是noexcept，g不是，f调用了g，但g throw exception，程序会马上terminate。甚至你在f外面用了try catch也没用。</p>
+<ul>
+<li>noexcept最有用的地方是用在move constructor和move assignment上，你的move操作如果不是noexcept的，很多情况下即使逻辑上可以move，编译器也会执行copy。</li>
+</ul>
+<p><strong>对使用noexcept使用的建议</strong></p>
+<ul>
+<li>默认不使用。</li>
+</ul>
+<p>大部分情况下，你都很难避免bad_alloc的异常，即使这个函数不直接allocate，有可能编译器执行代码时还是需要allocate。比如最简单的a &#x3D; b，如果a和b是一个自定义的type，有可能这个type有类似vector，string这些需要allocate的member，那这个赋值语句就可能报错。而且即使这个type现在没有这样的member，以后说不定代码改来改去就加了一个这样的成员。如果你给a&#x3D;b加上了noexcept，那以后加这样一个member，你还得把noexcept去掉。不使用noexcept是最future-proof的。</p>
+<ul>
+<li><p>move constructor&#x2F;move assignment operator 如果不会抛出异常，一定用noexcept。</p>
+</li>
+<li><p>destructor一定用noexcept。(析构函数现在已经默认为noexcept，除非手动声明为noexcept(false))</p>
+</li>
+<li><p>简单的leaf function，像是int，pointer这类的getter，setter用noexcept。因为不可能出错。</p>
+</li>
+</ul>
+<h2 id="异常的好处"><a href="#异常的好处" class="headerlink" title="异常的好处"></a>异常的好处</h2><ol>
+<li>简化错误处理的过程，与检查函数返回的错误码相比，使用异常进行错误处理更加简洁。</li>
+<li>让错误处理逻辑从业务逻辑的代码中独立出来</li>
+<li>异常可以把库的提供者不能明确要怎么处理的情况抛出来，让能明确怎么处理的调用者自己去处理。比如，std::stoi，std::stoll等C++标准库函数，当参数为0时，就会抛异常，因为库的提供者并不知道调用者要怎么处理，有的人想返回0，有的调用者想返回-1，有的调用者想终止程序。所以此时应该抛异常，让调用者自行处理</li>
+</ol>
+<p>使用错误码意味着你每调用一个可能会出现错误的函数的时候，都要判断是否成功，然后再继续执行后面的语句。导致你的这段代码中充斥着大量的if else。特别的在函数调用层数过多时，很多情况下一层出的错，往上传十八层才能真正处理，其它函数都是在 if err !&#x3D; OK { return err }。</p>
+<p>在错误处理逻辑和正常的业务逻辑混杂的情况，使用异常处理可以让错误处理逻辑从业务逻辑的代码中独立出来，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">FileReader</span> <span class="variable">fr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (fr == <span class="literal">null</span>) &#123;    </span><br><span class="line"></span><br><span class="line">	System.err.println(<span class="string">&quot;Open File Error&quot;</span>); </span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;    </span><br><span class="line"></span><br><span class="line">	<span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(fr);    </span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (br.ready()) &#123;        </span><br><span class="line"></span><br><span class="line">		<span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> br.readLine();        </span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (line == <span class="literal">null</span>) &#123;            </span><br><span class="line"></span><br><span class="line">			System.err.println(<span class="string">&quot;Read Line Error&quot;</span>);        </span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;            </span><br><span class="line"></span><br><span class="line">			System.out.println(line);        </span><br><span class="line"></span><br><span class="line">		&#125;    </span><br><span class="line"></span><br><span class="line">	&#125; </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若使用异常进行处理,则明显简洁很多：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;   </span><br><span class="line"></span><br><span class="line">	<span class="type">FileReader</span> <span class="variable">fr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;path&quot;</span>);    </span><br><span class="line"></span><br><span class="line">	<span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(fr);   </span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (br.ready()) &#123;        </span><br><span class="line"></span><br><span class="line">		<span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> br.readLine();        </span><br><span class="line"></span><br><span class="line">		System.out.println(line);    </span><br><span class="line"></span><br><span class="line">	&#125; </span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span> (IOException e) &#123;    </span><br><span class="line"></span><br><span class="line">	e.printStackTrace(); </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用异常的建议"><a href="#使用异常的建议" class="headerlink" title="使用异常的建议"></a>使用异常的建议</h2><p>应该谨慎的使用异常处理，不可滥用。<strong>不要在任何地方 try-catch，除非你确定这是必要的</strong>。因为异常会影响性能，<strong>异常比函数调用要慢几十倍</strong>。并且很多时候没办法对异常进行有效的处理，不如让程序直接崩溃（如new不出来，或者碰到了预料之外的情况）。如果碰到预料之外的异常时不崩溃而是让程序继续执行，会导致难以排查出错误。</p>
+<p>首先，调用处<strong>针对异常有对策时才 catch</strong>，否则放行（继续向上抛）。</p>
+<p>其次，只有在针对某种异常有特殊对策时，才针对这种异常做特殊处理，否则统一处理。</p>
+<p>当然，<strong>对策是看需求的</strong>，没有银弹，不要指望一招鲜吃遍天。</p>
+<p>比如到了必须转换错误报告方法的地方：这个函数往上就不接受异常了（这个函数是个 C 接口、系统回调、noexcept 函数之类的），那么在这个函数里 catch，根据异常信息返回不同的错误码。</p>
+<p>比如 HTTP 服务器处理请求时，常见的对策是对任何异常都记录日志并向客户端返回状态码为 500 的响应。那么我们要做的就是把所有处理请求的代码 try 起来，catch 所有异常并处理。无所谓它是 MyCustomException 还是 std::bad_alloc。</p>
+<p>确有应对方案的时候也可以 catch：比如加载文本的时候 UTF-8 解码抛出异常发现不合法的字节，我们可以 catch 住去尝试 GBK 解码。</p>
+<p><strong>本质上就是看需求来定</strong>，而不是看程序代码来定。</p>
+<h2 id="异常安全"><a href="#异常安全" class="headerlink" title="异常安全"></a>异常安全</h2><p><em><strong>异常安全</strong></em>的意思就是，<em><strong>当程序在异常发生的时候，程序可以回退的很干净</strong></em>。什么是回退的很干净呢？其实就是函数在发生异常的时候<em><strong>不会泄露资源</strong></em>或者<em><strong>不会发生任何数据结构的破坏</strong></em>。如果说一个函数是异常安全的，那么它必须满足上面提到的两个条件。</p>
+<p><em>异常安全</em>分为三个级别：</p>
+<ul>
+<li>基本级别：可能发生异常，且在异常发生的时候代码保证做了任何必要的清理工作，即程序在合法阶段，但是一些数据结构可能已经被函数更改，不一定是调用之前的状态，但是基本是保证符合对象正常的要求的；</li>
+<li>强烈级别：可能发生异常，且在发生异常时代码保证函数对数据做的任何修改都可以被回滚。即如果调用成功，则完全成功；如果调用失败，则对象依旧是调用之前的状态；</li>
+<li>无异常：即函数保证不会抛出异常（比如标准库的swap函数等）。</li>
+</ul>
+<h3 id="异常安全的反例和处理方案"><a href="#异常安全的反例和处理方案" class="headerlink" title="异常安全的反例和处理方案"></a>异常安全的反例和处理方案</h3><p>一个函数如果是异常安全的，那么它必须满足两个条件：</p>
+<ul>
+<li>一是不泄露任何资源（已申请的资源被正确释放）</li>
+<li>二是不破坏任何数据结构（无野指针等）</li>
+</ul>
+<p>下面我们通过两个反例来说明这两个条件分别表示什么意思：</p>
+<ul>
+<li><strong>第一个是造成资源泄漏的例子：</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Type::Func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">Lock</span>(&amp;mutex);</span><br><span class="line">    <span class="built_in">DoSomething</span>();</span><br><span class="line">    <span class="built_in">UnLock</span>(&amp;mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码表示首先获得互斥锁，中间做一些其他事，最后释放互斥锁。我们从异常安全的角度分析，如果*DoSomething()<em>函数内部出现了异常，那么</em>UnLock(&amp;mutex)*将不会被执行，互斥锁就永远不会被释放，就造成了资源泄漏。</p>
+<ul>
+<li><strong>第二个是造成数据破坏的例子</strong></li>
+</ul>
+<p>假设一个类Type，其中一个成员是指向一块资源的指针，我们通过重载”&#x3D;”操作符来进行说明：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Type</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Type&amp; <span class="keyword">operator</span> = (<span class="type">const</span> Type&amp; t)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;t)</span><br><span class="line">            <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span> <span class="type">m_t</span>;</span><br><span class="line">            <span class="type">m_t</span> = <span class="keyword">new</span> <span class="built_in">T</span>(t-&gt;<span class="type">m_t</span>);</span><br><span class="line">            <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    T* <span class="type">m_t</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码首先判断是否是自我复制，如果是的话，直接返回this指针指向的对象；如果不是，则首先安全释放当前指向的资源，再创建一块与被复制的对象资源一样的资源并指向它，最后返回复制好的对象。从异常安全的角度分析，一旦*new T(t-&gt;m_t)*执行时抛出异常，m_t将指向一块已经被删除的资源，并没有真正指向一块与被复制的对象一样的资源，此时m_t数据遭到了破坏。</p>
+<p><strong>解决方案：</strong></p>
+<ul>
+<li><strong>资源泄漏问题解决方案</strong></li>
+</ul>
+<p>对于<em>资源泄漏</em>问题，解决方案是我们可以用对象来管理资源(即RAII技术，对于指针变量，也可以使用RAII技术进行管理)。我们在函数中不直接对互斥锁进行操作，而是用到一个管理互斥锁的对象MutexLock ml：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Type::Func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">MutexLock <span class="title">ml</span><span class="params">(&amp;mutex)</span></span>;</span><br><span class="line">    <span class="built_in">DoSomething</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对象ml在初始化之后，自动对mutex上锁，然后做其他事。最后我们不用负责释放互斥锁，即使在DoSomething()函数中抛出了异常，在退出函数的时候，也会对ml自动调用析构函数，就不用担心互斥锁未被正常释放的问题。</p>
+<ul>
+<li><strong>数据破坏问题解决方案</strong></li>
+</ul>
+<p>对于数据破坏问题，一个策略是<em><strong>copy and swap</strong></em>。就是：先对原对象作出一个副本，在副本上作必要的修改。如果出现任何异常，原对象仍然能保持不变。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Type&amp; Type::<span class="keyword">operator</span> = (<span class="type">const</span> Type&amp; t)</span><br><span class="line">&#123;</span><br><span class="line">    Type <span class="built_in">tmp</span>(t);</span><br><span class="line">    <span class="built_in">swap</span>(<span class="type">m_t</span>, tmp-&gt;<span class="type">m_t</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述函数首先创建一个被复制对象t的副本tmp，此时原对象尚未有任何修改，这样即使申请资源时有异常抛出，也不会影响到原对象。如果创建成功，则通过swap函数对临时对象的资源和原对象资源进行交换，标准库的swap函数承诺不抛出异常，这样原对象将成功便成对象t的复制副本。对于这个函数，我们可以认为其实强烈保证异常安全的。</p>
+<h3 id="构造函数中的异常处理"><a href="#构造函数中的异常处理" class="headerlink" title="构造函数中的异常处理"></a>构造函数中的异常处理</h3><p><strong>在构造函数内抛出异常需要格外小心</strong>，可能会导致内存泄漏</p>
+<p>在构造函数中抛出异常是C++中通知对象构造失败的唯一方法。</p>
+<p>但是<strong>C++仅能 delete 被完全构造的对象</strong>，只有一个对象的构造函数完全运行完毕，这个对象才被完全地构造。所以如果在构造函数中抛出一个异常而不在构造函数内捕获，这样对象就只是部分被构造，<strong>它的析构函数将不会被执行，即使你手动进行delete。</strong>如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        a=<span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">		b=<span class="keyword">new</span> <span class="built_in">B</span>();<span class="comment">//此时抛出异常</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;构造一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	~<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">delete</span> a;</span><br><span class="line">        <span class="keyword">delete</span> b;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;销毁一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    A* a;</span><br><span class="line">    B* b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">try</span> </span><br><span class="line">	&#123;</span><br><span class="line">		person p;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="built_in">catch</span>(exception e) </span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; endl;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若构造b的时候,b&#x3D;new B()抛出异常，此时person的析构函数将不会执行，并且会导致a对象内存泄漏。所以构造函数抛出异常可能会导致已申请的资源无法释放，从而造成内存泄漏</p>
+<p><strong>解决方法：</strong></p>
+<p>1.在构造函数内将可能发生异常的部分try catch，先释放资源再把异常抛到外界</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">        	a=<span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">			b=<span class="keyword">new</span> <span class="built_in">B</span>(); <span class="comment">//发生异常            </span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">catch</span>(...)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">delete</span> a;</span><br><span class="line">            <span class="keyword">delete</span> b;</span><br><span class="line">            <span class="keyword">throw</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	~<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">delete</span> a;</span><br><span class="line">        <span class="keyword">delete</span> b;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;销毁一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    A* a;</span><br><span class="line">    B* b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>2.使用二段式构造和工厂函数</p>
+<p>构造函数中只进行不会发生异常的操作，如基本类型的初始化，把可能发生异常的操作如资源申请放到另外的函数中。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()&#123;&#125;;</span><br><span class="line">	~<span class="built_in">person</span>()</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">delete</span> a;</span><br><span class="line">        <span class="keyword">delete</span> b;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;销毁一个对象！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        a = <span class="keyword">new</span> <span class="built_in">A</span>();</span><br><span class="line">        b = <span class="keyword">new</span> <span class="built_in">B</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    A* a;</span><br><span class="line">    B* b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示将资源申请放到init函数中，这样即使发生异常也能正常的析构person对象。</p>
+<p>但是<strong>二段式构造不符合RAII</strong>，无法用智能指针管理二段式构造的对象，因此一般不考虑这种方法。</p>
+<p>并且二段式构造还有一个缺陷，就是构造之后忘记调用init，<strong>解决这个缺陷需要用工厂函数</strong>，工厂函数将new和init都封装起来，调用工厂函数就可以返回新的对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">person <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    person  p;</span><br><span class="line">    p.<span class="built_in">init</span>();</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.使用智能指针(推荐)</p>
+<p>将对象内的子对象都用智能指针管理，智能指针是栈对象，在发生异常时会发生stack unwinding，自动将栈上的对象析构，这样就可以把申请的资源自动释放了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">person</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">person</span>()</span><br><span class="line">    &#123;</span><br><span class="line">        a = <span class="built_in">make_unique</span>&lt;A&gt;();</span><br><span class="line">        b = <span class="built_in">make_unique</span>&lt;B&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">	~<span class="built_in">person</span>()&#123;&#125;;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    unique_ptr&lt;A&gt; a;</span><br><span class="line">    unique_ptr&lt;B&gt; b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="析构函数的异常处理"><a href="#析构函数的异常处理" class="headerlink" title="析构函数的异常处理"></a>析构函数的异常处理</h3><p>析构函数不允许抛出异常，所以如果析构函数中有可能会抛出异常的操作，必须手动将这部分操作try catch，保证析构函数不会向外抛出异常。</p>
+<p><strong>原因如下：</strong></p>
+<p>1.如果析构函数析构到一半抛出异常，剩下的资源释放无法进行，会导致内存泄漏。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~<span class="built_in">person</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> a;</span><br><span class="line">    <span class="keyword">throw</span>;</span><br><span class="line">    <span class="keyword">delete</span> b; <span class="comment">//无法进行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上在delete a和delete b之间抛出异常将导致b的内存无法释放。</p>
+<p>2.在异常没有catch前连续抛出两次异常是未定义行为，系统会直接终止程序，如果析构函数可以抛出异常就可能导致这种事情发生。</p>
+<p>想象一下一个对象的析构函数抛出了异常，然后程序会进行stack unwind直到被catch住为止，中间这部分的栈对象会全部析构掉，如果在析构这部分栈对象的时候又抛出了异常，那么就在异常没有catch前就连续抛出了两次异常，程序会直接终止。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E5%BC%82%E5%B8%B8/" data-id="cld6uiojm000lacsfahtm9vu0" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

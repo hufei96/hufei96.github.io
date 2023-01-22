@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="智能指针的线程安全性shared_ptr 有两个数据成员，读写操作不能原子化，shared_ptr 的引用计数本身是线程安全且无锁的，但 shared_ptr 管理的对象本身的读写则不是。 shared_ptr 是引用计数型智能指针，计数值保存在堆上动态分配的内存中。具体而言，shared_ptr&lt;Foo&gt;包含两个成员，一个是 Foo 类型的指针，指向被管理的对象；一个 ref_cou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="智能指针的线程安全性shared_ptr 有两个数据成员，读写操作不能原子化，shared_ptr 的引用计数本身是线程安全且无锁的，但 shared_ptr 管理的对象本身的读写则不是。 shared_ptr 是引用计数型智能指针，计数值保存在堆上动态分配的内存中。具体而言，shared_ptr&lt;Foo&gt;包含两个成员，一个是 Foo 类型的指针，指向被管理的对象；一个 ref_cou">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/make_shared.png">
+<meta property="article:published_time" content="2023-01-22T03:54:01.920Z">
+<meta property="article:modified_time" content="2022-12-21T10:01:12.948Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-智能指针的线程安全性" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.920Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="智能指针的线程安全性"><a href="#智能指针的线程安全性" class="headerlink" title="智能指针的线程安全性"></a>智能指针的线程安全性</h1><p>shared_ptr 有两个数据成员，读写操作不能原子化，shared_ptr 的引用计数本身是线程安全且无锁的，但 shared_ptr 管理的对象本身的读写则不是。</p>
+<p>shared_ptr 是引用计数型智能指针，计数值保存在堆上动态分配的内存中。具体而言，<code>shared_ptr&lt;Foo&gt;</code>包含两个成员，一个是 Foo 类型的指针，指向被管理的对象；一个 ref_count 指针，指向堆上的控制块：</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/shared_ptr.png" alt="shared_ptr"></p>
+<p>由于 shared_ptr 间的拷贝涉及两个成员的复制，而这两步拷贝不会原子性地发生：</p>
+<ul>
+<li>步骤 1：复制 ptr 指针</li>
+<li>步骤 2：复制 ref_count 指针，并递增引用计数（此递增为线程安全的）</li>
+</ul>
+<p><strong>多线程读 shared_ptr 是安全的</strong></p>
+<p> 一个全局的 shared_ptr：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shared_ptr&lt;Foo&gt; global_ptr;</span><br></pre></td></tr></table></figure>
+
+<p> 线程 1 到 N 运行：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">threadFunc</span><span class="params">()</span></span>&#123;</span><br><span class="line">    shared_ptr&lt;Foo&gt; local = global_ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上对于 shared_ptr 变量<code>global</code>的读取操作是线程安全的。</p>
+<p><strong>多线程写同一个shared_ptr是不安全的</strong></p>
+<p>考虑以下场景，有三个 shared_ptr：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">shared_ptr&lt;Foo&gt; <span class="title">g</span><span class="params">(<span class="keyword">new</span> Foo)</span></span>;     <span class="comment">// 线程间共享的 shared_ptr 对象</span></span><br><span class="line"><span class="function">shared_ptr&lt;Foo&gt; <span class="title">n</span><span class="params">(<span class="keyword">new</span> Foo)</span></span>;     <span class="comment">// 线程 B 的局部变量</span></span><br><span class="line">shared_ptr&lt;Foo&gt; x;      <span class="comment">// 线程 A 的局部变量</span></span><br></pre></td></tr></table></figure>
+
+<p>现在假设让x &#x3D; g，当ptr 指针已经复制而引用计数还没有+1时，也就是步骤1已经发生而步骤2还未发生时，执行g &#x3D; n。</p>
+<p>因为g的引用计数还没有+1，g &#x3D; n会导致g的引用计数减1变为0，g指向的对象销毁，从而导致x指向的对象已经销毁，指针变为野指针。</p>
+<p><strong>为什么要尽量使用 make_shared()</strong></p>
+<p>为了节省一次内存分配，原来 shared_ptr<Foo> x(new Foo); 需要为 Foo 和 ref_count 各分配一次内存，现在用 make_shared() 的话，可以一次分配一块足够大的内存，供 Foo 和 ref_count 对象容身。</p>
+<p><img src="https://raw.githubusercontent.com/hufei96/Image/main/make_shared.png" alt="img"></p>
+<p>不过 Foo 的构造函数参数要传给 make_shared()，后者再传给 Foo::Foo()，这只有在 C++11 里通过 perfect forwarding 才能完美解决。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/" data-id="cld6uioju000pacsf864f29jb" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

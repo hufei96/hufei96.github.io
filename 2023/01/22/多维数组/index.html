@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="多维数组C&#x2F;C++不存在多维数组的数据结构，在C&#x2F;C++仅存在数组的数组的说法。 数组名代表数组首元素的地址(即数组名都是一个指针，但指向的类型不同)，a[5] [5]中a和a[0]的值是一样的，但意义不同，具体体现在a+1和a[0]+1的步长不同。a 是首行地址，步长是整个一维数组；a[0] 就是首行首元素地址，+1 跳过一个元素 因为数组名是一个指针，所以int a[5]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="多维数组C&#x2F;C++不存在多维数组的数据结构，在C&#x2F;C++仅存在数组的数组的说法。 数组名代表数组首元素的地址(即数组名都是一个指针，但指向的类型不同)，a[5] [5]中a和a[0]的值是一样的，但意义不同，具体体现在a+1和a[0]+1的步长不同。a 是首行地址，步长是整个一维数组；a[0] 就是首行首元素地址，+1 跳过一个元素 因为数组名是一个指针，所以int a[5]">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.976Z">
+<meta property="article:modified_time" content="2022-04-14T17:59:40.620Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-多维数组" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.976Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="多维数组"><a href="#多维数组" class="headerlink" title="多维数组"></a>多维数组</h1><p>C&#x2F;C++不存在多维数组的数据结构，在C&#x2F;C++仅存在数组的数组的说法。</p>
+<p>数组名代表数组首元素的地址(即<strong>数组名都是一个指针</strong>，但指向的类型不同)，a[5] [5]中a和a[0]的值是一样的，但意义不同，具体体现在a+1和a[0]+1的步长不同。a 是首行地址，步长是整个一维数组；a[0] 就是首行首元素地址，+1 跳过一个元素</p>
+<p>因为数组名是一个指针，所以int a[5] [5]中的a代表的是int (*)[5]类型，而不是int **类型，需要强制类型转换才能转为二维指针。</p>
+<p>c++不能返回一个数组</p>
+<p>c++没有引用数组，但有数组的引用</p>
+<h2 id="二维数组的创建"><a href="#二维数组的创建" class="headerlink" title="二维数组的创建"></a>二维数组的创建</h2><h3 id="静态创建"><a href="#静态创建" class="headerlink" title="静态创建"></a>静态创建</h3><p>int *a[10]; &#x2F;&#x2F;定义一个数组，有十个元素，每个元素是一个int*指针。</p>
+<p>int (*a)[10]; &#x2F;&#x2F;定义一个指针，指向一个含有10个整数的数组。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">5</span>][<span class="number">6</span>];</span><br><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">a</span>(<span class="number">5</span>,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(<span class="number">6</span>));</span><br><span class="line"><span class="built_in">int</span> (*a)[<span class="number">6</span>]=<span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>][<span class="number">6</span>];<span class="comment">//申请堆区</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="动态创建"><a href="#动态创建" class="headerlink" title="动态创建"></a>动态创建</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">a</span>(m,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n));</span><br><span class="line"></span><br><span class="line"><span class="type">int</span>** a = <span class="keyword">new</span> <span class="type">int</span>*[m];<span class="comment">//二维数组也是数组，创建一个数组，数组内元素是int*</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;m;i++)</span><br><span class="line">&#123;</span><br><span class="line">	a[i] = <span class="keyword">new</span> <span class="type">int</span>[n];<span class="comment">//为每一行分配空间</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用一维数组代替二维数组</span></span><br><span class="line"><span class="type">int</span>* a = <span class="keyword">new</span> <span class="type">int</span>[m*n];</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span> ; i&lt;m ; ++i)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span> ; j&lt;n ; ++j)</span><br><span class="line">	&#123;</span><br><span class="line">		a[i*n+j] = i+j;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二维数组的传参"><a href="#二维数组的传参" class="headerlink" title="二维数组的传参"></a>二维数组的传参</h2><p>多维数组传参时，形参需要指定后面维度的大小，否则因为编译器只知道数组传来起始地址，不知道列数，这样导致无法确定元素位置：</p>
+<h3 id="固定维度"><a href="#固定维度" class="headerlink" title="固定维度"></a>固定维度</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">subfun</span><span class="params">(<span class="type">int</span> n, <span class="type">char</span> subargs[][<span class="number">5</span>])</span> <span class="comment">//或者void subfun(int n, char (*subargs)[5])</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> args[][<span class="number">5</span>] = &#123;<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;def&quot;</span>, <span class="string">&quot;ghi&quot;</span>&#125;;</span><br><span class="line">    <span class="built_in">subfun</span>(<span class="number">3</span>, args);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="不固定维度"><a href="#不固定维度" class="headerlink" title="不固定维度"></a>不固定维度</h3><p>此时并不能使用nums[i] [j]这种方式来进行数组取值，因为指针没有重载operator[]。要想访问元素的值我们需要手工寻址</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//传递一级指针</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">testArray</span><span class="params">(<span class="type">int</span>* dp,<span class="type">int</span> m,<span class="type">int</span> n)</span><span class="comment">//m为行数，n为列数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;n;++j)&#123;</span><br><span class="line">            cout&lt;&lt;*(d+i*n+j)&lt;&lt;<span class="string">&quot; &quot;</span>;<span class="comment">//手工寻址</span></span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> dp[<span class="number">3</span>][<span class="number">2</span>]=&#123;&#123;<span class="number">1</span>,<span class="number">2</span>&#125;,&#123;<span class="number">3</span>,<span class="number">4</span>&#125;,&#123;<span class="number">5</span>,<span class="number">6</span>&#125;&#125;;</span><br><span class="line">    <span class="built_in">testArray</span>(*dp,<span class="number">3</span>,<span class="number">2</span>);<span class="comment">//这里传递的一维数组的首元素地址</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//传递二级指针</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">testArray</span><span class="params">(<span class="type">int</span>** d,<span class="type">int</span> m,<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;++i)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;n;++j)&#123;</span><br><span class="line">            cout&lt;&lt;*((<span class="type">int</span>*)d+i*n+j)&lt;&lt;<span class="string">&quot; &quot;</span>;<span class="comment">//d需要类型转换为int*</span></span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> dp[<span class="number">3</span>][<span class="number">2</span>]=&#123;&#123;<span class="number">1</span>,<span class="number">2</span>&#125;,&#123;<span class="number">3</span>,<span class="number">4</span>&#125;,&#123;<span class="number">5</span>,<span class="number">6</span>&#125;&#125;;</span><br><span class="line">    <span class="built_in">testArray</span>((<span class="type">int</span>**)dp,<span class="number">3</span>,<span class="number">2</span>);<span class="comment">//dp需要进行类型转换</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/" data-id="cld6uiojj000hacsf7zgte7zz" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E9%98%B2%E5%BE%A1%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%91%E7%BA%A6%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%96%AD%E8%A8%80%E5%92%8C%E5%BC%82%E5%B8%B8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0%EF%BC%88%E7%B1%BB%E4%BC%BCcsapp%E7%9A%84%E4%B9%A6%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

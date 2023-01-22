@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="linuxlinux目录结构 在 Linux 或 Unix 操作系统中，所有的文件和目录都被组织成以一个根节点开始的倒置的树状结构。 文件系统的最顶层是由根目录开始的，系统使用 &#x2F; 来表示根目录。在根目录之下的既可以是目录，也可以是文件，而每一个目录中又可以包含子目录文件。如此反复就可以构成一个庞大的文件系统。 在Linux文件系统中有两个特殊的目录，一个用户所在的工作目录，也叫当前目录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/linux/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="linuxlinux目录结构 在 Linux 或 Unix 操作系统中，所有的文件和目录都被组织成以一个根节点开始的倒置的树状结构。 文件系统的最顶层是由根目录开始的，系统使用 &#x2F; 来表示根目录。在根目录之下的既可以是目录，也可以是文件，而每一个目录中又可以包含子目录文件。如此反复就可以构成一个庞大的文件系统。 在Linux文件系统中有两个特殊的目录，一个用户所在的工作目录，也叫当前目录">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\hufei\AppData\Roaming\Typora\typora-user-images\linux_file.jpg">
+<meta property="article:published_time" content="2023-01-22T03:54:01.941Z">
+<meta property="article:modified_time" content="2022-09-27T18:11:16.107Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\hufei\AppData\Roaming\Typora\typora-user-images\linux_file.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-linux" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/linux/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.941Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h1><h2 id="linux目录结构"><a href="#linux目录结构" class="headerlink" title="linux目录结构"></a>linux目录结构</h2><p><img src="C:\Users\hufei\AppData\Roaming\Typora\typora-user-images\linux_file.jpg" alt="linux_file"></p>
+<p>在 Linux 或 Unix 操作系统中，所有的文件和目录都被组织成以一个根节点开始的倒置的树状结构。</p>
+<p>文件系统的最顶层是由根目录开始的，系统使用 <strong>&#x2F;</strong> 来表示根目录。在根目录之下的既可以是目录，也可以是文件，而每一个目录中又可以包含子目录文件。如此反复就可以构成一个庞大的文件系统。</p>
+<p>在Linux文件系统中有两个特殊的目录，一个用户所在的工作目录，也叫当前目录，可以使用一个点 <strong>.</strong> 来表示；另一个是当前目录的上一级目录，也叫父目录，可以使用两个点 <strong>..</strong> 来表示。</p>
+<ul>
+<li>. ：代表当前的目录，也可以使用 .&#x2F; 来表示；</li>
+<li>.. ：代表上一层目录，也可以 ..&#x2F; 来代表。</li>
+</ul>
+<p>如果一个目录或文件名以一个点 . 开始，表示这个目录或文件是一个隐藏目录或文件(如：.bashrc)。即以默认方式查找时，不显示该目录或文件。</p>
+<p><strong>系统启动必须：</strong></p>
+<ul>
+<li><p><strong>&#x2F;boot：</strong>存放的启动Linux时使用的内核文件，包括连接文件以及镜像文件。</p>
+</li>
+<li><p><strong>&#x2F;etc(<em>Etcetera</em>)：</strong>存放<strong>所有</strong>的系统需要的<strong>配置文件</strong>和<strong>子目录列表，</strong>包括通过系统自动安装的程序的配置文件，如nginx，mysql等配置文件。更改目录下的文件可能会导致系统不能启动</p>
+</li>
+<li><p>**&#x2F;lib(<em>Library</em>)**：存放基本代码库（比如c++库），其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库。</p>
+</li>
+<li><p><strong>&#x2F;sys</strong>： 这是linux2.6内核的一个很大的变化。该目录下安装了2.6内核中新出现的一个文件系统 sysfs 。sysfs文件系统集成了下面3种文件系统的信息：针对进程信息的proc文件系统、针对设备的devfs文件系统以及针对伪终端的devpts文件系统。该文件系统是内核设备树的一个直观反映。当一个内核对象被创建的时候，对应的文件和目录也在内核对象子系统中</p>
+</li>
+</ul>
+<p><strong>指令集合：</strong></p>
+<ul>
+<li><p><strong>&#x2F;bin(<em>Binaries</em>)：</strong>存放着最常用的程序和指令，如文件操作</p>
+</li>
+<li><p><strong>&#x2F;sbin(<em>System-only binaries</em>)：</strong>只有系统管理员能使用的程序和指令，如分区、格式化操作。</p>
+</li>
+</ul>
+<p><strong>外部文件管理：</strong></p>
+<ul>
+<li><p><strong>&#x2F;dev(<em>Device</em>) ：</strong>存放的是Linux的外部设备。<strong>注意：</strong>在Linux中访问设备和访问文件的方式是相同的。</p>
+</li>
+<li><p><strong>&#x2F;media</strong>：一般是<strong>系统自动挂载</strong>可移除的装置，挂载后装置图标<strong>会</strong>出现在桌面窗口的左边栏。如软碟、光碟、DVD、U盘、移动硬盘</p>
+</li>
+<li><p><strong>&#x2F;mnt(<em>Mount</em>)<strong>：一般是用于让</strong>用户自己挂载</strong>其他文件系统，挂载后装置图标<strong>不会</strong>出现在桌面窗口的左边栏。我们可以将光驱挂载在&#x2F;mnt&#x2F;上，然后进入该目录就可以查看光驱里的内容了。</p>
+</li>
+</ul>
+<p><strong>临时文件：</strong></p>
+<ul>
+<li><p><strong>&#x2F;run</strong>：是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 &#x2F;var&#x2F;run 目录，应该让它指向 run。</p>
+</li>
+<li><p><strong>&#x2F;lost+found</strong>：这个目录在大多数情况下都是空的。但是如果你正在工作突然停电，或是没有用正常方式关机，在你重新启动机器的时候，有些文件就会找不到应该存放的地方，对于这些文件，系统将他们放在这个目录下。</p>
+</li>
+<li><p><strong>&#x2F;tmp(<em>Temporary files</em>)<strong>：</strong>保存在使用完毕后可随时销毁的缓存文件。</strong>（有可能是由系统或程序产生、也有可能是用户主动放入的临时数据、系统会自动清理）</p>
+</li>
+</ul>
+<p><strong>账户：</strong></p>
+<ul>
+<li><p><strong>&#x2F;root</strong>：系统管理员的home目录。</p>
+</li>
+<li><p><strong>&#x2F;home</strong>：用户的主目录，以用户的账号命名的。</p>
+</li>
+<li><p>**&#x2F;usr(<em>unix shared resources</em>)**：通过系统自动安装的软件目录。类似于windows下的program files目录。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;bin：</strong>系统用户使用的应用程序与指令。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;sbin：</strong>超级用户使用的比较高级的管理程序和系统守护程序。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;src：</strong>内核源代码默认的放置目录。</p>
+</li>
+<li><p><strong>&#x2F;snap</strong>：snap是linux包管理工具，snap目录存放了snap软件包</p>
+</li>
+</ul>
+<p><strong>运行过程中要用：</strong></p>
+<ul>
+<li><p><strong>&#x2F;var(<em>Variable</em>)<strong>：</strong>软件运行产生的不可自动销毁的缓存文件、日志记录</strong>，如日志、数据库文件、缓存文件。</p>
+</li>
+<li><p>**&#x2F;proc(<em>Processes</em>)**：&#x2F;proc是一个位于内存中的伪文件系统(in-memory pseudo-file system)。该目录下保存的不是真正的文件和目录，而是一些“运行时”信息，如系统内存、磁盘io、设备挂载信息和硬件配置信息等。proc目录是一个控制中心，用户可以通过更改其中某些文件来改变内核的运行状态。proc目录也是内核提供给我们的查询中心，我们可以通过这些文件查看有关系统硬件及当前正在运行进程的信息。在Linux系统中，许多工具的数据来源正是proc目录中的内容。例如，lsmod命令就是cat &#x2F;proc&#x2F;modules命令的别名，lspci命令是cat &#x2F;proc&#x2F;pci命令的别名。</p>
+</li>
+</ul>
+<p><strong>扩展用的：</strong></p>
+<ul>
+<li><p>**&#x2F;opt(<em>Optional</em>)**：默认是空的。安装第三方软件，通常是用户自己编译的软件；把软件安装一个文件夹内，包括它的运行文件，所需要的库文件、生成临时文件、产生的内容等所有和该软件相关的都放在该文件夹内，不用时方便删除。</p>
+</li>
+<li><p><strong>&#x2F;srv(<em>Service</em>)<strong>：</strong>主要用来存储本机或本服务器提供的服务或数据。</strong>（用户主动生产的数据、对外提供服务）。如web、ftp、流媒体等</p>
+</li>
+</ul>
+<h2 id="CLI，console，终端，shell区别"><a href="#CLI，console，终端，shell区别" class="headerlink" title="CLI，console，终端，shell区别"></a>CLI，console，终端，shell区别</h2><ul>
+<li><strong>命令行界面</strong> (CLI) &#x3D; 使用文本命令进行交互的用户界面(区别于图形界面GUI)</li>
+<li><strong>终端</strong> (Terminal) &#x3D; <strong>TTY(Teletype电传打字机)</strong> &#x3D; 文本输入&#x2F;输出环境</li>
+<li><strong>控制台</strong> (Console) &#x3D; 一种特殊的终端</li>
+<li><strong>Shell</strong> &#x3D; 命令行解释器，执行用户输入的命令并返回结果</li>
+</ul>
+<p>1.CLI和GUI相对，是两种不同的用户交互风格。</p>
+<p>2.终端</p>
+<p>终端是一种用来让用户输入数据至计算机，以及显示其计算结果的机器。在大型机 (Mainframe) 和小型机 (Minicomputer) 的时代里，计算机曾经非常昂贵且巨大，不像现在这样人手一台。这些笨重的计算机通常被安置在单独的房间内，而操作计算机的人们坐在另外的房间里，通过某些设备与计算机进行交互。这种设备就叫做 <strong>终端</strong> (Terminal)，也叫终端机。早期的终端一般是一种叫做 <strong>电传打字机</strong> (Teletype) 的设备。</p>
+<p>3.控制台</p>
+<p>在历史上，终端是连接到计算机上的一种带输入输出功能的外设。但是有一个终端与众不同，它与计算机主机是一体的，是计算机的一个组成部分。这个特殊的终端就叫做 <strong>控制台</strong> (Console)。顾名思义，控制台是用于管理主机的，只能给系统管理员使用，有着比普通终端更大的权限。一台计算机上一般只有一个控制台，但是可以连接很多个终端。现在 Console 与 Terminal 基本被看作是同义词。</p>
+<p>4.终端模拟器</p>
+<p>随着计算机的进化，我们已经见不到专门的终端硬件了，取而代之的则是键盘与显示器。</p>
+<p>但是没有了终端，我们要怎么与那些传统的、不兼容图形接口的命令行程序（比如说 GNU 工具集里的大部分命令）交互呢？这些程序并不能直接读取我们的键盘输入，也没办法把计算结果显示在我们的显示器上。</p>
+<p>这时候我们就需要一个程序来模拟传统终端的行为，即 <strong>终端模拟器</strong> (Terminal Emulator)。</p>
+<p>对于那些命令行 (CLI) 程序，终端模拟器会「假装」成一个传统终端设备；一个终端模拟器的标准工作流程是这样的：</p>
+<ol>
+<li>捕获你的键盘输入；</li>
+<li>将输入发送给命令行程序（程序会认为这是从一个真正的终端设备输入的）；</li>
+<li>拿到命令行程序的输出结果（STDOUT 以及 STDERR）；</li>
+<li>调用图形接口（比如 X11），将输出结果渲染至显示器。</li>
+</ol>
+<p>在专门的终端硬件已经基本上仅存于计算机博物馆的现代，人们通常图省事儿，直接称呼终端模拟器为「终端」。</p>
+<p>5.shell</p>
+<p>我们需要一个专门的程序，它接受用户输入的命令，然后帮我们与内核沟通，最后让内核完成我们的任务。这个提供用户界面的程序被叫做 <strong>Shell</strong> (壳层)。</p>
+<p> Shell 提供了一个用户操作系统的入口，我们一般是通过 Shell 去调用其他各种各样的应用程序，最后来达成我们的目的。比如说我们想要知道一个文件的内容，我们会在 Shell 中输入命令 <code>cat foo.txt</code>，然后 Shell 会帮我们运行 <code>cat</code> 这个程序，<code>cat</code> 再去调用内核提供的 <code>open</code> 等系统调用来获取文件的内容。虽然并不是 Shell 直接去与内核交互，但广义上可以认为是 Shell 提供了与内核交互的用户界面。</p>
+<p>Shell 通常可以分为两种：<strong>命令行 Shell</strong> 与 <strong>图形 Shell</strong>。顾名思义，前者提供一个命令行界面 (CLI)，后者提供一个图形用户界面 (GUI)。Windows 下的 <code>explorer.exe</code> 就是一个典型的图形 Shell（没错，它确实是，因为它接受来自你的指令，并且会帮你与内核交互完成你的指令）。</p>
+<p>现在我们知道，终端干的活儿是从用户这里接收输入（键盘、鼠标等输入设备），扔给 Shell，然后把 Shell 返回的结果展示给用户（比如通过显示器）。而 Shell 干的活儿是从终端那里拿到用户输入的命令，解析后交给操作系统内核去执行，并把执行结果返回给终端。</p>
+<h2 id="fork，vfork，exec，clone，pthread的区别"><a href="#fork，vfork，exec，clone，pthread的区别" class="headerlink" title="fork，vfork，exec，clone，pthread的区别"></a>fork，vfork，exec，clone，pthread的区别</h2><h3 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h3><p>Linux多进程编程中的可以使用fork函数来创建子进程。fork函数定义在头文件unistd.h中（uni表示unix，std当然是标准库，所以很好记），该函数的声明为<code>pid_t fork(void)</code>其中函数的返回值类型为pid_t，可以理解为一个整型，返回值具体为：</p>
+<ul>
+<li>在父进程中，fork返回新创建的子进程的进程ID；</li>
+<li>在子进程中，fork返回0；</li>
+<li>如果创建子进程失败，则返回一个负值</li>
+</ul>
+<p>fork只简单地将父进程的几乎所有资源全部复制给子进程，然后就相当于父进程的一个副本运行，且无法与父进行共享数据。</p>
+<p><strong>子进程与父进程的区别在于：</strong></p>
+<ul>
+<li>父进程设置的锁，子进程不继承（因为如果是排它锁，被继承的话，矛盾了）</li>
+<li>各自的进程ID和父进程ID不同</li>
+<li>子进程的未决告警被清除；</li>
+<li>子进程的未决信号集设置为空集。</li>
+</ul>
+<p><strong>linux常用fork和exec配合创建新进程</strong>，之所以这样创建新进程有着历史原因。fork、exec在UNIX里的最初的目的是：shell要执行别的东西，干完活再返回给shell，但当年（应该是1960~1970年代）是没有进程的概念的，exec就是把老的shell给干掉，然后去干活，干完活再返回回来。注意，当年是没有进程的概念的，exec就是直接把shell从内存里拿掉。但这样做有一些坏处，就是每次要重新加载shell，于是fork就出现了，让新任务执行（复制一份），shell不动（具体是交换到磁盘上还是怎么操作不太了解），新任务干完活，shell继续跑。<strong>因为当年没有多任务的概念，fork相当于提供了一个虚假的多任务环境</strong>。</p>
+<p>但是这样复制父进程的内存空间开销很大，随着大进程的出现，内存开销开始越来越大，采用了<strong>写时复制技术</strong>来缓解这种大的内存开销。</p>
+<p>写时拷贝（copy-on-write， COW）就是等到修改数据时才真正分配内存空间，这是对程序性能的优化，可以延迟甚至是避免内存拷贝，当然目的就是避免不必要的内存拷贝。在 Linux 系统中，调用 fork 系统调用创建子进程时，并不会把父进程所有占用的内存页复制一份，而是与父进程共用相同的内存页，而当子进程或者父进程对内存页进行修改时才会进行复制。（也就是只有进程空间的某页内存的内容要发生变化时，才会将父进程的该页内存复制一份给子进程。）</p>
+<p><strong>fork因为开销过大，现在基本已经不再使用，而是使用clone和pthread替代。</strong></p>
+<h4 id="fork用法"><a href="#fork用法" class="headerlink" title="fork用法"></a>fork用法</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">pid_t</span> fpid; <span class="comment">//创建一个临时变量用于存放fork的返回值</span></span><br><span class="line">    <span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line">    fpid = fork();  <span class="comment">//创建子进程，父进程与子进程将分别执行此后的代码</span></span><br><span class="line">    <span class="keyword">if</span> (fpid &lt; <span class="number">0</span>)   <span class="comment">//创建子进程失败时将返回负值</span></span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Error in fork!&quot;</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (fpid == <span class="number">0</span>) &#123;  <span class="comment">//子进程中fork的返回值为0，所以将由子进程执行该分支</span></span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Child: parent_pid:&quot;</span> &lt;&lt; getppid() &lt;&lt; <span class="string">&quot; pid:&quot;</span> &lt;&lt; getpid() &lt;&lt; <span class="string">&quot; child_pid:&quot;</span> &lt;&lt; fpid &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">      count++;  <span class="comment">//子进程复制来的count值为0，++之后将为1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;  <span class="comment">//父进程中fork的返回值为子进程的pid，所以将由父进程执行该分支</span></span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;Parent: parent_pid:&quot;</span> &lt;&lt; getppid() &lt;&lt; <span class="string">&quot; pid:&quot;</span> &lt;&lt; getpid() &lt;&lt; <span class="string">&quot; child_pid:&quot;</span> &lt;&lt; fpid &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">      count++;  <span class="comment">//父进程中count为0，父子进程中的变量等数据是完全独立的</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;count: &quot;</span> &lt;&lt; count &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;  <span class="comment">//最后输出count的当前值，显示该句父子进程都要执行</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Parent: parent_pid:<span class="number">3084</span> pid:<span class="number">3087</span> child_pid:<span class="number">3088</span></span><br><span class="line">count: <span class="number">1</span></span><br><span class="line">Child:  parent_pid:<span class="number">3087</span> pid:<span class="number">3088</span> child_pid:<span class="number">0</span></span><br><span class="line">count: <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到父进程的中创建的子进程的pid:3088刚好是子进程当前的pid，两个进程输出的count都是1，也就是只进行了一次累加</p>
+<p>父进程使用fork后，父进程和子进程会一起执行接下来的代码，<strong>执行n次fork函数，创建的子进程数为2^n个</strong></p>
+<h3 id="vfork"><a href="#vfork" class="headerlink" title="vfork"></a>vfork</h3><p>vfork和fork类似，但vfork的开销更小，不会复制一份父进程的地址空间，而是共享，并且vfork后父进程会阻塞直到子进程结束。具体来说有以下区别：</p>
+<p>1.vfork保证子进程先运行，在它调用exec或exit之后父进程才可能被调度运行。如果在调用这两个函数之前子进程依赖于父进程的进一步动作，则会导致死锁。</p>
+<p>2.fork要拷贝父进程的进程环境；而vfork则不需要完全拷贝父进程的进程环境，在子进程没有调用exec和exit之前，子进程与父进程共享进程环境，相当于线程的概念，此时父进程阻塞等待。</p>
+<h4 id="为什么会有vfork呢"><a href="#为什么会有vfork呢" class="headerlink" title="为什么会有vfork呢?"></a>为什么会有vfork呢?</h4><p>因为以前的fork当它创建一个子进程时，将会创建一个新的地址空间，并且拷贝父进程的资源，然后将会有两种行为：</p>
+<p>1.执行从父进程那里拷贝过来的代码段</p>
+<p>2.调用一个exec执行一个新的代码段</p>
+<p>当进程调用exec函数时，一个新程序替换了当前进程的正文，数据，堆和栈段。这样，前面的拷贝工作就是白费力气了，这种情况下，聪明的人就想出了vfork。vfork并不复制父进程的进程环境，子进程在父进程的地址空间中运行，所以子进程不能进行写操作，并且在儿子“霸占”着老子的房子时候，要委屈老子一下了，让他在外面歇着（阻塞），一旦儿子执行了exec或者exit后，相当于儿子买了自己的房子了，这时候就相当于分家了。</p>
+<p>因此，如果创建子进程是为了调用exec执行一个新的程序的时候，就应该使用vfork。<strong>但因为现在有了写时复制的技术，fork的开销不再像之前那样巨大，所以vfork基本已经不再使用。</strong></p>
+<h3 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h3><p>exec函数族的作用是根据指定的文件名找到可执行文件，并用它来取代调用进程的内容，换句话说，就是在调用进程内部执行一个可执行文件。这里的可执行文件既可以是二进制文件，也可以是任何Linux下可执行的脚本文件。<br><strong>与一般情况不同，exec函数族的函数执行成功后不会返回</strong>，因为调用进程的实体，包括代码段，数据段和堆栈等都已经被新的内容取代，只留下进程ID等一些表面上的信息仍保持原样，颇有些神似”三十六计”中的”金蝉脱壳”。看上去还是旧的躯壳，却已经注入了新的灵魂。只有调用失败了，它们才会返回一个-1，从原程序的调用点接着往下执行。#include &lt;unistd.h&gt;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">execl</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *path, <span class="type">const</span> <span class="type">char</span> *arg, ..., <span class="literal">NULL</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execlp</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *file, <span class="type">const</span> <span class="type">char</span> *arg, ..., <span class="literal">NULL</span>)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execle</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *path, <span class="type">const</span> <span class="type">char</span> *arg, ..., <span class="literal">NULL</span> ,<span class="type">char</span> *<span class="type">const</span> envp[])</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execv</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *path, <span class="type">char</span> *<span class="type">const</span> argv[])</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execvp</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *file, <span class="type">char</span> *<span class="type">const</span> argv[])</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">execve</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *path, <span class="type">char</span> *<span class="type">const</span> argv[], <span class="type">char</span> *<span class="type">const</span> envp[])</span>;</span><br></pre></td></tr></table></figure>
+
+<p>exec函数一共有六个，其中execve为内核级系统调用，其他（execl，execle，execlp，execv，execvp）都是调用execve的库函数</p>
+<h3 id="clone"><a href="#clone" class="headerlink" title="clone"></a>clone</h3><p>clone是Linux为创建线程设计的（虽然也可以用clone创建进程）。所以可以说clone是fork的升级版本，不仅可以创建进程或者线程，还可以指定创建新的命名空间（namespace）、有选择的继承父进程的内存、甚至可以将创建出来的进程变成父进程的兄弟进程等等。</p>
+<p>clone函数功能强大，带了众多参数，它提供了一个非常灵活自由的常见进程的方法。因此由他创建的进程要复杂。clone可以让你有选择性的继承父进程的资源，你可以和父进程共享一个虚存空间，从而使创造的是线程，你也可以不和父进程共享，你甚至可以选择创造出来的进程和父进程不再是父子关系，而是兄弟关系。</p>
+<p><strong>clone需要创建自己的栈。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">clone</span><span class="params">(<span class="type">int</span> (*fn)(<span class="type">void</span> *), <span class="type">void</span> *child_stack, <span class="type">int</span> flags, <span class="type">void</span> *arg)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里fn是函数指针，这个就是指向程序的指针；child_stack是为子进程分配系统堆栈空间的指针（在Linux下系统堆栈空间是2页面，就是8K的内存，其中在这块内存中，低地址上放入了值，这个值就是进程控制块task_struct的值）,flags就是标志用来描述你需要从父进程继承哪些资源， arg就是传给子进程的参数一般为（0）。下面是flags可以取的值</p>
+<p>  CLONE_PARENT   创建的子进程的父进程是调用者的父进程，新进程与创建它的进程成了“兄弟”而不是“父子”</p>
+<p>  CLONE_FS           子进程与父进程共享相同的文件系统，包括root、当前目录、umask</p>
+<p>  CLONE_FILES      子进程与父进程共享相同的文件描述符（file descriptor）表</p>
+<p>  CLONE_NEWNS   在新的namespace启动子进程，namespace描述了进程的文件hierarchy</p>
+<p>  CLONE_SIGHAND   子进程与父进程共享相同的信号处理（signal handler）表</p>
+<p>  CLONE_PTRACE   若父进程被trace，子进程也被trace</p>
+<p>  CLONE_VFORK     父进程被挂起，直至子进程释放虚拟内存资源</p>
+<p>  CLONE_VM           子进程与父进程运行于相同的内存空间</p>
+<p>  CLONE_PID          子进程在创建时PID与父进程一致</p>
+<p>  CLONE_THREAD    Linux 2.4中增加以支持POSIX线程标准，子进程与父进程共享相同的线程群</p>
+<h3 id="pthread"><a href="#pthread" class="headerlink" title="pthread"></a>pthread</h3><p>phtread类库，也即是“POSIX线程”，pthreads定义了一套C语言的类型、函数与常量，它以pthread.h头文件和一个线程库实现。pthread底层是用clone创建线程的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">数据类型</span><br><span class="line"><span class="type">pthread_t</span>：<span class="comment">//线程ID(线程标识符,用于声明线程ID)</span></span><br><span class="line"><span class="type">pthread_attr_t</span>：<span class="comment">//线程属性</span></span><br><span class="line"></span><br><span class="line">操纵函数</span><br><span class="line">pthread_create()：<span class="comment">//创建一个线程</span></span><br><span class="line">pthread_exit()：<span class="comment">//终止当前线程</span></span><br><span class="line">pthread_cancel()：<span class="comment">//中断另外一个线程的运行</span></span><br><span class="line">pthread_join()：<span class="comment">//阻塞当前的线程，直到另外一个线程运行结束</span></span><br><span class="line">pthread_attr_init()：<span class="comment">//初始化线程的属性</span></span><br><span class="line">pthread_attr_setdetachstate()：<span class="comment">//设置脱离状态的属性（决定这个线程在终止时是否可以被结合）</span></span><br><span class="line">pthread_attr_getdetachstate()：<span class="comment">//获取脱离状态的属性</span></span><br><span class="line">pthread_attr_destroy()：<span class="comment">//删除线程的属性</span></span><br><span class="line">pthread_kill()：<span class="comment">//向线程发送一个信号</span></span><br><span class="line"></span><br><span class="line">同步函数</span><br><span class="line">用于mutex和条件变量</span><br><span class="line">pthread_mutex_init() <span class="comment">//初始化互斥锁</span></span><br><span class="line">pthread_mutex_destroy() <span class="comment">//删除互斥锁</span></span><br><span class="line">pthread_mutex_lock()：<span class="comment">//占有互斥锁（阻塞操作）</span></span><br><span class="line">pthread_mutex_trylock()：<span class="comment">//试图占有互斥锁（不阻塞操作）。即，当互斥锁空闲时，将占有该锁；否则，立即返回。</span></span><br><span class="line">pthread_mutex_unlock(): <span class="comment">//释放互斥锁</span></span><br><span class="line">pthread_cond_init()：<span class="comment">//初始化条件变量</span></span><br><span class="line">pthread_cond_destroy()：<span class="comment">//销毁条件变量</span></span><br><span class="line">pthread_cond_signal(): <span class="comment">//唤醒第一个调用pthread_cond_wait()而进入睡眠的线程</span></span><br><span class="line">pthread_cond_wait(): <span class="comment">//等待条件变量的特殊条件发生</span></span><br><span class="line">Thread-local storage（或者以Pthreads术语，称作线程特有数据）：</span><br><span class="line">pthread_key_create(): <span class="comment">//分配用于标识进程中线程特定数据的键</span></span><br><span class="line">pthread_setspecific(): <span class="comment">//为指定线程特定数据键设置线程特定绑定</span></span><br><span class="line">pthread_getspecific(): <span class="comment">//获取调用线程的键绑定，并将该绑定存储在 value 指向的位置中</span></span><br><span class="line">pthread_key_delete(): <span class="comment">//销毁现有线程特定数据键</span></span><br><span class="line">pthread_attr_getschedparam();<span class="comment">//获取线程优先级</span></span><br><span class="line">pthread_attr_setschedparam();<span class="comment">//设置线程优先级</span></span><br><span class="line"></span><br><span class="line">工具函数</span><br><span class="line">pthread_equal(): <span class="comment">//对两个线程的线程标识号进行比较 </span></span><br><span class="line">pthread_detach(): 分离线程</span><br><span class="line">pthread_self(): 查询线程自身线程标识号</span><br></pre></td></tr></table></figure>
+
+<p>例子：int pthread_create ( pthread_t *thread , const pthread_attr_t *attr , void *(start)(void) , void *arg );</p>
+<p>执行pthread_create，将创建线程，成功则返回0,否则返回-1；<br>参数1返回一个绑定特定函数的线程ID；<br>参数2为线程属性对象指针，用来改变线程的属性；<br>参数3为线程运行的函数指针，被调用的函数必须返回空指针，且只能有一个空指针参数；<br>参数4为传递给被调用函数的参数；</p>
+<h2 id="数据流stdin-stdout-stderr"><a href="#数据流stdin-stdout-stderr" class="headerlink" title="数据流stdin,stdout,stderr"></a>数据流stdin,stdout,stderr</h2><p>数据流，就是数据传输的通道。在Linux中，一个程序启动时，将会自动开启三个数据流通道：标准输入流、标准输出流、标准错误流。本文详细介绍标准数据流的概念及其重定向的使用。</p>
+<p>对应的文件描述符分别是：</p>
+<ul>
+<li>stdin：<code>0</code></li>
+<li>stdout：<code>1</code></li>
+<li>stderr：<code>2</code></li>
+</ul>
+<p>程序运行的时候从输入流读取数据，作为程序的输入，程序运行过程中输出的信息被传送到输出流，类似的，错误信息被传送到错误流。</p>
+<p>标准输入流默认是从键盘输入的信息，除了键盘之外，标准输入流还可以是文件，或者其它程序的输出。</p>
+<p>输出流分为标准输出流和标准错误流，默认情况下，它们都会输出到屏幕。标准输出流也可以被重定向到另外一个程序，或者一个文件。</p>
+<p>在Linux中，标准输入流默认来自键盘输入，标准输出流和标准错误流默认发送到屏幕。在必要的时候，可以对修改输入流的来源、修改输出流的目的，这就是重定向。</p>
+<p>常用的重定向的符号：</p>
+<ol>
+<li><code>&gt;</code>： 将<strong>标准输出流</strong>重定向到文件（清空文件后写入）。</li>
+<li><code>&gt;&gt;</code>：将标准输出流重定向到文件（追加写入）。</li>
+<li><code>&lt;</code>：将文件作为命令的标准输入流。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/linux/" data-id="cld6uioj60007acsfa8tkfl8c" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%EF%BC%9A%E4%BD%BF%E7%94%A8muduo%20C++%E7%BD%91%E7%BB%9C%E5%BA%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/IO%E5%AF%86%E9%9B%86%E5%9E%8B%E4%BB%BB%E5%8A%A1%E5%92%8C%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E4%BB%BB%E5%8A%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

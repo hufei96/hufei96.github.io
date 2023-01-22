@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="csapp计算机系统漫游 计算机技术演变过程以hello程序执行为例： 先由C语言的源文件hello.c编译得到了可执行目标文件hello  shell读入我们输入的字符.&#x2F;hello后，将其逐一读入到CPU的寄存器中，然后再将其存放到主存中。 输入回车后，shell执行一系列指令将hello目标文件中的代码和数据从磁盘复制到主存。 CPU开始执行hello的main程序中的机器指令，它将hell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/csapp/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="csapp计算机系统漫游 计算机技术演变过程以hello程序执行为例： 先由C语言的源文件hello.c编译得到了可执行目标文件hello  shell读入我们输入的字符.&#x2F;hello后，将其逐一读入到CPU的寄存器中，然后再将其存放到主存中。 输入回车后，shell执行一系列指令将hello目标文件中的代码和数据从磁盘复制到主存。 CPU开始执行hello的main程序中的机器指令，它将hell">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/image-20220512233937399.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/image-20220512235134334.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/image-20220512235848305.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/image-20220513215415380.png">
+<meta property="article:published_time" content="2023-01-22T03:54:01.933Z">
+<meta property="article:modified_time" content="2022-08-13T18:12:58.981Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/hufei96/Image/main/image-20220512233937399.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-csapp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/csapp/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.933Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="csapp"><a href="#csapp" class="headerlink" title="csapp"></a>csapp</h1><h2 id="计算机系统漫游"><a href="#计算机系统漫游" class="headerlink" title="计算机系统漫游"></a>计算机系统漫游</h2><p><img src="https://raw.githubusercontent.com/hufei96/Image/main/image-20220512233937399.png" alt="image-20220512233937399"></p>
+<h3 id="计算机技术演变过程"><a href="#计算机技术演变过程" class="headerlink" title="计算机技术演变过程"></a><strong>计算机技术演变过程</strong></h3><p>以hello程序执行为例：</p>
+<p>先由C语言的源文件<code>hello.c</code>编译得到了可执行目标文件<code>hello</code></p>
+<ol>
+<li>shell读入我们输入的字符<code>./hello</code>后，将其逐一读入到CPU的寄存器中，然后再将其存放到主存中。</li>
+<li>输入回车后，shell执行一系列指令将hello目标文件中的代码和数据从磁盘复制到主存。</li>
+<li>CPU开始执行hello的main程序中的机器指令，它将<code>hello, world\n</code>字符串中的字节从主存复制到CPU寄存器，再从CPU寄存器复制到显示设备。</li>
+</ol>
+<p>由此可见执行代码时，会花费大量时间将代码和数据进行复制。而<strong>不同设备之间运行速度差距极大</strong>，在等待复制的过程中cpu浪费了大量的时间，为了加快复制速度和提高cpu利用率，引入了存储器体系结构。</p>
+<h4 id="1-加快代码和数据的复制速度-存储器体系结构"><a href="#1-加快代码和数据的复制速度-存储器体系结构" class="headerlink" title="1.加快代码和数据的复制速度(存储器体系结构)"></a><strong>1.加快代码和数据的复制速度</strong>(存储器体系结构)</h4><p><img src="https://raw.githubusercontent.com/hufei96/Image/main/image-20220512235134334.png" alt="image-20220512235134334"></p>
+<p>根据<strong>局部性原理</strong>可知，程序具有访问局部区域内的数据和代码的趋势，所以在处理器和一个较大较慢的设备之间插入一个更小更快的存储设备，来暂时保存处理器近期可能会需要的数据，使得大部分的内存操作都能在高速缓存内完成，就能极大提高系统速度了。</p>
+<p>存储器层次结构的<strong>主要思想</strong>是将上一层的存储器作为下一层存储器的高速缓存。</p>
+<h4 id="2-简化对硬件的操作-操作系统"><a href="#2-简化对硬件的操作-操作系统" class="headerlink" title="2.简化对硬件的操作(操作系统)"></a><strong>2.简化对硬件的操作(操作系统)</strong></h4><p><img src="https://raw.githubusercontent.com/hufei96/Image/main/image-20220512235848305.png" alt="image-20220512235848305"></p>
+<p>程序并没有直接访问cpu，内存，I&#x2F;O这些硬件设备，真正访问硬件设备的是操作系统。所有程序对硬件的操作都必须通过操作系统来完成。它可以看成是应用程序和硬件之间的一层软件，给程序员提供硬件的抽象。</p>
+<p>操作系统定义：给应用程序提供服务的程序。现代操作系统主要是因为<strong>更好的管理和支持多任务执行</strong>的需求而诞生的。</p>
+<p>这样设计的目的有两个：</p>
+<ol>
+<li>防止硬件被失控的应用程序滥用，提高系统安全性</li>
+<li>提供统一对硬件操作的接口，简化硬件操作</li>
+</ol>
+<p>为了实现这些功能操作系统引入了几个抽象的概念，<strong>抽象就是对外提供统一接口而隐藏内部复杂的细节</strong>，操作系统对于程序来说就是硬件的抽象。</p>
+<p>操作系统将cpu，内存，I&#x2F;O设备抽象为进程；将内存和磁盘I&#x2F;O抽象为虚拟内存；将I&#x2F;O设备抽象为文件的形式。让程序员能够直接通过这层软件很好地调用硬件，避免了过多的硬件细节。</p>
+<h5 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a><strong>进程</strong>和线程</h5><p><strong>为什么引入进程：</strong>为了支持和管理多任务并发执行</p>
+<p>一开始操作系统是单道批处理系统，一个作业单独进入内存并独占系统资源，直到运行结束后下一个作业才能进入内存，当作业进行I&#x2F;O操作时，CPU只能处于等待状态，因此，CPU利用率较低。为此需要引入多道程序并发执行。</p>
+<p>进程看起来在独占地使用硬件(而实际在和其他进程分时共享资源)，为程序员屏蔽了多道程序并发执行时进程调度和进程切换的细节。这样程序员就无需考虑程序之间切换所需操作的硬件，这些由操作系统的内核进行管理。</p>
+<p><strong>为什么引入线程：</strong>为了进一步提高并发度，减少多进程的开销</p>
+<p>对于，线程相比进程能减少开销，体现在：</p>
+<ul>
+<li>线程的<strong>创建</strong>时间比进程快，因为进程在创建的过程中，还需要资源管理信息，比如内存管理信息、文件管理信息，而线程在创建的过程中，不会涉及这些资源管理信息，而是共享它们；</li>
+<li>线程的<strong>终止</strong>时间比进程快，因为线程释放的资源相比进程少很多；</li>
+<li>同一个进程内的线程<strong>切换</strong>比进程切换快，因为线程具有相同的地址空间（虚拟内存共享），这意味着同一个进程的线程都具有同一个页表，那么在切换的时候不需要切换页表。而对于进程之间的切换，切换的时候要把页表给切换掉，而页表的切换过程开销是比较大的；</li>
+<li>由于同一进程的各线程间共享内存和文件资源，那么在线程之间<strong>通信</strong>的时候，就不需要经过内核了，这就使得线程之间的数据交互效率更高了；</li>
+</ul>
+<p>所以，线程比进程不管是时间效率，还是空间效率都要高。</p>
+<p><strong>多线程还是多进程</strong></p>
+<p>多进程模式最大的优点就是稳定性高，因为一个进程崩溃了，不会影响其他进程。著名的Apache最早就是采用多进程模式。</p>
+<p>多进程模式的缺点是创建进程的代价大，在Unix&#x2F;Linux系统下，用<code>fork</code>调用还行，在Windows下创建进程开销巨大。另外，操作系统能同时运行的进程数也是有限的，在内存和CPU的限制下，如果有几千个进程同时运行，操作系统连调度都会成问题。</p>
+<table>
+<thead>
+<tr>
+<th><strong>对比维度</strong></th>
+<th><strong>多进程</strong></th>
+<th><strong>多线程</strong></th>
+<th><strong>总结</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据共享、同步</td>
+<td>数据共享复杂，需要用IPC；数据是分开的，同步简单</td>
+<td>因为共享进程数据，数据共享简单，但也是因为这个原因导致同步复杂</td>
+<td>各有优势</td>
+</tr>
+<tr>
+<td>内存、CPU</td>
+<td>占用内存多，切换复杂，CPU利用率低</td>
+<td>占用内存少，切换简单，CPU利用率高</td>
+<td>线程占优</td>
+</tr>
+<tr>
+<td>创建销毁、切换</td>
+<td>创建销毁、切换复杂，速度慢</td>
+<td>创建销毁、切换简单，速度很快</td>
+<td>线程占优</td>
+</tr>
+<tr>
+<td>编程、调试</td>
+<td>编程简单，调试简单</td>
+<td>编程复杂，调试复杂</td>
+<td>进程占优</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td>进程间不会互相影响</td>
+<td>一个线程挂掉将导致整个进程挂掉</td>
+<td>进程占优</td>
+</tr>
+<tr>
+<td>分布式</td>
+<td>适应于多核、多机分布式；如果一台机器不够，扩展到多台机器比较简单</td>
+<td>适应于多核分布式</td>
+<td>进程占优</td>
+</tr>
+</tbody></table>
+<p><strong>需要频繁创建销毁的优先用线程</strong></p>
+<p>这种原则最常见的应用就是Web服务器了，来一个连接建立一个线程，断了就销毁线程，要是用进程，创建和销毁的代价是很难承受的</p>
+<p><strong>需要进行大量计算的优先使用线程</strong></p>
+<p>所谓大量计算，当然就是要耗费很多CPU，切换频繁了，这种情况下线程是最合适的。</p>
+<p>这种原则最常见的是图像处理、算法处理。</p>
+<p><strong>强相关的处理用线程，弱相关的处理用进程</strong></p>
+<p>一般的Server需要完成如下任务：消息收发、消息处理。“消息收发”和“消息处理”就是弱相关的任务，而“消息处理”里面可能又分为“消息解码”、“业务处理”，这两个任务相对来说相关性就要强多了。因此“消息收发”和“消息处理”可以分进程设计，“消息解码”、“业务处理”可以分线程设计。</p>
+<p><strong>可能要扩展到多机分布的用进程，多核分布的用线程</strong></p>
+<p>原因请看上面对比。</p>
+<h5 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a><strong>虚拟内存</strong></h5><p><img src="https://raw.githubusercontent.com/hufei96/Image/main/image-20220513215415380.png" alt="image-20220513215415380"></p>
+<p><strong>为什么引入虚拟内存</strong>：解决多程序系统中内存分配和管理问题</p>
+<ol>
+<li><strong>解决地址空间不隔离问题</strong>：若所有程序都直接访问物理地址，程序所使用的内存空间不是相互隔离的。程序可以很容易改写其他程序的内存数据，以达到破坏的目的，这对于需要安全稳定的计算环境的用户来说是不能容忍的。用户希望他在使用计算机的时候，其中一个任务失败了，至少不会影响其他任务。</li>
+<li><strong>解决内存使用效率低问题：</strong>如果没有有效的内存管理机制，通常需要一个程序执行时，监控程序就将整个程序装入内存中然后开始执行。而当内存没有程序所需的连续空间时，就不得不将其他程序换出到磁盘，效率十分低下。</li>
+<li><strong>解决程序运行地址不确定问题：</strong>程序每次运行时都要给它在内存中分配一块空闲空间，这个空间位置不确定。这会导致程序编写十分困难，因为程序中访问数据和指令跳转的目标地址很多都是固定的。</li>
+</ol>
+<p>虚拟内存屏蔽了虚拟地址到物理地址的转换过程，让程序看起来就像是在独占地使用内存。</p>
+<h5 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h5><p><strong>为什么引入文件：</strong>简化对I&#x2F;O设备的操作，屏蔽操作的细节</p>
+<p>操作系统将所有I&#x2F;O设备看成是文件，而文件是字节序列，这样系统中的所有输入输出可以调用系统函数来读写文件实现，简化了对各种各样的I&#x2F;O设备的操作。</p>
+<h4 id="3-提高计算能力"><a href="#3-提高计算能力" class="headerlink" title="3.提高计算能力"></a>3.提高计算能力</h4><h5 id="线程级并发"><a href="#线程级并发" class="headerlink" title="线程级并发"></a>线程级并发</h5><p><strong>单处理器系统</strong></p>
+<p>多进程和多线程使得多任务并发处理成为可能，提高了cpu利用率</p>
+<p><strong>多处理器系统</strong></p>
+<p>多处理器系统主要分成超线程和多核处理器。</p>
+<p>多核处理器：将多个CPU集成到一个集成电路中，然后使用一个L3高速缓存来在多个核之间共享数据。</p>
+<p>超线程：超线程是在CPU内部仅复制必要的资源(如程序计数器和寄存器文件)，而其他硬件部分只有一部分(如ALU)，让两个线程可同时执行。超线程技术可以让一个核同时运行两个线程，相当于模拟了双核心、双线程运行。</p>
+<h5 id="指令级并行"><a href="#指令级并行" class="headerlink" title="指令级并行"></a>指令级并行</h5><p>一个指令的执行过程通常包含：取指令阶段、解码阶段和执行指令阶段。最初的指令执行过程是每个指令完整经过一整个过程后，才运行下一条指令，但是其实每个阶段使用的都是处理器中不同的硬件部分，这就使得我们可以<strong>流水线</strong>式地运行多个指令，这就达到了差不多一个时钟周期运行一条指令的地步。</p>
+<h5 id="单指令、多数据并行"><a href="#单指令、多数据并行" class="headerlink" title="单指令、多数据并行"></a>单指令、多数据并行</h5><p>很多现代处理器拥有特殊的硬件，允许一条指令产生多个可以并行执行的操作，这种方式称为单指令、多数据，即<strong>SIMD并行</strong>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/csapp/" data-id="cld6uioj30003acsfac3mdx73" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/CMake%20%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

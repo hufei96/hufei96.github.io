@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="静态链接和动态链接静态链接静态链接是由链接器在链接时将库的内容加入到可执行程序中的做法。 链接器是一个独立程序，将一个或多个库或目标文件（先前由编译器或汇编器生成）链接到一块生成可执行程序。 这里的库指的是静态链接库，Windows下以.lib为后缀，Linux下以.a为后缀。 动态链接动态链接（Dynamic Linking），把链接这个过程推迟到了运行时再进行，在可执行文件装载时或运行时，由操">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="静态链接和动态链接静态链接静态链接是由链接器在链接时将库的内容加入到可执行程序中的做法。 链接器是一个独立程序，将一个或多个库或目标文件（先前由编译器或汇编器生成）链接到一块生成可执行程序。 这里的库指的是静态链接库，Windows下以.lib为后缀，Linux下以.a为后缀。 动态链接动态链接（Dynamic Linking），把链接这个过程推迟到了运行时再进行，在可执行文件装载时或运行时，由操">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-22T03:54:01.990Z">
+<meta property="article:modified_time" content="2022-11-22T11:44:08.863Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-静态链接和动态链接" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:01.990Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="静态链接和动态链接"><a href="#静态链接和动态链接" class="headerlink" title="静态链接和动态链接"></a>静态链接和动态链接</h1><h2 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a><strong>静态链接</strong></h2><p>静态链接是由链接器在链接时将库的内容加入到可执行程序中的做法。</p>
+<p>链接器是一个独立程序，将一个或多个库或目标文件（先前由编译器或汇编器生成）链接到一块生成可执行程序。</p>
+<p>这里的库指的是静态链接库，Windows下以.lib为后缀，Linux下以.a为后缀。</p>
+<h2 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a><strong>动态链接</strong></h2><p>动态链接（<code>Dynamic Linking</code>），把链接这个过程推迟到了运行时再进行，在可执行文件装载时或运行时，由操作系统的装载程序加载库。</p>
+<p>这里的库指的是动态链接库，Windows下以.dll为后缀，Linux下以.so为后缀。</p>
+<p>值得一提的是，在Windows下的动态链接也可以用到.lib为后缀的文件，但这里的.lib文件叫做导入库，是由.dll文件生成的。</p>
+<h2 id="静态链接与动态链接的优缺点"><a href="#静态链接与动态链接的优缺点" class="headerlink" title="静态链接与动态链接的优缺点"></a><strong>静态链接与动态链接的优缺点</strong></h2><p><strong>（1）静态链接的优缺点：</strong></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>执行速度略比动态链接库快；</li>
+<li>打包方便，只需保证在开发者的计算机中有正确的.lib文件，在以二进制形式发布程序时不需考虑在用户的计算机上.lib文件是否存在及版本问题。</li>
+<li>在某些情况下相比动态链接可以节省内存，大部分情况下库文件只有有限个函数被使用，静态链接只会加载使用的函数到内存，而动态链接会把库文件所有的函数加载到内存，<strong>如果共享库文件的进程很少，此时静态链接相比动态链接更省内存</strong>。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>使用静态链接多个程序会把相同的库文件打包，并且会把相同的库文件加载到内存，既浪费磁盘空间又浪费内存</li>
+<li>静态链接相比动态链接编译更慢</li>
+<li>静态链接对程序的更新部署和发布很不友好：假如一个模块依赖20个模块，当20个模块其中有一个模块需要更新时，需要将所有的模块都找出来重新编译出一个可执行程序才可以更新成功，每次更新任何一个模块，用户就需要重新获得一个非常大的程序，程序如果使用静态链接，那么通过网络来更新程序也会非常不便，一旦程序任何位置有一个小改动，都会导致整个程序重新下载。</li>
+</ul>
+<p><strong>（2）动态链接的优缺点：</strong></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>动态链接可以使库文件只在磁盘和内存中仅存在一份，既节省磁盘又节省内存(现在一般会将dll文件一同打包，节省磁盘不存在)</li>
+<li>适用于大规模的软件开发，使开发过程独立、耦合度小，便于不同开发者和开发组织之间进行开发和测试；</li>
+<li>DLL文件与EXE文件独立，只要输出接口不变（即名称、参数、返回值类型和调用约定不变），更换DLL文件不会对EXE文件造成任何影响，因而极大地提高了可维护性和可扩展性；</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>使用动态链接库的应用程序不是自完备的，它依赖的DLL模块也要存在，如果使用载入时动态链接，程序启动时发现DLL不存在，系统将终止程序并给出错误信息；</li>
+<li>程序运行速度比静态链接慢；</li>
+<li>dll地狱：程序依赖不同版本同名的dll文件，造成冲突</li>
+</ul>
+<h2 id="dll地狱"><a href="#dll地狱" class="headerlink" title="dll地狱"></a>dll地狱</h2><p>很多Windows的应用程序在发布release版本时会一次性将所有用到的DLL一起打包形成一个大的安装包，用户只需一键安装，无需关注具体的DLL文件的配置问题。但也正是这种黑盒操作导致了可能存在某次安装，将系统中的DLL文件被新DLL文件给覆盖掉，虽然安装的程序可以运行了，但是其他程序可能出现问题了（最为常见的便是Visual studio C++的一些插件库版本覆盖问题）。</p>
+<p>前人总结的经验，DLL HELL发生的三种主要场景：</p>
+<ol>
+<li>使用旧版本的DLL替代了当前系统的新版本DLL，导致了其他程序无法正常运行；</li>
+<li>新版本DLL引入覆盖了旧版本DLL，新版本的DLL没有做到完全的向后兼容；导致旧程序无法运行</li>
+</ol>
+<h3 id="导出类dll兼容问题"><a href="#导出类dll兼容问题" class="headerlink" title="导出类dll兼容问题"></a>导出类dll兼容问题</h3><p>导出类的DLL在维护和修改时有很多地方必需很小心，增加成员变量、修改导出类的基类等操作都可能导致意想不到的后果，也许用户更新了最新版本的DLL库后，应用程序就再也不能工作了。这就是著名的DLLHell（DLL地狱）问题。</p>
+<p>DLL地狱问题是怎么产生的呢？看下面的例子，假设DLL有一个导出类ClassD：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ClassD</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">GetInt</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_i;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> m_i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>应用程序使用现在的代码来使用这个类：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ClassD d;</span><br><span class="line"><span class="built_in">printf</span>(“%d”,d.<span class="built_in">GetInt</span>());</span><br></pre></td></tr></table></figure>
+
+<p>程序进行正正常，没有什么问题。后来DLL需要升级，对ClassD进行了修改，增加了一个成员变量，如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ClassD</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">GetInt</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_i;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> m_i2;</span><br><span class="line">    <span class="type">int</span> m_i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>把新的DLL编译连接完成后，复制到应用程序目录，这个倒霉的应用程序调用GetInt方法恐怕再也无法得正确的值了。事实上它还算幸运的，如果GetInt的实现改成如下这样，那么它马上就要出错退出了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">intClassD::<span class="built_in">GetInt</span>() <span class="comment">// 修改后</span></span><br><span class="line">&#123;</span><br><span class="line">      <span class="keyword">return</span> m_i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么会出错呢？我们要先从类实例的创建开始，看看使用一个类的工作过程。</p>
+<p>首先，程序语句“ClassD d；”为这个类申请一块内存。这块内存保存该类的所有成员变量，以及虚函数表。内存的大小由类的声明决定，在应用程序编译时就已经确定。</p>
+<p>然后，当调用“d.GetInt()”时，把申请的这一块内存做为this指针传给GetInt函数，GetInt函数从this指向的位置开始，加上m_i应有的偏移量，计算m_i所在的内存位置，并从该位置取数据返回。m_i相对this的偏移量是由m_i在类中定义的位置决定的，定义在前的成员变量在内存中也更靠前。这个偏移量在DLL编译时确定。</p>
+<p>当ClassD的定义改为修改后的状态时，有些东西变了。</p>
+<p>第一个变的是内存的大小。因为修改后的ClassD多了一个成员变量，所以内存也变大了。然而这一点应用程序并不知道。</p>
+<p>第二个变的是m_i的偏移地址。因为在m_i之前定义了一个m_i2，m_i的实现偏移地址实际已经靠后了。所以d.GetInt()访问的将是原来m_i后面的那个位置，而这个位置已经超出原来那块内存的后部范围了。</p>
+<p>很显然，在更换了DLL后，应用程序还按原来的大小申请了一块内存，而它调用的方法却访问了比这块内存更大的区域，出错在所难免。</p>
+<p>同样的情形还会发生在以下这些种情况中：</p>
+<ul>
+<li>应用程序直接访问类的公有变量，而该公有变量在新DLL中定义的位置发生了变化；</li>
+<li>应用程序调用类的一个虚函数，而新的类中，该虚函数的前面又增加了一个虚函数；</li>
+<li>新类的后面增加了成员变量，并且新类的成员函数将访问、修改这些变量；</li>
+<li>修改了新类的基类，基类的大小发生了变化；</li>
+</ul>
+<p>等等，总言而之，一不小心，你的程序就会掉进地狱。通过对这些引起出错的情况进行分析，会发现其实只有三点变化会引起出错，因为这三点是使用这个DLL的应用程序在编译时就需要确定的内容，它们分别是：</p>
+<ul>
+<li>类的大小；</li>
+<li>类成员的偏移地址；</li>
+<li>虚函数的顺序。</li>
+</ul>
+<p>要想做一个可升级的DLL，必需避免以上三个问题。所以以下三点用来使DLL远离地狱。</p>
+<ul>
+<li><strong>不直接生成类的实例</strong>。对于类的大小，当我们定义一个类的实例，或使用new语句生成一个实例时，内存的大小是在编译时决定的。要使应用程序不依赖于类的大小，只有一个办法：应用程序不生成类的实例，使用DLL中的函数来生成。把导出类的构造函数定义为私有的(privated)，在导出类中提供静态(static)成员函数(如NewInstance())用来生成类的实例。因为NewInstance()函数在新的DLL中会被重新编译，所以总能返回大小正确的实例内存。</li>
+<li><strong>不直接访问成员变量</strong>。应用程序直接访问类的成员变量时会用到该变量的偏移地址。所以避免偏移地址依赖的办法就是不要直接访问成员变量。把所有的成员变量的访问控制都定义为保护型(protected)以上的级别，并为需要访问的成员变量定义Get或Set方法。Get或Set方法在编译新DLL时会被重新编译，所以总能访问到正确的变量位置。</li>
+<li><strong>忘了虚函数吧</strong>，就算有也不要让应用程序直接访问它。因为类的构造函数已经是私有(privated)的了，所以应用程序也不会去继承这个类，也不会实现自己的多态。如果导出类的父类中有虚函数，或设计需要（如类工场之类的框架），一定要把这些函数声明为保护的(protected)以上的级别，并为应用程序重新设计调用该虑函数的成员函数。这一点也类似于对成员变量的处理。</li>
+</ul>
+<p>如果导出的类能遵循以上三点，那么以后对DLL的升级将可以认为是安全的。</p>
+<p>如果对一个已经存在的导出类的DLL进行维护，同样也要注意：不要改动所有的成员变量，包括导出类的父类，无论定义的顺序还是数量；不要动所有的虚函数，无论顺序还是数量。</p>
+<p>总结起来，其实是一句话：导出类的DLL不要导出除了函数以外的任何内容。</p>
+<h3 id="解决DLL-Hell的方法"><a href="#解决DLL-Hell的方法" class="headerlink" title="解决DLL Hell的方法"></a><strong>解决DLL Hell的方法</strong></h3><p>预防DLL Hell的方法有以下几种：</p>
+<p><strong>防止DLL覆盖</strong><br>在Windows中，DLL的覆盖问题可以使用Windows文件保护（Windows File Protection WFP)技术来缓解。该技术从Windows2000开始使用。它能阻止未经授权的应用程序覆盖系统的DLL。第三方应用程序不能覆盖操作系统DLL文件，除非它们的安装程序捆绑了Windows更新包，或者在它们的安装程序运行时禁止WFP服务（当然这是一个非常危险的事）；</p>
+<p><strong>避免DLL冲突（conflicting DLLs)</strong><br>解决不同应用程序依赖同名DLL不同版本的问题的一个方案是，让每个应用程序拥有一份自己依赖的DLL，并且把问题DLL的不同版本放到该应用程序的文件夹中，而不是系统DLL目录中，当应用程序需要安装DLL时候，首先从自己的文件夹下寻找所需要的DLL，然后再到系统文件夹中寻找。</p>
+<p>.NET下DLL Hell的解决方案<br>在.NET框架中，一个程序集（Assembly）有两种类型：应用程序程序.exe和库程序.dll。一个程序集包括一个或多个文件，所以需要一个清单文件来描述程序集清单，这个清单文件叫做manifest文件。<br>Manifest文件描述了程序集的名字、版本号、本地文件资源以及程序集依赖的各种资源。Manifest是一个XML描述文件，每个DLL有自己的manifest，每个程序也有自己的manifest。对于应用程序而言，manifest可以和可执行文件在同一个目录下，也可以作为一个资源嵌入到可执行文件的内部(Embed Manifest)。</p>
+<p>在XP之后，操作系统在执行可执行文件时会首先读取程序集的manifest文件，获得该可执行文件所需要的DLL列表，再根据具体的DLL名（包括了版本号等信息）去寻找相应的DLL文件。但是这意味Windows得保存一个DLL共享库的所有版本，已提供给系统精准的匹配。（参见\Winodws\WinSxS目录，该目录下有一系列的同名DLL不同版本的保存）</p>
+<p><strong>对于每个版本DLL，它在WinSxS目录下都有独立的目录，这个目录命令规则要包含机器类型、DLL名字、公钥和版本号，这样多个不同版本的foo.dll就可以存在系统中而不冲突</strong>。但是这种方式过于死板，要求DLL版本等信息必须准确对应，所以这也是为什么Windows下的应用程序发布得自己配备所需的DLL的原因，因为很可能主机上没有你要的那个DLL版本。从这里一对比便可以看到，Linux的共享库版本符号机制便是一个好的设计。</p>
+<h3 id="SO-NAME"><a href="#SO-NAME" class="headerlink" title="SO-NAME"></a><strong>SO-NAME</strong></h3><p>Linux 有了一套规则来命名系统中的每一个共享库，它规定共享库的文件命名规则必须如下：</p>
+<p><strong>libname.so.x.y.z</strong></p>
+<p>最前面使用前缀<strong>lib</strong>，中间为库的名字，后缀为**.so<strong>，后面跟着 <strong>3</strong> 个数字组成的版本号。”x”表示</strong>主版本号，”y”表示次版本号，”z”表示发布版本号。各版本号含义如下：</p>
+<p><strong>主版本号</strong>表示库的重大升级，不同主版本号的库之间是不兼容的；</p>
+<p><strong>次版本号</strong>表示库的增量升级，即增加一些新的接口符号，且保持原有符号不变；</p>
+<p><strong>发布版本号</strong>表示库的一些错误修正、性能的改进等，并不增加任何新的接口，也不对接口进行更改。<strong>相同主、次版本号，不同发布版本号的库之间完全兼容，依赖于某个发布版号的程序可以在任何一个其他发布版本号中正常运行，而无需做任何修改</strong>。</p>
+<p><em>现在的 Linux 中也存在不少不遵守上述规定的”顽固份子”，比如最基本的 C 语言库——Glibc</em>。</p>
+<p><strong>SO-NAME 产生的原因</strong></p>
+<p>严格遵守上述规定，确实能避免动态库因为版本冲突的问题，但是读者可能有疑问：在程序加载或运行的时候，动态链接器是如何知道程序依赖哪些库，如何选择库的不同版本？<br>Solaris和Linux等采用SO-NAME( Shortfor shared object name )的命名机制来记录共享库的依赖关系。每个共享库都有一个对应的“SO-NAME”(共享库文件名去掉次版本号和发布版本号)。比如一个共享库名为libtest.so.3.8.2,那么它的SO-NAME就是libtest.so.3。</p>
+<p>在Linux系统中，系统会为每个共享库所在的目录创建一个跟SO-NAME相同的并且指向它的软连接(Symbol Link)。这个软连接会指向目录中主版本号相同、次版本号和发布版本号最新的共享库。也就是说，比如目录中有两个共享库版本分别为：&#x2F;lib&#x2F;libtest.so.3.8.2和&#x2F;lib&#x2F;libtest.so.3.7.5,么软连接&#x2F;lib&#x2F;libtest.so.3指向&#x2F;lib&#x2F;libtest.so.3.8.2。</p>
+<p>建立以SO-NAME为名字的软连接的目的是，使得所有依赖某个共享库的模块，在编译、链接和运行时，都使用共享库的SO-NAME，而不需要使用详细版本号。在编译生产ELF文件时候，如果文件A依赖于文件B，那么A的链接文件中的”.dynamic”段中会有DT_NEED类型的字段，字段的值就是B的SO-NAME。<strong>这样当动态链接器进行共享库依赖文件查找时，就会依据系统中各种共享库目录中的SO-NAME软连接自动定向到最新兼容版本的共享库。</strong></p>
+<p><strong>建立以 SO-NAME 为名字的软链接使得所有依赖某个共享库的模块，在编译、链接和运行时，都使用共享库的 SO-NAME，而不是使用详细的版本号</strong>。<br>Linux提供了一个工具——ldconfig，当系统中安装或更新一个共享库时，需要运行这个工具，它会遍历默认所有共享库目录，比如&#x2F;lib，&#x2F;usr&#x2F;lib等，然后更新所有的软链接，使她们指向最新共享库。</p>
+<h2 id="显式运行时链接"><a href="#显式运行时链接" class="headerlink" title="显式运行时链接"></a>显式运行时链接</h2><p>支持动态链接的系统往往都支持一种更加灵活的模块加载方式，叫做显式运行时链接（Explicit Run-time Linking），有时候也叫做运行时加载。也就是让程序自己在运行时控制加载指定的模块，并且可以在不需要该模块时将其卸载。</p>
+<p>这种运行时加载使得程序的模块组织变得很灵活，可以用来实现一些诸如插件、驱动等功能。当程序需要用到某个插件或者驱动的时候，才将相应的模块装载进来，而不需要从一开始就将他们全部装载进来，<strong>从而减少了程序启动时间和内存使用</strong>。并且程序可以在运行的时候重新加载某个模块，这样使得程序本身不必重新启动而实现模块的增加、删除、更新等，这对于很多需要长期运行的程序来说是很大的优势。最常见的例子是Web服务器程序，对于Web服务器程序来说，它需要根据配置来选择不同的脚本解释器、数据库连接驱动等，对于不同的脚本解释器分别做成一个独立的模块，当Web服务器需要某种脚本解释器的时候可以将其加载进来；这对于数据库连接的驱动程序也是一样的原理。另外对于一个可靠的Web服务器来说，长期的运行是必要的保证，如果我们需要增加某种脚本解释器，或者某个脚本解释器模块需要升级，则可以通知Web服务器程序重新装载该共享模块以实现相应的目的。</p>
+<p>通过这四个API可以进行显式运行时链接：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dlopen()：打开动态链接库</span><br><span class="line">dlsym()：查找符号</span><br><span class="line">dlerror()：错误处理</span><br><span class="line">dlclose()：关闭动态链接库</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>为什么要进行动态链接：为了解决静态链接浪费空间和更新困难的缺点。</p>
+<p>动态链接的方式：装载时重定位和地址无关代码技术。</p>
+<p>地址无关代码技术原理：通过GOT段实现间接跳转。</p>
+<p>延迟加载技术原理：对外部函数符号通过PLT段实现延迟绑定及间接跳转。</p>
+<p>如果进行显式运行时链接：通过&lt;dlfcn.h&gt;头文件中的四个函数</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" data-id="cld6uiok10013acsf24qlh6vl" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

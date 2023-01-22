@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="网络io模型网络 IO 概念准备在讨论网络 IO 之前，一定要有一个概念上的准备前提: 不要用操作磁盘文件的经验去看待网络 IO。 具体的原因我们在下文中会介绍到。 相比于传统的网络 IO 来说，一个普通的文件描述符的操作可以分为两部分。以 read 为例，我们利用 read 函数从 socket 中同步阻塞的读取数据，整个流程如下所示：   调用 read 后，该调用会转入内核调用 内核会等待该">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="网络io模型网络 IO 概念准备在讨论网络 IO 之前，一定要有一个概念上的准备前提: 不要用操作磁盘文件的经验去看待网络 IO。 具体的原因我们在下文中会介绍到。 相比于传统的网络 IO 来说，一个普通的文件描述符的操作可以分为两部分。以 read 为例，我们利用 read 函数从 socket 中同步阻塞的读取数据，整个流程如下所示：   调用 read 后，该调用会转入内核调用 内核会等待该">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.cyhone.com/img/noblocking-io/block-read.png">
+<meta property="article:published_time" content="2023-01-22T03:54:02.006Z">
+<meta property="article:modified_time" content="2022-12-31T16:12:48.155Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.cyhone.com/img/noblocking-io/block-read.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-网络io模型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-01-22T03:54:02.006Z" itemprop="datePublished">2023-01-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="网络io模型"><a href="#网络io模型" class="headerlink" title="网络io模型"></a>网络io模型</h2><h1 id="网络-IO-概念准备"><a href="#网络-IO-概念准备" class="headerlink" title="网络 IO 概念准备"></a>网络 IO 概念准备</h1><p>在讨论网络 IO 之前，一定要有一个概念上的准备前提: <strong>不要用操作磁盘文件的经验去看待网络 IO。</strong> 具体的原因我们在下文中会介绍到。</p>
+<p>相比于传统的网络 IO 来说，一个普通的文件描述符的操作可以分为两部分。以 <code>read</code> 为例，我们利用 read 函数从 socket 中同步阻塞的读取数据，整个流程如下所示：</p>
+<p><img src="https://www.cyhone.com/img/noblocking-io/block-read.png" alt="read 示意图"></p>
+<ol>
+<li>调用 read 后，该调用会转入内核调用</li>
+<li>内核会等待该 socket 的可读事件，直到远程向 socket 发送了数据。可读事件成立 (这里还需要满足 TCP 的低水位条件，但是不做太详细的讨论)</li>
+<li>数据包到达内核，接着内核将数据拷贝到用户进程中，也就是 read 函数指定的 buffer 参数中。至此，read 调用结束。</li>
+</ol>
+<p>可以看到除了转入内核调用，与传统的磁盘 IO 不同的是，网络 IO 的读写大致可以分为两个阶段：</p>
+<ol>
+<li>等待阶段：等待 socket 的可读或者可写事件成立</li>
+<li>拷贝数据阶段：将数据从内核拷贝到用户进程，或者从用户进程拷贝到内核中，</li>
+</ol>
+<h1 id="三种-IO-模型的区别"><a href="#三种-IO-模型的区别" class="headerlink" title="三种 IO 模型的区别"></a>三种 IO 模型的区别</h1><p>我们日常开发遇到最多的三种 IO 模型分别是：同步阻塞 IO、同步非阻塞 IO、异步 IO。</p>
+<p>这些名词非常容易混淆，为什么一个 IO 会有两个限定词：同步和阻塞？同步和阻塞分别代表什么意思？<br>简单来说：</p>
+<ol>
+<li>等待 <strong>阻塞</strong>: 在 socket 操作的第一个阶段，也就是用户等待 socket 可读可写事件成立的这个阶段。如果一直等待下去，直到成立后，才进行下个阶段，则称为阻塞式 IO；如果发现 socket 非可读可写状态，则直接返回，不等待，也不进行下个阶段，则称为非阻塞式 IO。</li>
+<li>拷贝 <strong>同步</strong>: 从内核拷贝到用户空间的这个阶段，如果直到从开始拷贝直到拷贝结束，read 函数才返回，则称为同步 IO。如果在调用 read 的时候就直接返回了，等到数据拷贝结束，才通过某种方式 (例如回调) 通知到用户，这种被称为异步 IO。</li>
+</ol>
+<p>所谓异步，实际上就是非同步非阻塞。</p>
+<h2 id="同步阻塞-IO"><a href="#同步阻塞-IO" class="headerlink" title="同步阻塞 IO"></a>同步阻塞 IO</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read(fd, buffer, count)</span><br></pre></td></tr></table></figure>
+
+<p>Linux 下面如果直接不对 fd 进行特殊处理，直接调用 read，就是同步阻塞 IO。同步阻塞 IO 的两个阶段都需要等待完成后，read 才会返回。</p>
+<p><strong>也就是说，如果远程一直没有发送数据，则 read 一直就不会返回，整个线程就会阻塞到这里了。</strong></p>
+<h2 id="同步非阻塞-IO"><a href="#同步非阻塞-IO" class="headerlink" title="同步非阻塞 IO"></a>同步非阻塞 IO</h2><p>对于同步非阻塞 IO 来说，如果没有可读可写事件，则直接返回；如果有，则进行第二个阶段，复制数据。<br>在 linux 下面，需要使用 fcntl 将 fd 变为非阻塞的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> flags = fcntl(socket, F_GETFL, <span class="number">0</span>);</span><br><span class="line">fcntl(socket, F_SETFL, flags | O_NONBLOCK);</span><br></pre></td></tr></table></figure>
+
+<p>同时，如果 read 的时候，fd 不可读，则 read 调用会触发一个 EWOULDBLOCK 错误 (或者 EAGAIN，EWOULDBLOCK 和 EAGAIN 是一样的)。用户只要检查下 <code>errno == EWOULDBLOCK</code>, 即可判断 read 是否返回正常。</p>
+<p>基本在 Linux 下进行网络编程，非阻塞 IO 都是不二之选。</p>
+<h2 id="异步-IO"><a href="#异步-IO" class="headerlink" title="异步 IO"></a>异步 IO</h2><p>Linux 开发者应该很少使用纯粹的异步 IO。因为目前来说，Linux 并没有一个完美的异步 IO 的解决方案。pthread 虽然提供了 aio 的接口，但是这里不做太具体的讨论了。</p>
+<p>我们平常接触到的异步 IO 库或者框架都是在代码层面把操作封装成了异步。但是在具体调用 read 或者 write 的时候，一般还是用的非阻塞式 IO。</p>
+<h1 id="不能用操作磁盘-IO-的经验看待网络-IO"><a href="#不能用操作磁盘-IO-的经验看待网络-IO" class="headerlink" title="不能用操作磁盘 IO 的经验看待网络 IO"></a>不能用操作磁盘 IO 的经验看待网络 IO</h1><p>为什么不能用操作磁盘 IO 的经验看待网络 IO。实际上在磁盘 IO 中，等待阶段是不存在的，因为磁盘文件并不像网络 IO 那样，需要等待远程传输数据。</p>
+<p>所以有的时候，习惯了操作磁盘 IO 的开发者会无法理解同步阻塞 IO 的工作过程，无法理解为什么 read 函数不会返回。</p>
+<p>关于磁盘 IO 与同步非阻塞的讨论，在知乎上有一篇帖子 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/52989189">为什么书上说同步非阻塞 io 在对磁盘 io 上不起作用?</a> 讨论了这个问题。</p>
+<h1 id="为什么在-Linux-网络编程中最好要用非阻塞式-IO？"><a href="#为什么在-Linux-网络编程中最好要用非阻塞式-IO？" class="headerlink" title="为什么在 Linux 网络编程中最好要用非阻塞式 IO？"></a>为什么在 Linux 网络编程中最好要用非阻塞式 IO？</h1><p>上文说到，在 linux 网络编程中，如果使用阻塞式的 IO，假如某个 fd 长期不可读，那么一个线程相应将会被长期阻塞，那么线程资源就会被白白浪费。</p>
+<p>那么，如果我们用了 epoll，还必须要使用非阻塞 IO 吗？ 因为如果使用 epoll 监听了 fd 的可读事件，在 epoll_wait 之后调用 read，此时 fd 一定是可读的， 那么此时非阻塞 IO 相比于阻塞 IO 的优势不就没了吗？</p>
+<p>实际上，并不是这样的。<strong>epoll 也必须要搭配非阻塞 IO 使用。</strong></p>
+<p>总结来说，原因有二：</p>
+<ol>
+<li>fd 在 read 之前有可能会重新进入不可读的状态。要么被其他方式读走了 (参考惊群问题), 还有可能被内核抛弃了，总的来说，fd 因为在 read 之前，数据被其他方式读走，fd 重新变为不可读。此时，用阻塞式 IO 的 read 函数就会阻塞整个线程。</li>
+<li>epoll 只是返回了可读事件，但是并没有返回可以读多少数据量。因此，非阻塞 IO 的做法是读多次，直到不能读。而阻塞 io 却只能读一次，因为万一一次就读完了缓冲区所有数据，第二次读的时候，read 就会又阻塞了。但是对于 epoll 的 ET 模式来说，缓冲区的数据只会在改变的通知一次，如果此次没有消费完，在下次数据到来之前，可读事件再也不会通知了。那么对于只能调用一次 read 的阻塞式 IO 来说，未读完的数据就有可能永远读不到了。</li>
+</ol>
+<p>因此，在 Linux 网络编程中最好使用非阻塞式 IO。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/" data-id="cld6uiojw000vacsf4xd03edr" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
