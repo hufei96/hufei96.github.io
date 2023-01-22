@@ -1,131 +1,160 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="计算机网络网络分层为什么要有通用协议和分层一开始不同公司都推出属于自身的私有网络协议，相互之间无法兼容。 于是ISO(国际标准化组织)提出要制定通用的网络协议，这样就可以兼容多种多样的设备。于是ISO制订了一堆协议即OSI协议栈， 至于为什么要分层，这跟其他复杂系统分层的原因一样，可以将复杂系统简单化。  各层之间相互独立：各层之间相互独立，各层之间不需要关心其他层是如何实现的，只需要知道自己如何">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Hexo | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="计算机网络网络分层为什么要有通用协议和分层一开始不同公司都推出属于自身的私有网络协议，相互之间无法兼容。 于是ISO(国际标准化组织)提出要制定通用的网络协议，这样就可以兼容多种多样的设备。于是ISO制订了一堆协议即OSI协议栈， 至于为什么要分层，这跟其他复杂系统分层的原因一样，可以将复杂系统简单化。  各层之间相互独立：各层之间相互独立，各层之间不需要关心其他层是如何实现的，只需要知道自己如何">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="计算机网络网络分层为什么要有通用协议和分层一开始不同公司都推出属于自身的私有网络协议，相互之间无法兼容。 于是ISO(国际标准化组织)提出要制定通用的网络协议，这样就可以兼容多种多样的设备。于是ISO制订了一堆协议即OSI协议栈， 至于为什么要分层，这跟其他复杂系统分层的原因一样，可以将复杂系统简单化。  各层之间相互独立：各层之间相互独立，各层之间不需要关心其他层是如何实现的，只需要知道自己如何">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/hufei96/Image/blob/main/linuxnetcommunicate.png?raw=true">
-<meta property="og:image" content="https://github.com/hufei96/Image/blob/main/HTTPcode.png?raw=true">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/tcphead.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/tcpthreehand.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/tcpthreehand2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/threehand3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/mtuandmss.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/socket.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/sack.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/flowcontrol.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/fastrecover.png">
-<meta property="og:image" content="c:\Users\hufei\Desktop\udp.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/http3-over-quic-protocol-works.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/packet%20header.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/QUICPACKET.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/frame%20header.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/ipheader.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/ipaddress.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/nat.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/dhcprelay.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/icmp.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/igmp.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/ipv4andipv6.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/hufei96/Image/main/vpn.png">
-<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/epoll.png">
-<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Reactor/%E5%8D%95Reactor%E5%8D%95%E8%BF%9B%E7%A8%8B.png">
-<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Reactor/%E5%8D%95Reactor%E5%A4%9A%E7%BA%BF%E7%A8%8B.png">
-<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Reactor/%E4%B8%BB%E4%BB%8EReactor%E5%A4%9A%E7%BA%BF%E7%A8%8B.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/0ea3960fef48d4cbaeb4bec4345301e7.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/83d7f363643353c92d252e34f1d4f687.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/30c2c70721c12f9c140358fbdc5f2282.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/f8909edef2f3949f8945bb99380baab3.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/31485046f1303b57d8aaeaab103ea7ab.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/d528bae6fcec2357ba2eb8f324ad9fd5.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/dbb57b8d6071d011d05eeadd93269e13.png">
-<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost3@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E7%BD%91%E7%BB%9C/showsocket.png">
-<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost3@main/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E7%BD%91%E7%BB%9C/sar.png">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:published_time" content="2023-01-22T03:54:01.983Z">
 <meta property="article:modified_time" content="2022-10-19T16:07:24.354Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/hufei96/Image/blob/main/linuxnetcommunicate.png?raw=true">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-20 00:07:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-<meta name="generator" content="Hexo 6.3.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-计算机网络" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="article-date">
-  <time class="dt-published" datetime="2023-01-22T03:54:01.983Z" itemprop="datePublished">2023-01-22</time>
-</a>
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-  </div>
-  <div class="article-inner">
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="网络分层"><a href="#网络分层" class="headerlink" title="网络分层"></a>网络分层</h2><h3 id="为什么要有通用协议和分层"><a href="#为什么要有通用协议和分层" class="headerlink" title="为什么要有通用协议和分层"></a>为什么要有通用协议和分层</h3><p>一开始不同公司都推出属于自身的私有网络协议，相互之间无法兼容。</p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><span class="site-name">Hexo</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">No title</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-22T03:54:01.983Z" title="Created 2023-01-22 11:54:01">2023-01-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-10-19T16:07:24.354Z" title="Updated 2022-10-20 00:07:24">2022-10-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="网络分层"><a href="#网络分层" class="headerlink" title="网络分层"></a>网络分层</h2><h3 id="为什么要有通用协议和分层"><a href="#为什么要有通用协议和分层" class="headerlink" title="为什么要有通用协议和分层"></a>为什么要有通用协议和分层</h3><p>一开始不同公司都推出属于自身的私有网络协议，相互之间无法兼容。</p>
 <p>于是ISO(国际标准化组织)提出要制定通用的网络协议，这样就可以兼容多种多样的设备。于是ISO制订了一堆协议即OSI协议栈，</p>
 <p>至于为什么要分层，这跟其他复杂系统分层的原因一样，可以将复杂系统简单化。</p>
 <ol>
@@ -2112,135 +2141,4 @@
 
 <h3 id="连通性和延时如何查看？"><a href="#连通性和延时如何查看？" class="headerlink" title="连通性和延时如何查看？"></a>连通性和延时如何查看？</h3><p>要测试本机与远程主机的连通性和延时，通常是使用 <code>ping</code> 命令，它是基于 ICMP 协议的，工作在网络层。</p>
 <p>不过，需要注意的是，<code>ping</code> 不通服务器并不代表 HTTP 请求也不通，因为有的服务器的防火墙是会禁用 ICMP 协议的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" data-id="cld6uiojy0011acsf9uj8htdn" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2023/01/22/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2023/01/22/%E8%B0%B7%E6%AD%8Cc++%E9%A3%8E%E6%A0%BC/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title"></div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2023 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">http://example.com/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/22/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2023/01/22/%E8%B0%B7%E6%AD%8Cc++%E9%A3%8E%E6%A0%BC/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info"></div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82"><span class="toc-number">1.1.</span> <span class="toc-text">网络分层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E9%80%9A%E7%94%A8%E5%8D%8F%E8%AE%AE%E5%92%8C%E5%88%86%E5%B1%82"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么要有通用协议和分层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">OSI七层模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-x2F-IP-%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">TCP&#x2F;IP 网络模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AE%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E7%BD%91%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%9C%9F%E9%97%B4%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">键入网址到网页显示期间发生了什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINUX%E6%94%B6%E5%8F%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">LINUX收发数据流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E6%8E%A5%E6%94%B6%E7%BD%91%E7%BB%9C%E5%8C%85%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">Linux 接收网络包的流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E5%8F%91%E9%80%81%E7%BD%91%E7%BB%9C%E5%8C%85%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">Linux 发送网络包的流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP"><span class="toc-number">1.4.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">1.4.1.</span> <span class="toc-text">常用状态码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5"><span class="toc-number">1.4.2.</span> <span class="toc-text">报文常用字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GET%E5%92%8CPOST%E5%8C%BA%E5%88%AB"><span class="toc-number">1.4.3.</span> <span class="toc-text">GET和POST区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E7%BC%93%E5%AD%98"><span class="toc-number">1.4.4.</span> <span class="toc-text">HTTP有哪几种缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E6%97%A0%E7%8A%B6%E6%80%81"><span class="toc-number">1.4.5.</span> <span class="toc-text">HTTP无状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie%EF%BC%8Csession%E5%92%8Ctoken"><span class="toc-number">1.4.6.</span> <span class="toc-text">cookie，session和token</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie%EF%BC%8ClocalStorage%EF%BC%8CsessionStorage-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.4.7.</span> <span class="toc-text">cookie，localStorage，sessionStorage 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-x2F-1-1%E3%80%81HTTP-x2F-2%E3%80%81HTTP-x2F-3-%E6%BC%94%E5%8F%98"><span class="toc-number">1.4.8.</span> <span class="toc-text">HTTP&#x2F;1.1、HTTP&#x2F;2、HTTP&#x2F;3 演变</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-x2F-1-1-%E7%9B%B8%E6%AF%94-HTTP-x2F-1-0-%E6%8F%90%E9%AB%98%E4%BA%86%E4%BB%80%E4%B9%88%E6%80%A7%E8%83%BD%EF%BC%9F"><span class="toc-number">1.4.8.1.</span> <span class="toc-text">HTTP&#x2F;1.1 相比 HTTP&#x2F;1.0 提高了什么性能？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-x2F-2-%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="toc-number">1.4.8.2.</span> <span class="toc-text">HTTP&#x2F;2 做了什么优化？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-x2F-3-%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="toc-number">1.4.8.3.</span> <span class="toc-text">HTTP&#x2F;3 做了哪些优化？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS"><span class="toc-number">1.4.9.</span> <span class="toc-text">HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-%E4%B8%8E-HTTPS-%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">1.4.9.1.</span> <span class="toc-text">HTTP 与 HTTPS 有哪些区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B"><span class="toc-number">1.4.9.2.</span> <span class="toc-text">HTTPS建立连接过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RSA%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E7%AE%97%E6%B3%95%E7%BC%BA%E9%99%B7"><span class="toc-number">1.4.9.3.</span> <span class="toc-text">RSA密钥交换算法缺陷</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ECDHE-%E6%8F%A1%E6%89%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">1.4.9.4.</span> <span class="toc-text">ECDHE 握手解析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3http%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%8E%A8%E9%80%81%E6%B6%88%E6%81%AF%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.10.</span> <span class="toc-text">解决http服务器端推送消息问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#meta%E6%A0%87%E7%AD%BE"><span class="toc-number">1.4.10.1.</span> <span class="toc-text">meta标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AJAX%E8%BD%AE%E8%AF%A2"><span class="toc-number">1.4.10.2.</span> <span class="toc-text">AJAX轮询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#comet"><span class="toc-number">1.4.10.3.</span> <span class="toc-text">comet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Server-Sent-Events"><span class="toc-number">1.4.10.4.</span> <span class="toc-text">Server-Sent Events</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#websocket"><span class="toc-number">1.4.10.5.</span> <span class="toc-text">websocket</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP"><span class="toc-number">1.5.</span> <span class="toc-text">TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E9%A6%96%E9%83%A8"><span class="toc-number">1.5.1.</span> <span class="toc-text">tcp首部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E5%9F%BA%E6%9C%AC%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.5.2.</span> <span class="toc-text">tcp基本描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E5%BB%BA%E7%AB%8B%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.5.3.</span> <span class="toc-text">tcp建立断开连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%EF%BC%9F%E4%B8%8D%E6%98%AF%E4%B8%A4%E6%AC%A1%E3%80%81%E5%9B%9B%E6%AC%A1%EF%BC%9F"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">为什么是三次握手？不是两次、四次？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tcp%E5%A6%82%E4%BD%95%E8%A7%84%E9%81%BF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">tcp如何规避三次握手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%8F%E6%AC%A1%E5%BB%BA%E7%AB%8B-TCP-%E8%BF%9E%E6%8E%A5%E6%97%B6%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%BA%8F%E5%88%97%E5%8F%B7%E9%83%BD%E8%A6%81%E6%B1%82%E4%B8%8D%E4%B8%80%E6%A0%B7%E5%91%A2%EF%BC%9F"><span class="toc-number">1.5.3.3.</span> <span class="toc-text">为什么每次建立 TCP 连接时，初始化的序列号都要求不一样呢？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88ip%E5%B1%82%E5%92%8Ctcp%E9%83%BD%E9%9C%80%E8%A6%81%E5%88%86%E7%89%87"><span class="toc-number">1.5.3.4.</span> <span class="toc-text">为什么ip层和tcp都需要分片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">1.5.3.5.</span> <span class="toc-text">为什么要四次挥手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-TIME-WAIT-%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="toc-number">1.5.3.6.</span> <span class="toc-text">为什么需要 TIME_WAIT 状态？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-TIME-WAIT-%E7%AD%89%E5%BE%85%E7%9A%84%E6%97%B6%E9%97%B4%E6%98%AF-2MSL%EF%BC%9F"><span class="toc-number">1.5.3.7.</span> <span class="toc-text">为什么 TIME_WAIT 等待的时间是 2MSL？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96-TIME-WAIT%EF%BC%9F"><span class="toc-number">1.5.3.8.</span> <span class="toc-text">如何优化 TIME_WAIT？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88tcp-tw-reuse%E9%BB%98%E8%AE%A4%E5%85%B3%E9%97%AD"><span class="toc-number">1.5.3.9.</span> <span class="toc-text">为什么tcp_tw_reuse默认关闭</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tcp%E4%BF%9D%E6%B4%BB%E6%9C%BA%E5%88%B6"><span class="toc-number">1.5.3.10.</span> <span class="toc-text">tcp保活机制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#socket%E7%BC%96%E7%A8%8B"><span class="toc-number">1.5.4.</span> <span class="toc-text">socket编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#listen-%E6%97%B6%E5%80%99%E5%8F%82%E6%95%B0-backlog-%E7%9A%84%E6%84%8F%E4%B9%89%EF%BC%9F"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">listen 时候参数 backlog 的意义？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#connect%E5%92%8Caccept-%E5%8F%91%E7%94%9F%E5%9C%A8%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E7%9A%84%E5%93%AA%E4%B8%80%E6%AD%A5%EF%BC%9F"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">connect和accept 发生在三次握手的哪一步？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SYN-%E6%8A%A5%E6%96%87%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E8%A2%AB%E4%B8%A2%E5%BC%83%EF%BC%9F"><span class="toc-number">1.5.4.3.</span> <span class="toc-text">SYN 报文什么时候情况下会被丢弃？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#shutdown%E5%92%8Cclose%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-number">1.5.4.4.</span> <span class="toc-text">shutdown和close有什么区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-%E5%92%8C-UDP-%E5%8F%AF%E4%BB%A5%E5%90%8C%E6%97%B6%E7%BB%91%E5%AE%9A%E7%9B%B8%E5%90%8C%E7%9A%84%E7%AB%AF%E5%8F%A3%E5%90%97%EF%BC%9F"><span class="toc-number">1.5.4.5.</span> <span class="toc-text">TCP 和 UDP 可以同时绑定相同的端口吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA-TCP-%E6%9C%8D%E5%8A%A1%E8%BF%9B%E7%A8%8B%E5%8F%AF%E4%BB%A5%E7%BB%91%E5%AE%9A%E5%90%8C%E4%B8%80%E4%B8%AA%E7%AB%AF%E5%8F%A3%E5%90%97%EF%BC%9F"><span class="toc-number">1.5.4.6.</span> <span class="toc-text">多个 TCP 服务进程可以绑定同一个端口吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E7%AB%AF%E5%8F%A3%E5%8F%AF%E4%BB%A5%E9%87%8D%E5%A4%8D%E4%BD%BF%E7%94%A8%E5%90%97%EF%BC%9F"><span class="toc-number">1.5.4.7.</span> <span class="toc-text">客户端的端口可以重复使用吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8F%AF%E4%BB%A5bind%E5%90%97"><span class="toc-number">1.5.4.8.</span> <span class="toc-text">客户端可以bind吗</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8F%AF%E4%BB%A5-bind-%E5%90%8C%E4%B8%80%E4%B8%AA%E7%AB%AF%E5%8F%A3%E5%90%97%EF%BC%9F"><span class="toc-number">1.5.4.9.</span> <span class="toc-text">多个客户端可以 bind 同一个端口吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89-listen%EF%BC%8C%E8%83%BD%E5%BB%BA%E7%AB%8B-TCP-%E8%BF%9E%E6%8E%A5%E5%90%97%EF%BC%9F"><span class="toc-number">1.5.4.10.</span> <span class="toc-text">没有 listen，能建立 TCP 连接吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89-accept%EF%BC%8C%E8%83%BD%E5%BB%BA%E7%AB%8B-TCP-%E8%BF%9E%E6%8E%A5%E5%90%97%EF%BC%9F"><span class="toc-number">1.5.4.11.</span> <span class="toc-text">没有 accept，能建立 TCP 连接吗？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E6%98%AF%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%8F%AF%E9%9D%A0%E6%80%A7%E4%BC%A0%E8%BE%93%E7%9A%84"><span class="toc-number">1.5.5.</span> <span class="toc-text">tcp是怎么保证可靠性传输的</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B"><span class="toc-number">1.5.5.1.</span> <span class="toc-text">差错检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8F%B7%EF%BC%8C%E7%A1%AE%E8%AE%A4%E5%BA%94%E7%AD%94%E5%92%8C%E9%87%8D%E4%BC%A0"><span class="toc-number">1.5.5.2.</span> <span class="toc-text">序列号，确认应答和重传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">1.5.5.3.</span> <span class="toc-text">滑动窗口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-number">1.5.5.4.</span> <span class="toc-text">流量控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-number">1.5.5.5.</span> <span class="toc-text">拥塞控制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E9%9D%A2%E5%90%91%E5%AD%97%E8%8A%82%E6%B5%81%E7%9A%84"><span class="toc-number">1.5.6.</span> <span class="toc-text">tcp为什么是面向字节流的</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%B2%98%E5%8C%85"><span class="toc-number">1.5.6.1.</span> <span class="toc-text">如何解决粘包</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E4%B8%AD%E7%9A%84%E5%90%84%E7%A7%8D%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5"><span class="toc-number">1.5.7.</span> <span class="toc-text">tcp中的各种异常情况</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%B2%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84TCP%EF%BC%8C%E6%94%B6%E5%88%B0SYN%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.5.7.1.</span> <span class="toc-text">已建立连接的TCP，收到SYN会发生什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8-TCP-%E6%AD%A3%E5%B8%B8%E6%8C%A5%E6%89%8B%E8%BF%87%E7%A8%8B%E4%B8%AD%EF%BC%8C%E5%A4%84%E4%BA%8E-TIME-WAIT-%E7%8A%B6%E6%80%81%E7%9A%84%E8%BF%9E%E6%8E%A5%EF%BC%8C%E6%94%B6%E5%88%B0%E7%9B%B8%E5%90%8C%E5%9B%9B%E5%85%83%E7%BB%84%E7%9A%84-SYN-%E5%90%8E%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.5.7.2.</span> <span class="toc-text">在 TCP 正常挥手过程中，处于 TIME_WAIT 状态的连接，收到相同四元组的 SYN 后会发生什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%94%E7%BD%91%E7%BA%BF%EF%BC%8C%E6%96%AD%E7%94%B5%EF%BC%8C%E8%BF%9B%E7%A8%8B%E5%B4%A9%E6%BA%83%E6%97%B6%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88"><span class="toc-number">1.5.7.3.</span> <span class="toc-text">拔网线，断电，进程崩溃时会发生什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%90%AF-TCP-%E6%9C%8D%E5%8A%A1%E8%BF%9B%E7%A8%8B%E6%97%B6%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E2%80%9CAddress-in-use%E2%80%9D%E7%9A%84%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF%EF%BC%9F"><span class="toc-number">1.5.7.4.</span> <span class="toc-text">重启 TCP 服务进程时，为什么会有“Address in use”的报错信息？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">1.5.8.</span> <span class="toc-text">tcp的缺陷</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7-TCP-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%BE%88%E5%9B%B0%E9%9A%BE"><span class="toc-number">1.5.8.1.</span> <span class="toc-text">升级 TCP 的工作很困难</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%BB%B6%E8%BF%9F"><span class="toc-number">1.5.8.2.</span> <span class="toc-text">TCP 建立连接的延迟</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-%E5%AD%98%E5%9C%A8%E9%98%9F%E5%A4%B4%E9%98%BB%E5%A1%9E%E9%97%AE%E9%A2%98"><span class="toc-number">1.5.8.3.</span> <span class="toc-text">TCP 存在队头阻塞问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%BF%81%E7%A7%BB%E9%9C%80%E8%A6%81%E9%87%8D%E6%96%B0%E5%BB%BA%E7%AB%8B-TCP-%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.5.8.4.</span> <span class="toc-text">网络迁移需要重新建立 TCP 连接</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP"><span class="toc-number">1.6.</span> <span class="toc-text">UDP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#udp%E5%92%8Ctcp%E5%8C%BA%E5%88%AB"><span class="toc-number">1.6.1.</span> <span class="toc-text">udp和tcp区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8Eudp%E5%AE%9E%E7%8E%B0%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="toc-number">1.6.2.</span> <span class="toc-text">如何基于udp实现可靠传输</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#QUIC%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">QUIC协议</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP"><span class="toc-number">1.7.</span> <span class="toc-text">IP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ip%E9%A6%96%E9%83%A8"><span class="toc-number">1.7.1.</span> <span class="toc-text">ip首部</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%81%9A%E4%BA%86%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B%EF%BC%8Cip%E8%BF%98%E8%A6%81%E5%81%9A"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">为什么数据链路层做了差错检测，ip还要做</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip%E5%9C%B0%E5%9D%80"><span class="toc-number">1.7.2.</span> <span class="toc-text">ip地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ipv4"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">ipv4</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#IP-%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.7.2.1.1.</span> <span class="toc-text">IP 地址的分类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-number">1.7.2.1.2.</span> <span class="toc-text">特殊的地址</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%E5%92%8C%E5%A4%9A%E6%92%AD"><span class="toc-number">1.7.2.1.3.</span> <span class="toc-text">广播和多播</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A0%E5%88%86%E7%B1%BB%E5%9C%B0%E5%9D%80-CIDR%E5%92%8C%E5%AD%90%E7%BD%91"><span class="toc-number">1.7.2.1.4.</span> <span class="toc-text">无分类地址 CIDR和子网</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#NAT"><span class="toc-number">1.7.2.1.5.</span> <span class="toc-text">NAT</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DHCP"><span class="toc-number">1.7.2.1.6.</span> <span class="toc-text">DHCP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ICMP"><span class="toc-number">1.7.2.1.7.</span> <span class="toc-text">ICMP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IGMP"><span class="toc-number">1.7.2.1.8.</span> <span class="toc-text">IGMP</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ipv6"><span class="toc-number">1.7.2.2.</span> <span class="toc-text">ipv6</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#ipv6%E5%92%8Cipv4%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="toc-number">1.7.2.2.1.</span> <span class="toc-text">ipv6和ipv4的差别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ipv6%E4%BC%98%E7%82%B9"><span class="toc-number">1.7.2.2.2.</span> <span class="toc-text">ipv6优点</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC"><span class="toc-number">1.8.</span> <span class="toc-text">RPC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB"><span class="toc-number">1.9.</span> <span class="toc-text">网络攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS%E6%94%BB%E5%87%BB"><span class="toc-number">1.9.1.</span> <span class="toc-text">XSS攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-XSS"><span class="toc-number">1.9.1.1.</span> <span class="toc-text">什么是 XSS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XSS-%E5%88%86%E7%B1%BB"><span class="toc-number">1.9.1.2.</span> <span class="toc-text">XSS 分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XSS-%E6%94%BB%E5%87%BB%E7%9A%84%E9%A2%84%E9%98%B2"><span class="toc-number">1.9.1.3.</span> <span class="toc-text">XSS 攻击的预防</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BF%87%E6%BB%A4"><span class="toc-number">1.9.1.3.1.</span> <span class="toc-text">输入过滤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E6%AD%A2%E6%B5%8F%E8%A7%88%E5%99%A8%E6%89%A7%E8%A1%8C%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81"><span class="toc-number">1.9.1.3.2.</span> <span class="toc-text">防止浏览器执行恶意代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF%E6%94%BB%E5%87%BB"><span class="toc-number">1.9.2.</span> <span class="toc-text">CSRF攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%94%BB%E5%87%BB%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.9.2.1.</span> <span class="toc-text">常见的攻击类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSRF%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.9.2.2.</span> <span class="toc-text">CSRF的特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E6%8A%A4%E7%AD%96%E7%95%A5"><span class="toc-number">1.9.2.3.</span> <span class="toc-text">防护策略</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DDoS%E6%94%BB%E5%87%BB"><span class="toc-number">1.9.3.</span> <span class="toc-text">DDoS攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84DDoS%E6%94%BB%E5%87%BB%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.9.3.1.</span> <span class="toc-text">常见的DDoS攻击类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-number">1.9.4.</span> <span class="toc-text">sql注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN"><span class="toc-number">1.10.</span> <span class="toc-text">CDN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VPN%E5%92%8C%E5%8A%A0%E9%80%9F%E5%99%A8"><span class="toc-number">1.11.</span> <span class="toc-text">VPN和加速器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-x2F-O%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-number">1.12.</span> <span class="toc-text">I&#x2F;O多路复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#select-x2F-poll"><span class="toc-number">1.12.1.</span> <span class="toc-text">select&#x2F;poll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#epoll"><span class="toc-number">1.12.2.</span> <span class="toc-text">epoll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#select%E5%92%8Cepoll%E5%AF%B9%E6%AF%94"><span class="toc-number">1.12.3.</span> <span class="toc-text">select和epoll对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91%E5%92%8C%E6%B0%B4%E5%B9%B3%E8%A7%A6%E5%8F%91"><span class="toc-number">1.12.4.</span> <span class="toc-text">边缘触发和水平触发</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reactor%E5%92%8CProactor"><span class="toc-number">1.13.</span> <span class="toc-text">Reactor和Proactor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%94%E8%BF%9B"><span class="toc-number">1.13.1.</span> <span class="toc-text">演进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reactor"><span class="toc-number">1.13.2.</span> <span class="toc-text">Reactor</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95Reactor-%E5%8D%95%E8%BF%9B%E7%A8%8B-x2F-%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.13.2.1.</span> <span class="toc-text">单Reactor 单进程 &#x2F; 线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95-Reactor-%E5%A4%9A%E7%BA%BF%E7%A8%8B-x2F-%E5%A4%9A%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.13.2.2.</span> <span class="toc-text">单 Reactor 多线程 &#x2F; 多进程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A-Reactor-%E5%A4%9A%E8%BF%9B%E7%A8%8B-x2F-%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.13.2.3.</span> <span class="toc-text">多 Reactor 多进程 &#x2F; 线程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Proactor"><span class="toc-number">1.13.3.</span> <span class="toc-text">Proactor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.14.</span> <span class="toc-text">负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">1.14.1.</span> <span class="toc-text">使用哈希算法有什么问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-number">1.14.2.</span> <span class="toc-text">使用一致性哈希算法有什么问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E8%99%9A%E6%8B%9F%E8%8A%82%E7%82%B9%E6%8F%90%E9%AB%98%E5%9D%87%E8%A1%A1%E5%BA%A6%EF%BC%9F"><span class="toc-number">1.14.3.</span> <span class="toc-text">如何通过虚拟节点提高均衡度？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.15.</span> <span class="toc-text">网络性能查看</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">1.15.1.</span> <span class="toc-text">性能指标有哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.15.2.</span> <span class="toc-text">网络配置查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#socket%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.15.3.</span> <span class="toc-text">socket信息查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%90%9E%E5%90%90%E7%8E%87%E5%92%8C-PPS-%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%EF%BC%9F"><span class="toc-number">1.15.4.</span> <span class="toc-text">网络吞吐率和 PPS 如何查看？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E9%80%9A%E6%80%A7%E5%92%8C%E5%BB%B6%E6%97%B6%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%EF%BC%9F"><span class="toc-number">1.15.5.</span> <span class="toc-text">连通性和延时如何查看？</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.008Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.006Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.003Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.001Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/" title="No title">No title</a><time datetime="2023-01-22T03:54:01.998Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
