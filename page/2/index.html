@@ -1,214 +1,925 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hexo</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="网络模型方案均以粗糙的 Python 玩具代码为例 方案 1（Accept + Read&#x2F;Write）1234567891011121314151617181920212223242526import socketdef handle(client_socket, client_address):    &#x2F;&#x2F; L6    while True:        data &#x3D; client_">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:url" content="http://example.com/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="网络模型方案均以粗糙的 Python 玩具代码为例 方案 1（Accept + Read&#x2F;Write）1234567891011121314151617181920212223242526import socketdef handle(client_socket, client_address):    &#x2F;&#x2F; L6    while True:        data &#x3D; client_">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103157.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222102937.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222102957.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103019.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103040.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103102.png">
+<meta property="article:published_time" content="2023-01-22T03:54:02.008Z">
+<meta property="article:modified_time" content="2022-12-29T10:29:19.779Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: 'Copy successfully',
-    error: 'Copy error',
-    noSupport: 'The browser does not support'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '',
-  date_suffix: {
-    just: 'Just',
-    min: 'minutes ago',
-    hour: 'hours ago',
-    day: 'days ago',
-    month: 'months ago'
-  },
-  copyright: undefined,
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false,
-  percent: {
-    toc: true,
-    rightside: false,
-  }
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'Hexo',
-  isPost: false,
-  isHome: true,
-  isHighlightShrink: false,
-  isToc: false,
-  postUpdate: '2023-01-22 12:27:22'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<meta name="twitter:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103157.png">
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
 
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
+<link rel="icon" href="/img/avatar.jpg">
 
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
 
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
-  
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
-  
-    win.getCSS = url => new Promise((resolve, reject) => {
-      const link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = url
-      link.onload = () => resolve()
-      link.onerror = () => reject()
-      document.head.appendChild(link)
-    })
-  
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav mobile">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>John Doe</span>
+</div>
+
+<div class="icon">
     
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
         
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
     
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
-      }
+        
+            <a title="github"
+               href="https://github.com/yelog"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="facebook"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-facebook"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+    
+        
+            <a title="instagram"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-instagram"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="reddit"
+               href="https://www.reddit.com/user/yelog/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-reddit"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="weibo"
+               href="http://weibo.com/u/2307534817"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-weibo"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="jianshu"
+               href="https://www.jianshu.com/u/ff56736de7cf"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-jianshu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="zhihu"
+               href="https://www.zhihu.com/people/jaytp/activities"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-zhihu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="oschina"
+               href="https://my.oschina.net/yelog"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-oschina"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="email"
+               href="mailto:jaytp@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=872336115&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="kugou"
+               href="https://www.kugou.com/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-kugou"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="neteasemusic"
+               href="https://music.163.com/#/user/home?id=88151013"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-neteasemusic"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(40)</small>
+            
+        </div>
+    </li>
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">About</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="40">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B%E5%92%8CPOD%E7%B1%BB%E5%9E%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E8%B0%B7%E6%AD%8Cc++%E9%A3%8E%E6%A0%BC/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E9%98%B2%E5%BE%A1%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%91%E7%BA%A6%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%96%AD%E8%A8%80%E5%92%8C%E5%BC%82%E5%B8%B8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0%EF%BC%88%E7%B1%BB%E4%BC%BCcsapp%E7%9A%84%E4%B9%A6%EF%BC%89/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%B8%B8%E7%94%A8api%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%B8%B8%E9%87%8F%E5%92%8Cconstexpr/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/stdref/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/stdaccumulate%E5%92%8Cstdtransform/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/socket%20api/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/mysql/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/muduo%E7%BD%91%E7%BB%9C%E6%BA%90%E7%A0%81/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/muduo%E6%97%A5%E5%BF%97/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%EF%BC%9A%E4%BD%BF%E7%94%A8muduo%20C++%E7%BD%91%E7%BB%9C%E5%BA%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/linux/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/IO%E5%AF%86%E9%9B%86%E5%9E%8B%E4%BB%BB%E5%8A%A1%E5%92%8C%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E4%BB%BB%E5%8A%A1/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E5%8E%9F%E7%90%86/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/csapp/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/CMake%20%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%BC%82%E5%B8%B8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%98%9F%E5%88%97/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%8E%B0%E4%BB%A3CMake/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/21/hello-world/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2023-01-21 23:44:22">2023/01/21</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post" class="index">
+    <div class="pjax">
+        <article class="index">
+            <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E5%8D%9A%E5%AE%A2%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">对博客的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%8F%B6%E8%90%BD%E9%98%81"><span class="toc-text">关于叶落阁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E5%B9%B3%E5%8F%B0"><span class="toc-text">博客平台</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
     }
-    detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><span class="site-name">Hexo</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Hexo</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/%E9%98%B2%E5%BE%A1%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%91%E7%BA%A6%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%96%AD%E8%A8%80%E5%92%8C%E5%BC%82%E5%B8%B8/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.978Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">防御式编程和契约式编程，断言和异常防御式编程防御式编程，说白了，就是人类都是不安全、不值得信任的，所有的人，都会犯错误，而你写的代码，应该考虑到所有可能发生的错误，让你的程序不会因为他人的错误而发生错误。
-在《代码大全》中，作者告诉我们，程序需要对可能的错误输入，做出兼容，例如一个除法的函数，你必须判断分母可能为0的情况，从而给调用者返回错误提示。另外，一般的高级编程语言，都提供了断言和异常两种方式来进行错误处理。
-简而言之，防御式编程，就是持怀疑态度审视所有的代码。但是如果用每一种方法检测传入的参数合法性，那么程序会变得臃肿而缓慢。因此要考虑好在什么地方进行防御
-契约式编程契约式编程，简单的说，契约作用于两方，每一方都会完成一些任务，从而促成契约的达成，但同时，每一方也会接受一些义务，作为制定契约的前提，有任意一方无视了必尽义的义务，则契约失败。
-契约式编程要求我们在前提条件、后继条件和不变量条件进行契约的检查。类似的，例如检查参数，一旦参数不对，当即撕毁契约。
-契约所约束的，是一个为了确保程序正常运行的条件，一旦契约被损毁，只有一个原因，那就是程序出了Bug，例如一个数据字段，在我 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.976Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">多维数组C&#x2F;C++不存在多维数组的数据结构，在C&#x2F;C++仅存在数组的数组的说法。
-数组名代表数组首元素的地址(即数组名都是一个指针，但指向的类型不同)，a[5] [5]中a和a[0]的值是一样的，但意义不同，具体体现在a+1和a[0]+1的步长不同。a 是首行地址，步长是整个一维数组；a[0] 就是首行首元素地址，+1 跳过一个元素
-因为数组名是一个指针，所以int a[5] [5]中的a代表的是int (*)[5]类型，而不是int **类型，需要强制类型转换才能转为二维指针。
-c++不能返回一个数组
-c++没有引用数组，但有数组的引用
-二维数组的创建静态创建int *a[10]; &#x2F;&#x2F;定义一个数组，有十个元素，每个元素是一个int*指针。
-int (*a)[10]; &#x2F;&#x2F;定义一个指针，指向一个含有10个整数的数组。
-123int a[5][6];vector&lt;vector&lt;int&gt;&gt; a(5,vector&lt;int&gt;(6));int (*a)[6]=new int[5][6];//申请堆区 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0%EF%BC%88%E7%B1%BB%E4%BC%BCcsapp%E7%9A%84%E4%B9%A6%EF%BC%89/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.973Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">程序员的自我修养笔记（类似csapp的书）POSIX表示可移植操作系统接口（Portable Operating System Interface of UNIX，缩写为 POSIX ），POSIX标准定义了操作系统应该为应用程序提供的接口标准，是IEEE为要在各种UNIX操作系统上运行的软件而定义的一系列API标准的总称
-完成同一功能，不同内核提供的系统调用（也就是一个函数）是不同的，例如创建进程，linux下是fork函数，windows下是creatprocess函数。好，我现在在linux下写一个程序，用到fork函数，那么这个程序该怎么往windows上移植？我需要把源代码里的fork通通改成creatprocess，然后重新编译…
-posix标准的出现就是为了解决这个问题。linux和windows都要实现基本的posix标准，linux把fork函数封装成posix_fork（随便说的），windows把creatprocess函数也封装成posix_fork，都声明在unistd.h里。这样，程序员编写普通应用时候，只用包含unistd.h，调用posix_fork函数 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/%E5%B8%B8%E7%94%A8api%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.970Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">常用api和头文件常用头文件12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#include&lt;iostream&gt;#include &lt;sstream&gt; //istringstream等字符串流#include&lt;algorithm&gt; //max,min,sort,swap等函数#include&lt;vector&gt;#include&lt;set&gt;#include&lt;unordered_set&gt;#include&lt;map&gt; //map中涉及pair，添加map头文件的同时会自动添加pair头文件 #include&lt;unordered_map&gt;#include&lt;stack&gt; #include&lt;queue&gt; #include&lt;deque&gt; #include&lt;string&gt; //可以定义string s；不可以用到strcpy等函数#inclu ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.967Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">操作系统硬件结构存储器层次结构以hello程序执行为例：
-先由C语言的源文件hello.c编译得到了可执行目标文件hello
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
+<blockquote>
+<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
+</blockquote>
+<blockquote>
+<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
+</blockquote>
+<blockquote>
+<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
+</blockquote>
+<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
+<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
+<h2 id="关于叶落阁"><a href="#关于叶落阁" class="headerlink" title="关于叶落阁"></a>关于叶落阁</h2><p><strong>叶落阁</strong> 是阁主（杨玉杰）的个人站。</p>
+<p>到目前为止已经写了<code class="article_number"></code>篇文章， 共<code class="site_word_count"></code>字。</p>
+<p>本站访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
+<h2 id="博客平台"><a href="#博客平台" class="headerlink" title="博客平台"></a>博客平台</h2><p>这个博客通过 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 生成，部署在 <a target="_blank" rel="noopener" href="https://pages.github.com/">GitHub Pages</a>主题 <a target="_blank" rel="noopener" href="https://github.com/yelog/hexo-theme-3-hexo">3-hexo</a> 已经在github上开源</p>
+<p><code>3-hexo</code> 主题使用交流可以加 Q群: <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=e8cf083cc097141eaf323396f1766809b8e90ff00c67bb441898f672892f6904"><img data-ignore border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="3-hexo使用交流" title="3-hexo使用交流"></a></p>
+<p>主要功能：</p>
+<ul>
+<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
+<li>pad&#x2F;手机等移动端适配</li>
+<li>页面全局快捷键 <a target="_blank" rel="noopener" href='http://yelog.org/2017/03/24/3-hexo-shortcuts/'>3-hexo快捷键说明</a></li>
+</ul>
 
-shell读入我们输入的字符./hello后，将其逐一读入到CPU的寄存器中，然后再将其存放到主存中。
-输入回车后，shell执行一系列指令将hello目标文件中的代码和数据从磁盘复制到主存。
-CPU开始执行hello的main程序中的机器指令，它将hello, world\n字符串中的字节从主存复制到CPU寄存器，再从CPU寄存器复制到显示设备。
+        </article>
+        
+        <p>
+            <a  class="dashang" onclick="dashangToggle()">赏</a>
+        </p>
+        
+        
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2020 Yelog
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
-由此可见执行代码时，会花费大量时间将代码和数据进行复制。而不同设备之间运行速度差距极大，在等待复制的过程中cpu浪费了大量的时间，为了加快复制速度和提高cpu利用率，引入了存储器体系结构。
+    </div>
+</div>
+<div class="full-toc">
+    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
 
-根据局部性原理可知，程序具有访问局部区域内的数据和代码的趋势，所以在处理器和一个较大较慢的设备之间插入一个更小更快的存储设备，来暂时保存处理器近期可能会需要的数据，使得大部分的内存操作都能在高速缓存内完成，就能极大提高系统速度了。
-存储器层次结构的主要思想是将上一层的存储器作为下一层存储器的高速缓存。
-从 寄存器、CPU C ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%B8%B8%E9%87%8F%E5%92%8Cconstexpr/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.965Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">编译期常量和constexpr编译期常量类型总有些东西是编译器要求编译期间就要确定的，除了变量的类型外，最频繁出现的地方就是数组、switch的case标签和模板了。
-数组中的编译期常量
-如果我们想要创建一个不是动态分配内存的数组，那么我们就必须给他设定一个size，这个size必须在编译期间就知道，因此静态数组的大小是编译期常量。
-1int someArray[520];
+</div>
 
-因为函数栈分配的内存大小是要在编译期确定的，所以数组大小也必须在编译期确定。
-有些时候我们不用显示得指明数组的大小，我们用字符串或花括号来初始化数组的时候，编译器会实现帮我们数好这个数组的大小。
-12int someArray[] = &#123;5, 2, 0&#125;;char charArray[] = &quot;Ich liebe dich.&quot;;
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>Help us with donation</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">alipay</label></span><span><label><input type="radio" name="pay" value="weixin">weixin</label></span>
+    </div>
+</div>
 
-模板中的编译期常量
-除了类型以外，数字也可以作为模板的参数。这些数值变量包括int，long，short，bool，char和弱枚举enum等。
-编译器在初始化模板的时候必须知道模板的类型，那么这些模板的参数也必须是编译期常量。
-123456en ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.962Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">vscode c++运行环境配置VSCode打开文件夹（称作工作目录）之后，如果进行一定的配置之后，会在该文件夹下产生一个叫”.vscode”的文件夹，该文件夹中存放的是一些.json的配置文件，这些配置文件是对工作目录中的代码文件产生作用的。所以以后需要相同开发环境的时候，不用每次都去创建配置文件并进行相关配置，直接拷贝.vscode文件夹即可，但是第一次还是需要手动配置出自己所需的环境。
-1.下载vscode
-2.下载minGW并将minGW的bin文件夹路径添加到环境变量中
-3.安装c&#x2F;c++ extension pack扩展包
-4.用vscode打开文件夹，ctrl+shift+p调出命令面板，输入c&#x2F;c++
 
-点击c&#x2F;c++:编辑配置（UI），修改编译器路径为minGW的bin文件夹路径，其中有gcc.exe，g++.exe，c++.exe。一般来说c程序选择gcc，c++选择g++。
-5.新建cpp文件并运行，
-选择第一项”C++ (GDB&#x2F;LLDB)”（Windows那个是给MSVC编译器用的，MingGW需要使用GDB）
-6.VS ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/stdref/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.960Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">std::ref作用：std::ref 用于取某个变量的引用，引入其是为了解决函数式编程（如std::bind）的一些传参问题。
-总结：
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
 
-std::bind使用的是参数的拷贝而不是引用，当可调用对象期待入参为引用时，必须显示利用std::ref来进行引用绑定。
-多线程std::thread的可调用对象期望入参为引用时，也必须显式通过std::ref来绑定引用进行传参。
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
 
-我们知道 C++ 中本来就有引用的存在，为何 C++11 中还要引入一个 std::ref 了？主要是考虑函数式编程（如 std::bind）在使用时，是对参数直接拷贝，而不是引用。下面通过例子说明
-示例1：
-12345678910111213141516171819202122#include &lt;functional&gt;#include &lt;iostream&gt;void f(int&amp; n1, int&amp; n2, const int&amp; n3)&#123;    std::cout &lt;&lt; &quot;In function: &quot; &lt;&lt; n1 &l ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/stdaccumulate%E5%92%8Cstdtransform/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.957Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">std::accumulate和std::transformaccumulatestd::accumulate 用于对容器[first,last)内的元素和初始值init进行累积运算。头文件#include 
-函数签名如下：
-12template&lt; class InputIt, class T &gt;T accumulate( InputIt first, InputIt last, T init );
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
 
-前2个参数指定容器的范围，第3个参数指定初始值。返回值为累加的结果，其返回类型就是其第三个实参的类型。
-默认的运算是第三个参数的加法运算，如果第三个参数是int，运算就是数值加法运算；如果第三个参数是string，运算就是字符串的拼接。
-可以自定义运算，自定义的运算作为第四个参数，函数签名如下：
-123template&lt; class InputIt, class T, class BinaryOperation &gt;T accumulate( InputIt first, InputIt last, T init,              BinaryOperat ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2023/01/22/socket%20api/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2023-01-22T03:54:01.955Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></span></div><div class="content">socket apisocket1234567891011121314151617181920212223242526272829303132333435363738394041424344454647//1.创建监听socket文件描述符int listenfd = socket(PF_INET, SOCK_STREAM, 0);/*1、指明通信域，如PF_UNIX(unix域,用于进程通信)，PF_INET(IPv4)，PF_INET6(IPv6)等2、指明通信类型，最常用的如SOCK_STREAM(面向连接可靠方式,比如TCP）、SOCK_DGRAM(非面向连接的非可靠方式，比如udp）SOCK_RAW(原始套接字,不在传输层使用协议，直接转给ip层)3、指定需要使用的协议。对于TCP参数可指定为IPPROTO_TCP,对于UDP可以用IPPROTO_UDP。使用0则根据前两个参数使用默认的协议。*///2.创建地址//地址数据结构如下struct   sockaddr_in &#123;short int sin_family;            //Address fam ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#content-inner">3</a><a class="page-number" href="/page/4/#content-inner">4</a><a class="extend next" rel="next" href="/page/3/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.008Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.006Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.003Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.001Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/" title="No title">No title</a><time datetime="2023-01-22T03:54:01.998Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></div></div></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">January 2023</span><span class="card-archive-list-count">40</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">40</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-01-22T04:27:22.001Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

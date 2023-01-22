@@ -1,160 +1,759 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Hexo | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="c++异步编程std::futurestd::future期待一个返回，从一个异步调用的角度来说，future更像是函数的返回值，异步调用往往不知道何时返回，但是如果异步调用的过程需要同步，或者说后一个异步调用需要使用前一个异步调用的结果。这个时候就要用到future。 线程可以周期性的在这个future上等待一小段时间，检查future是否已经ready，如果没有，该线程可以先去做另一个任务，一">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hexo</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="Hexo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="网络模型方案均以粗糙的 Python 玩具代码为例 方案 1（Accept + Read&#x2F;Write）1234567891011121314151617181920212223242526import socketdef handle(client_socket, client_address):    &#x2F;&#x2F; L6    while True:        data &#x3D; client_">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:url" content="http://example.com/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="c++异步编程std::futurestd::future期待一个返回，从一个异步调用的角度来说，future更像是函数的返回值，异步调用往往不知道何时返回，但是如果异步调用的过程需要同步，或者说后一个异步调用需要使用前一个异步调用的结果。这个时候就要用到future。 线程可以周期性的在这个future上等待一小段时间，检查future是否已经ready，如果没有，该线程可以先去做另一个任务，一">
+<meta property="og:description" content="网络模型方案均以粗糙的 Python 玩具代码为例 方案 1（Accept + Read&#x2F;Write）1234567891011121314151617181920212223242526import socketdef handle(client_socket, client_address):    &#x2F;&#x2F; L6    while True:        data &#x3D; client_">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
-<meta property="article:published_time" content="2023-01-22T03:54:01.928Z">
-<meta property="article:modified_time" content="2022-11-29T17:52:13.317Z">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103157.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222102937.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222102957.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103019.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103040.png">
+<meta property="og:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103102.png">
+<meta property="article:published_time" content="2023-01-22T03:54:02.008Z">
+<meta property="article:modified_time" content="2022-12-29T10:29:19.779Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: 'Copy successfully',
-    error: 'Copy error',
-    noSupport: 'The browser does not support'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '',
-  date_suffix: {
-    just: 'Just',
-    min: 'minutes ago',
-    hour: 'hours ago',
-    day: 'days ago',
-    month: 'months ago'
-  },
-  copyright: undefined,
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false,
-  percent: {
-    toc: true,
-    rightside: false,
-  }
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'Hexo',
-  isPost: true,
-  isHome: false,
-  isHighlightShrink: false,
-  isToc: true,
-  postUpdate: '2022-11-30 01:52:13'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<meta name="twitter:image" content="https://sleepy-1256633542.cos.ap-beijing.myqcloud.com/20181222103157.png">
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
 
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
+<link rel="icon" href="/img/avatar.jpg">
 
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
 
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
-  
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
-  
-    win.getCSS = url => new Promise((resolve, reject) => {
-      const link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = url
-      link.onload = () => resolve()
-      link.onerror = () => reject()
-      document.head.appendChild(link)
-    })
-  
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>John Doe</span>
+</div>
+
+<div class="icon">
     
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
         
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
+            <a title="rss"
+               href="/atom.xml"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-rss"></use>
+                    </svg>
+                
+            </a>
+        
     
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
-      }
+        
+            <a title="github"
+               href="https://github.com/yelog"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="facebook"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-facebook"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+    
+        
+            <a title="instagram"
+               href="https://www.facebook.com/faker.tops"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-instagram"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="reddit"
+               href="https://www.reddit.com/user/yelog/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-reddit"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="weibo"
+               href="http://weibo.com/u/2307534817"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-weibo"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="jianshu"
+               href="https://www.jianshu.com/u/ff56736de7cf"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-jianshu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="zhihu"
+               href="https://www.zhihu.com/people/jaytp/activities"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-zhihu"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="oschina"
+               href="https://my.oschina.net/yelog"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-oschina"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+    
+        
+            <a title="email"
+               href="mailto:jaytp@qq.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="qq"
+               href="http://wpa.qq.com/msgrd?v=3&uin=872336115&site=qq&menu=yes"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-qq"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="kugou"
+               href="https://www.kugou.com/"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-kugou"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="neteasemusic"
+               href="https://music.163.com/#/user/home?id=88151013"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-neteasemusic"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="All">All
+            
+                <small>(40)</small>
+            
+        </div>
+    </li>
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">About</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">Friends</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="40">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        Links
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">All</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:02">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B%E5%92%8CPOD%E7%B1%BB%E5%9E%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E8%B0%B7%E6%AD%8Cc++%E9%A3%8E%E6%A0%BC/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E9%98%B2%E5%BE%A1%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%91%E7%BA%A6%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%8C%E6%96%AD%E8%A8%80%E5%92%8C%E5%BC%82%E5%B8%B8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0%EF%BC%88%E7%B1%BB%E4%BC%BCcsapp%E7%9A%84%E4%B9%A6%EF%BC%89/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%B8%B8%E7%94%A8api%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BC%96%E8%AF%91%E6%9C%9F%E5%B8%B8%E9%87%8F%E5%92%8Cconstexpr/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/vscode%20c++%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/stdref/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/stdaccumulate%E5%92%8Cstdtransform/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/socket%20api/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/mysql/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/muduo%E7%BD%91%E7%BB%9C%E6%BA%90%E7%A0%81/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/muduo%E6%97%A5%E5%BF%97/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%96%E7%A8%8B%EF%BC%9A%E4%BD%BF%E7%94%A8muduo%20C++%E7%BD%91%E7%BB%9C%E5%BA%93/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/linux/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/IO%E5%AF%86%E9%9B%86%E5%9E%8B%E4%BB%BB%E5%8A%A1%E5%92%8C%E8%AE%A1%E7%AE%97%E5%AF%86%E9%9B%86%E5%9E%8B%E4%BB%BB%E5%8A%A1/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E5%8E%9F%E7%90%86/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/csapp/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/CMake%20%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E5%BC%82%E5%B8%B8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%98%9F%E5%88%97/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/22/%E7%8E%B0%E4%BB%A3CMake/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-01-22 11:54:01">2023/01/22</span>
+        </a>
+        
+        
+        <a  class="All "
+           href="/2023/01/21/hello-world/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title="Hello World">Hello World</span>
+            <span class="post-date" title="2023-01-21 23:44:22">2023/01/21</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-c++异步编程" class="article article-type-post" itemscope itemprop="blogPost">
+    
+    <div class="article-meta">
+        
+        
+        
+        
+    </div>
+    <div class="article-meta">
+        
+            Created At : <time class="date" title='Updated At: 2022-11-30 01:52:13'>2023-01-22 11:54</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            Views 👀 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#c-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-text">c++异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-future"><span class="toc-text">std::future</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#future%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">future的类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#future%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">future的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-async"><span class="toc-text">std::async</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-packaged-task"><span class="toc-text">std::packaged_task</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-promise"><span class="toc-text">std::promise</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
     }
-    detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><span class="site-name">Hexo</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">No title</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-22T03:54:01.928Z" title="Created 2023-01-22 11:54:01">2023-01-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-11-29T17:52:13.317Z" title="Updated 2022-11-30 01:52:13">2022-11-30</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="c-异步编程"><a href="#c-异步编程" class="headerlink" title="c++异步编程"></a>c++异步编程</h1><h2 id="std-future"><a href="#std-future" class="headerlink" title="std::future"></a>std::future</h2><p>std::future期待一个返回，从一个异步调用的角度来说，<strong>future更像是函数的返回值</strong>，异步调用往往不知道何时返回，但是如果异步调用的过程需要同步，或者说后一个异步调用需要使用前一个异步调用的结果。这个时候就要用到future。</p>
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="c-异步编程"><a href="#c-异步编程" class="headerlink" title="c++异步编程"></a>c++异步编程</h1><h2 id="std-future"><a href="#std-future" class="headerlink" title="std::future"></a>std::future</h2><p>std::future期待一个返回，从一个异步调用的角度来说，<strong>future更像是函数的返回值</strong>，异步调用往往不知道何时返回，但是如果异步调用的过程需要同步，或者说后一个异步调用需要使用前一个异步调用的结果。这个时候就要用到future。</p>
 <p>线程可以周期性的在这个future上等待一小段时间，检查future是否已经ready，如果没有，该线程可以先去做另一个任务，一旦future就绪，<strong>该future就无法复位（无法再次使用这个future等待这个事件），所以future代表的是一次性事件</strong>。</p>
 <h3 id="future的类型"><a href="#future的类型" class="headerlink" title="future的类型"></a>future的类型</h3><p>在<code>&lt;future&gt;</code>库的头文件中声明了两种future，唯一future（std::future）和共享future（std::shared_future）这两个是参照std::unique_ptr和std::shared_ptr设立的，前者的实例是仅有的一个指向其关联事件的实例，而后者可以有多个实例指向同一个关联事件，当事件就绪时，所有指向同一事件的std::shared_future实例会变成就绪。</p>
 <h3 id="future的使用"><a href="#future的使用" class="headerlink" title="future的使用"></a>future的使用</h3><p>std::future是一个模板，例如<code>std::future&lt;int&gt;</code>，模板参数就是期待返回的类型，虽然future被用于线程间通信，但其本身却并不提供同步访问，必须通过互斥元或其他同步机制来保护访问。</p>
@@ -183,4 +782,195 @@
 <p>在创建promise的同时会获得一个future，然后将promise传递给其他线程，当前线程则持有future，future.get()会阻塞直到promise写入返回值。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;future&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(std::promise&lt;std::string&gt;&amp; p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	p.<span class="built_in">set_value</span>(<span class="string">&quot;There is the result whitch you want.&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">do_some_other_things</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;Hello World&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::promise&lt;std::string&gt; promise;</span><br><span class="line">	std::future&lt;std::string&gt; result = promise.<span class="built_in">get_future</span>();</span><br><span class="line">	<span class="function">std::thread <span class="title">t</span><span class="params">(print, std::ref(promise))</span></span>;</span><br><span class="line">	<span class="built_in">do_some_other_things</span>();</span><br><span class="line">	std::cout &lt;&lt; result.<span class="built_in">get</span>() &lt;&lt; std::endl; <span class="comment">//阻塞直到，p.set_value()执行完成</span></span><br><span class="line">	t.<span class="built_in">join</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">http://example.com/2023/01/22/c++%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/22/CMake%20%E6%A8%A1%E5%9D%97%E5%8C%96%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2023/01/22/c++%E7%B1%BB%E7%9A%84%E9%BB%98%E8%AE%A4%E5%87%BD%E6%95%B0/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info"></div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#c-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">c++异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-future"><span class="toc-number">1.1.</span> <span class="toc-text">std::future</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#future%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">future的类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#future%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.2.</span> <span class="toc-text">future的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-async"><span class="toc-number">1.2.</span> <span class="toc-text">std::async</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-packaged-task"><span class="toc-number">1.3.</span> <span class="toc-text">std::packaged_task</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-promise"><span class="toc-number">1.4.</span> <span class="toc-text">std::promise</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.008Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E7%BD%91%E7%BB%9Cio%E6%A8%A1%E5%9E%8B/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.006Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.003Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%AE%9A%E6%97%B6%E5%99%A8/" title="No title">No title</a><time datetime="2023-01-22T03:54:02.001Z" title="Created 2023-01-22 11:54:02">2023-01-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/01/22/%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E9%9D%9E%E6%B3%95%E8%BE%93%E5%85%A5%E4%BB%A5%E5%8F%8A%E6%9E%84%E9%80%A0%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5/" title="No title">No title</a><time datetime="2023-01-22T03:54:01.998Z" title="Created 2023-01-22 11:54:01">2023-01-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 jaytp@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">💰</a>
+</p>
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2016-2020 Yelog
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>Help us with donation</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">alipay</label></span><span><label><input type="radio" name="pay" value="weixin">weixin</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
